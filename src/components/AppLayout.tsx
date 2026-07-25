@@ -1,8 +1,9 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Home, Map, Plus, Bell, User, LogOut, MapPin } from "lucide-react";
+import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun } from "lucide-react";
 import type { ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
+import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
@@ -26,6 +27,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const { profile } = useProfile(user?.id);
   const navigate = useNavigate();
+  const { theme, toggle } = useTheme();
 
   async function handleSignOut() {
     await supabase.auth.signOut();
@@ -90,8 +92,16 @@ export function AppLayout({ children }: { children: ReactNode }) {
             </div>
           </Link>
           <button
-            onClick={handleSignOut}
+            onClick={toggle}
             className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-sidebar-accent"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === "dark" ? "Light mode" : "Dark mode"}
+          </button>
+          <button
+            onClick={handleSignOut}
+            className="mt-1 w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-sidebar-accent"
           >
             <LogOut className="h-4 w-4" /> Sign out
           </button>
@@ -99,7 +109,14 @@ export function AppLayout({ children }: { children: ReactNode }) {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 min-w-0 pb-24 md:pb-0">
+      <main className="flex-1 min-w-0 pb-24 md:pb-0 relative">
+        <button
+          onClick={toggle}
+          aria-label="Toggle theme"
+          className="md:hidden fixed top-4 right-4 z-40 h-10 w-10 grid place-items-center rounded-full border border-border bg-background/90 backdrop-blur text-foreground shadow-card"
+        >
+          {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        </button>
         <div className="mx-auto max-w-3xl px-4 md:px-8 py-6 md:py-10">{children}</div>
       </main>
 
