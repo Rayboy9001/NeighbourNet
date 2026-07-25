@@ -109,7 +109,14 @@ export function AppLayout({ children }: { children: ReactNode }) {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 min-w-0 pb-24 md:pb-0">
+      <main className="flex-1 min-w-0 pb-24 md:pb-0 relative">
+        <button
+          onClick={toggle}
+          aria-label="Toggle theme"
+          className="md:hidden fixed top-4 right-4 z-40 h-10 w-10 grid place-items-center rounded-full border border-border bg-background/90 backdrop-blur text-foreground shadow-card"
+        >
+          {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        </button>
         <div className="mx-auto max-w-3xl px-4 md:px-8 py-6 md:py-10">{children}</div>
       </main>
 
