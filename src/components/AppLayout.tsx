@@ -92,8 +92,16 @@ export function AppLayout({ children }: { children: ReactNode }) {
             </div>
           </Link>
           <button
-            onClick={handleSignOut}
+            onClick={toggle}
             className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-sidebar-accent"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === "dark" ? "Light mode" : "Dark mode"}
+          </button>
+          <button
+            onClick={handleSignOut}
+            className="mt-1 w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-sidebar-accent"
           >
             <LogOut className="h-4 w-4" /> Sign out
           </button>
