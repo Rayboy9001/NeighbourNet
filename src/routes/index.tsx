@@ -1,6 +1,5 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, MapPin, ThumbsUp, Wrench } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,11 +19,6 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
     ],
   }),
-  beforeLoad: async () => {
-    if (typeof window === "undefined") return;
-    const { data } = await supabase.auth.getSession();
-    if (data.session) throw redirect({ to: "/home" });
-  },
   component: Landing,
 });
 
@@ -39,10 +33,10 @@ function Landing() {
           <span className="font-bold text-lg">NeighbourNet</span>
         </div>
         <Link
-          to="/auth"
+          to="/home"
           className="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-primary-foreground hover:opacity-90"
         >
-          Sign in
+          Open app
         </Link>
       </header>
 
@@ -62,7 +56,7 @@ function Landing() {
         </p>
         <div className="mt-8 flex items-center justify-center gap-3">
           <Link
-            to="/auth"
+            to="/home"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 shadow-lift"
           >
             Get started <ArrowRight className="h-4 w-4" />
