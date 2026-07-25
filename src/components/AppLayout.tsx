@@ -5,14 +5,21 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
-const NAV = [
+type NavItem = {
+  to: "/home" | "/feed" | "/report" | "/map" | "/notifications" | "/profile";
+  label: string;
+  icon: typeof Home;
+  primary?: boolean;
+};
+
+const NAV: NavItem[] = [
   { to: "/home", label: "Home", icon: Home },
   { to: "/feed", label: "Feed", icon: MapPin },
   { to: "/report", label: "Report", icon: Plus, primary: true },
   { to: "/map", label: "Map", icon: Map },
   { to: "/notifications", label: "Alerts", icon: Bell },
   { to: "/profile", label: "Profile", icon: User },
-] as const;
+];
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
