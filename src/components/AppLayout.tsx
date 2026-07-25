@@ -27,6 +27,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const { profile } = useProfile(user?.id);
   const navigate = useNavigate();
+  const { theme, toggle } = useTheme();
 
   async function handleSignOut() {
     await supabase.auth.signOut();
