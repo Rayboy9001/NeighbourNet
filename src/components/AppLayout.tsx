@@ -29,7 +29,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
 
   async function handleSignOut() {
     await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
+    navigate({ to: "/", replace: true });
   }
 
   return (
