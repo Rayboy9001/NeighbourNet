@@ -27,6 +27,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user } = useAuth();
   const { profile } = useProfile(user?.id);
+  const { isAdmin } = useIsAdmin(user?.id);
   const navigate = useNavigate();
   const { theme, toggle } = useTheme();
 
