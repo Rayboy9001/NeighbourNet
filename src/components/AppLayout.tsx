@@ -62,14 +62,21 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 key={item.to}
                 to={item.to}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                  "relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                   active
-                    ? "bg-primary text-primary-foreground shadow-card"
+                    ? "text-primary-foreground"
                     : "text-sidebar-foreground hover:bg-sidebar-accent",
                 )}
               >
-                <Icon className="h-5 w-5" />
-                {item.label}
+                {active && (
+                  <motion.span
+                    layoutId="sidebar-active-pill"
+                    className="absolute inset-0 rounded-lg bg-primary shadow-card"
+                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  />
+                )}
+                <Icon className="relative h-5 w-5" />
+                <span className="relative">{item.label}</span>
               </Link>
             );
           })}
