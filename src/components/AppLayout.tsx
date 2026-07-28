@@ -1,11 +1,13 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun, Shield } from "lucide-react";
 import type { ReactNode } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
+
 
 type NavItem = {
   to: "/home" | "/feed" | "/report" | "/map" | "/notifications" | "/profile";
