@@ -93,6 +93,14 @@ export function AppLayout({ children }: { children: ReactNode }) {
               </div>
             </div>
           </Link>
+          {isAdmin && (
+            <Link
+              to="/admin"
+              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm text-primary hover:bg-sidebar-accent rounded-lg"
+            >
+              <Shield className="h-4 w-4" /> Admin
+            </Link>
+          )}
           <button
             onClick={toggle}
             className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-sidebar-accent"
