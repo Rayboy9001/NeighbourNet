@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { CATEGORIES, fetchReports, type ReportCategory, type ReportWithMeta } from "@/lib/reports";
 import { ReportCard } from "@/components/ReportCard";
+import { ReportCardSkeleton } from "@/components/Skeleton";
 import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/_authenticated/feed")({
   head: () => ({
