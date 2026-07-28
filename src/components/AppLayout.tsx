@@ -1,8 +1,9 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun } from "lucide-react";
+import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun, Shield } from "lucide-react";
 import type { ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
 
