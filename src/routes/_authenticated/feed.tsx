@@ -90,16 +90,18 @@ function FilterChip({
   label: string;
 }) {
   return (
-    <button
+    <motion.button
       onClick={onClick}
+      whileTap={{ scale: 0.94 }}
+      transition={{ type: "spring", stiffness: 500, damping: 25 }}
       className={cn(
-        "shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium border transition-colors",
+        "shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium border transition-all",
         active
-          ? "bg-primary text-primary-foreground border-primary"
-          : "bg-card text-foreground border-border hover:bg-accent",
+          ? "bg-primary text-primary-foreground border-primary shadow-card"
+          : "bg-card text-foreground border-border hover:bg-accent hover:border-primary/25",
       )}
     >
       {label}
-    </button>
+    </motion.button>
   );
 }
