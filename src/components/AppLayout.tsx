@@ -1,8 +1,9 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun } from "lucide-react";
+import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun, Shield } from "lucide-react";
 import type { ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
 
@@ -26,6 +27,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user } = useAuth();
   const { profile } = useProfile(user?.id);
+  const { isAdmin } = useIsAdmin(user?.id);
   const navigate = useNavigate();
   const { theme, toggle } = useTheme();
 
@@ -91,6 +93,14 @@ export function AppLayout({ children }: { children: ReactNode }) {
               </div>
             </div>
           </Link>
+          {isAdmin && (
+            <Link
+              to="/admin"
+              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm text-primary hover:bg-sidebar-accent rounded-lg"
+            >
+              <Shield className="h-4 w-4" /> Admin
+            </Link>
+          )}
           <button
             onClick={toggle}
             className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-sidebar-accent"
