@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Plus, MapPin, ClipboardList, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
 import { fetchReports, type ReportWithMeta } from "@/lib/reports";
 import { ReportCard } from "@/components/ReportCard";
+import { ReportCardSkeleton } from "@/components/Skeleton";
+
 
 export const Route = createFileRoute("/_authenticated/home")({
   head: () => ({
