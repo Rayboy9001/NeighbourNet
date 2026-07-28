@@ -56,14 +56,18 @@ function FeedPage() {
       </div>
 
       {loading ? (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-56 bg-muted animate-pulse rounded-2xl" />
+            <ReportCardSkeleton key={i} />
           ))}
         </div>
       ) : reports.length === 0 ? (
-        <div className="bg-card border border-dashed border-border rounded-2xl p-8 text-center text-muted-foreground">
-          No reports in this category yet.
+        <div className="bg-card border border-dashed border-border rounded-2xl p-10 text-center">
+          <div className="text-4xl mb-2">📍</div>
+          <h3 className="font-semibold text-lg">No issues nearby</h3>
+          <p className="text-sm text-muted-foreground mt-1">
+            Good news! Nothing has been reported in this category yet.
+          </p>
         </div>
       ) : (
         <div className="space-y-4">
