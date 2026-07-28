@@ -1,11 +1,13 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun, Shield } from "lucide-react";
 import type { ReactNode } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
+
 
 type NavItem = {
   to: "/home" | "/feed" | "/report" | "/map" | "/notifications" | "/profile";
@@ -60,14 +62,21 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 key={item.to}
                 to={item.to}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                  "relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                   active
-                    ? "bg-primary text-primary-foreground shadow-card"
+                    ? "text-primary-foreground"
                     : "text-sidebar-foreground hover:bg-sidebar-accent",
                 )}
               >
-                <Icon className="h-5 w-5" />
-                {item.label}
+                {active && (
+                  <motion.span
+                    layoutId="sidebar-active-pill"
+                    className="absolute inset-0 rounded-lg bg-primary shadow-card"
+                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  />
+                )}
+                <Icon className="relative h-5 w-5" />
+                <span className="relative">{item.label}</span>
               </Link>
             );
           })}
@@ -127,11 +136,22 @@ export function AppLayout({ children }: { children: ReactNode }) {
         >
           {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
         </button>
-        <div className="mx-auto max-w-3xl px-4 md:px-8 py-6 md:py-10">{children}</div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+            className="mx-auto max-w-3xl px-4 md:px-8 py-6 md:py-10"
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-border bg-background/95 backdrop-blur">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-border bg-background/85 backdrop-blur-xl">
         <div className="grid grid-cols-5 h-16">
           {NAV.filter((n) => n.to !== "/notifications").map((item) => {
             const active = pathname === item.to || pathname.startsWith(item.to + "/");
@@ -142,10 +162,16 @@ export function AppLayout({ children }: { children: ReactNode }) {
                   key={item.to}
                   to={item.to}
                   className="flex items-center justify-center"
+                  aria-label="Report"
                 >
-                  <span className="h-12 w-12 -mt-6 rounded-full bg-primary text-primary-foreground grid place-items-center shadow-lift">
+                  <motion.span
+                    whileHover={{ scale: 1.06 }}
+                    whileTap={{ scale: 0.92 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 22 }}
+                    className="h-14 w-14 -mt-7 rounded-2xl bg-primary text-primary-foreground grid place-items-center shadow-pop ring-4 ring-background"
+                  >
                     <Icon className="h-6 w-6" />
-                  </span>
+                  </motion.span>
                 </Link>
               );
             }
@@ -154,10 +180,17 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 key={item.to}
                 to={item.to}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1 text-xs",
-                  active ? "text-primary" : "text-muted-foreground",
+                  "relative flex flex-col items-center justify-center gap-1 text-xs transition-colors",
+                  active ? "text-primary" : "text-muted-foreground hover:text-foreground",
                 )}
               >
+                {active && (
+                  <motion.span
+                    layoutId="mobile-active-dot"
+                    className="absolute top-1.5 h-1 w-1 rounded-full bg-primary"
+                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  />
+                )}
                 <Icon className="h-5 w-5" />
                 {item.label}
               </Link>

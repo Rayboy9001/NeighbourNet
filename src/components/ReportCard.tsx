@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { MessageCircle, ThumbsUp, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
 import type { ReportWithMeta } from "@/lib/reports";
 import { CATEGORIES, STATUS_META, timeAgo, toggleConfirm } from "@/lib/reports";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+
 
 const TONE: Record<"success" | "warning" | "danger", string> = {
   success: "bg-success/15 text-success",
@@ -66,17 +68,25 @@ export function ReportCard({ report }: { report: ReportWithMeta }) {
   }
 
   return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -3 }}
+      className="rounded-2xl"
+    >
     <Link
       to="/reports/$id"
       params={{ id: report.id }}
-      className="block bg-card rounded-2xl border border-border shadow-card hover:shadow-lift transition-shadow overflow-hidden"
+      className="group block bg-card rounded-2xl border border-border shadow-card hover:shadow-lift hover:border-primary/25 transition-all duration-300 overflow-hidden"
     >
       {report.image_display_url && (
         <div className="aspect-[16/10] w-full bg-muted overflow-hidden">
           <img
             src={report.image_display_url}
             alt=""
-            className="h-full w-full object-cover"
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
           />
         </div>
       )}
@@ -108,13 +118,13 @@ export function ReportCard({ report }: { report: ReportWithMeta }) {
           <button
             onClick={handleConfirm}
             className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors border",
+              "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border press active:scale-95 transition-all",
               confirmed
-                ? "bg-primary text-primary-foreground border-primary"
-                : "bg-background text-foreground border-border hover:bg-accent",
+                ? "bg-primary text-primary-foreground border-primary shadow-card"
+                : "bg-background text-foreground border-border hover:bg-accent hover:border-primary/30",
             )}
           >
-            <ThumbsUp className="h-4 w-4" />
+            <ThumbsUp className={cn("h-4 w-4 transition-transform", confirmed && "scale-110")} />
             Confirm · {count}
           </button>
           <div className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-muted-foreground">
@@ -127,5 +137,6 @@ export function ReportCard({ report }: { report: ReportWithMeta }) {
         </div>
       </div>
     </Link>
+    </motion.div>
   );
 }

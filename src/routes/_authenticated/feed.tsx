@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { CATEGORIES, fetchReports, type ReportCategory, type ReportWithMeta } from "@/lib/reports";
 import { ReportCard } from "@/components/ReportCard";
+import { ReportCardSkeleton } from "@/components/Skeleton";
 import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/_authenticated/feed")({
   head: () => ({
@@ -53,14 +56,18 @@ function FeedPage() {
       </div>
 
       {loading ? (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-56 bg-muted animate-pulse rounded-2xl" />
+            <ReportCardSkeleton key={i} />
           ))}
         </div>
       ) : reports.length === 0 ? (
-        <div className="bg-card border border-dashed border-border rounded-2xl p-8 text-center text-muted-foreground">
-          No reports in this category yet.
+        <div className="bg-card border border-dashed border-border rounded-2xl p-10 text-center">
+          <div className="text-4xl mb-2">📍</div>
+          <h3 className="font-semibold text-lg">No issues nearby</h3>
+          <p className="text-sm text-muted-foreground mt-1">
+            Good news! Nothing has been reported in this category yet.
+          </p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -83,16 +90,18 @@ function FilterChip({
   label: string;
 }) {
   return (
-    <button
+    <motion.button
       onClick={onClick}
+      whileTap={{ scale: 0.94 }}
+      transition={{ type: "spring", stiffness: 500, damping: 25 }}
       className={cn(
-        "shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium border transition-colors",
+        "shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium border transition-all",
         active
-          ? "bg-primary text-primary-foreground border-primary"
-          : "bg-card text-foreground border-border hover:bg-accent",
+          ? "bg-primary text-primary-foreground border-primary shadow-card"
+          : "bg-card text-foreground border-border hover:bg-accent hover:border-primary/25",
       )}
     >
       {label}
-    </button>
+    </motion.button>
   );
 }

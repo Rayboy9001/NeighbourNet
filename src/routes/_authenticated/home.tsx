@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Plus, MapPin, ClipboardList, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
 import { fetchReports, type ReportWithMeta } from "@/lib/reports";
 import { ReportCard } from "@/components/ReportCard";
+import { ReportCardSkeleton } from "@/components/Skeleton";
+
 
 export const Route = createFileRoute("/_authenticated/home")({
   head: () => ({
@@ -53,34 +56,41 @@ function HomePage() {
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <Link
-          to="/report"
-          className="group col-span-2 md:col-span-1 bg-primary text-primary-foreground p-5 rounded-2xl shadow-lift hover:opacity-95 transition"
-        >
-          <Plus className="h-6 w-6 mb-3" />
-          <div className="font-semibold">Report an issue</div>
-          <div className="text-sm opacity-80 mt-1">
-            Snap a photo and pin the location.
-          </div>
-        </Link>
-        <Link
-          to="/map"
-          className="bg-card border border-border p-5 rounded-2xl hover:shadow-card transition"
-        >
-          <MapPin className="h-6 w-6 mb-3 text-primary" />
-          <div className="font-semibold">Nearby</div>
-          <div className="text-sm text-muted-foreground mt-1">View the map</div>
-        </Link>
-        <Link
-          to="/profile"
-          className="bg-card border border-border p-5 rounded-2xl hover:shadow-card transition"
-        >
-          <ClipboardList className="h-6 w-6 mb-3 text-primary" />
-          <div className="font-semibold">My reports</div>
-          <div className="text-sm text-muted-foreground mt-1">
-            {myCount} submitted
-          </div>
-        </Link>
+        <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} className="col-span-2 md:col-span-1">
+          <Link
+            to="/report"
+            className="group block relative overflow-hidden bg-primary text-primary-foreground p-5 rounded-2xl shadow-lift transition-shadow hover:shadow-pop"
+          >
+            <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+            <Plus className="relative h-6 w-6 mb-3" />
+            <div className="relative font-semibold">Report an issue</div>
+            <div className="relative text-sm opacity-80 mt-1">
+              Snap a photo and pin the location.
+            </div>
+          </Link>
+        </motion.div>
+        <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}>
+          <Link
+            to="/map"
+            className="block h-full bg-card border border-border p-5 rounded-2xl transition-all hover:shadow-card hover:border-primary/25"
+          >
+            <MapPin className="h-6 w-6 mb-3 text-primary" />
+            <div className="font-semibold">Nearby</div>
+            <div className="text-sm text-muted-foreground mt-1">View the map</div>
+          </Link>
+        </motion.div>
+        <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}>
+          <Link
+            to="/profile"
+            className="block h-full bg-card border border-border p-5 rounded-2xl transition-all hover:shadow-card hover:border-primary/25"
+          >
+            <ClipboardList className="h-6 w-6 mb-3 text-primary" />
+            <div className="font-semibold">My reports</div>
+            <div className="text-sm text-muted-foreground mt-1">
+              {myCount} submitted
+            </div>
+          </Link>
+        </motion.div>
       </div>
 
       <section>
@@ -94,9 +104,9 @@ function HomePage() {
           </Link>
         </div>
         {loading ? (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-40 bg-muted animate-pulse rounded-2xl" />
+              <ReportCardSkeleton key={i} />
             ))}
           </div>
         ) : reports.length === 0 ? (
