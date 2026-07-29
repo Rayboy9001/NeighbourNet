@@ -33,7 +33,7 @@ function Landing() {
           <span className="font-bold text-lg">NeighbourNet</span>
         </div>
         <Link
-          to="/home"
+          to="/auth"
           className="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-primary-foreground hover:opacity-90"
         >
           Open app
@@ -56,7 +56,7 @@ function Landing() {
         </p>
         <div className="mt-8 flex items-center justify-center gap-3">
           <Link
-            to="/home"
+            to="/auth"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 shadow-lift"
           >
             Get started <ArrowRight className="h-4 w-4" />

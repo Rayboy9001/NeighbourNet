@@ -36,7 +36,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
 
   async function handleSignOut() {
     await supabase.auth.signOut();
-    navigate({ to: "/", replace: true });
+    navigate({ to: "/auth", replace: true });
   }
 
   return (
