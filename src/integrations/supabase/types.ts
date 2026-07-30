@@ -19,6 +19,7 @@ export type Database = {
           created_at: string
           id: string
           message: string
+          original_language: string | null
           report_id: string
           user_id: string
         }
@@ -26,6 +27,7 @@ export type Database = {
           created_at?: string
           id?: string
           message: string
+          original_language?: string | null
           report_id: string
           user_id: string
         }
@@ -33,6 +35,7 @@ export type Database = {
           created_at?: string
           id?: string
           message?: string
+          original_language?: string | null
           report_id?: string
           user_id?: string
         }
@@ -77,30 +80,45 @@ export type Database = {
       }
       profiles: {
         Row: {
+          auto_translate: boolean
           avatar_url: string | null
           bio: string | null
           created_at: string
           id: string
+          language_onboarded: boolean
           name: string
           points: number
+          preferred_language: string
+          recent_languages: string[]
+          show_original_first: boolean
           updated_at: string
         }
         Insert: {
+          auto_translate?: boolean
           avatar_url?: string | null
           bio?: string | null
           created_at?: string
           id: string
+          language_onboarded?: boolean
           name?: string
           points?: number
+          preferred_language?: string
+          recent_languages?: string[]
+          show_original_first?: boolean
           updated_at?: string
         }
         Update: {
+          auto_translate?: boolean
           avatar_url?: string | null
           bio?: string | null
           created_at?: string
           id?: string
+          language_onboarded?: boolean
           name?: string
           points?: number
+          preferred_language?: string
+          recent_languages?: string[]
+          show_original_first?: boolean
           updated_at?: string
         }
         Relationships: []
@@ -111,12 +129,16 @@ export type Database = {
           category: Database["public"]["Enums"]["report_category"]
           created_at: string
           description: string
+          description_en: string | null
           id: string
           image_url: string | null
+          is_emergency: boolean
           latitude: number | null
           longitude: number | null
+          original_language: string | null
           status: Database["public"]["Enums"]["report_status"]
           title: string
+          title_en: string | null
           updated_at: string
           user_id: string
         }
@@ -125,12 +147,16 @@ export type Database = {
           category: Database["public"]["Enums"]["report_category"]
           created_at?: string
           description?: string
+          description_en?: string | null
           id?: string
           image_url?: string | null
+          is_emergency?: boolean
           latitude?: number | null
           longitude?: number | null
+          original_language?: string | null
           status?: Database["public"]["Enums"]["report_status"]
           title: string
+          title_en?: string | null
           updated_at?: string
           user_id: string
         }
@@ -139,13 +165,80 @@ export type Database = {
           category?: Database["public"]["Enums"]["report_category"]
           created_at?: string
           description?: string
+          description_en?: string | null
           id?: string
           image_url?: string | null
+          is_emergency?: boolean
           latitude?: number | null
           longitude?: number | null
+          original_language?: string | null
           status?: Database["public"]["Enums"]["report_status"]
           title?: string
+          title_en?: string | null
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      translation_cache: {
+        Row: {
+          approximate: boolean
+          created_at: string
+          id: string
+          source_hash: string
+          source_lang: string | null
+          source_text: string
+          target_lang: string
+          translated_text: string
+        }
+        Insert: {
+          approximate?: boolean
+          created_at?: string
+          id?: string
+          source_hash: string
+          source_lang?: string | null
+          source_text: string
+          target_lang: string
+          translated_text: string
+        }
+        Update: {
+          approximate?: boolean
+          created_at?: string
+          id?: string
+          source_hash?: string
+          source_lang?: string | null
+          source_text?: string
+          target_lang?: string
+          translated_text?: string
+        }
+        Relationships: []
+      }
+      translation_reports: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+          source_text: string
+          target_lang: string
+          translated_text: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          source_text: string
+          target_lang: string
+          translated_text: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          source_text?: string
+          target_lang?: string
+          translated_text?: string
           user_id?: string
         }
         Relationships: []
