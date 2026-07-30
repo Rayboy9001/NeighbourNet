@@ -15,6 +15,10 @@ import {
 } from "@/lib/reports";
 import { CategoryChip, StatusBadge } from "@/components/ReportCard";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
+import { TranslatedText } from "@/components/TranslatedText";
+import { detectLanguage } from "@/lib/i18n/translate";
+import type { StringKey } from "@/lib/i18n/strings";
 
 export const Route = createFileRoute("/_authenticated/reports/$id")({
   head: () => ({
@@ -30,6 +34,7 @@ interface CommentRow {
   id: string;
   user_id: string;
   message: string;
+  original_language: string | null;
   created_at: string;
   author_name: string;
 }
@@ -43,6 +48,7 @@ function ReportDetail() {
   const [comments, setComments] = useState<CommentRow[]>([]);
   const [text, setText] = useState("");
   const [posting, setPosting] = useState(false);
+  const { t, lang } = useI18n();
 
   async function load() {
     const r = await fetchReport(id);
@@ -50,7 +56,7 @@ function ReportDetail() {
     setLoading(false);
     const { data: cs } = await supabase
       .from("comments")
-      .select("id,user_id,message,created_at")
+      .select("id,user_id,message,original_language,created_at")
       .eq("report_id", id)
       .order("created_at", { ascending: true });
     const userIds = Array.from(new Set((cs ?? []).map((c) => c.user_id)));
@@ -90,10 +96,13 @@ function ReportDetail() {
     e.preventDefault();
     if (!text.trim() || !user) return;
     setPosting(true);
+    const message = text.trim();
+    const detected = (await detectLanguage(message)) ?? lang;
     const { error } = await supabase.from("comments").insert({
       report_id: id,
       user_id: user.id,
-      message: text.trim(),
+      message,
+      original_language: detected,
     });
     setPosting(false);
     if (error) return toast.error(error.message);
@@ -109,15 +118,15 @@ function ReportDetail() {
       .eq("id", report.id);
     if (error) return toast.error(error.message);
     setReport({ ...report, status: next });
-    toast.success("Status updated");
+    toast.success(t("detail.statusUpdated"));
   }
 
   async function deleteReport() {
     if (!report) return;
-    if (!confirm("Delete this report?")) return;
+    if (!confirm(t("detail.deleteConfirm"))) return;
     const { error } = await supabase.from("reports").delete().eq("id", report.id);
     if (error) return toast.error(error.message);
-    toast.success("Report deleted");
+    toast.success(t("detail.deleted"));
     navigate({ to: "/feed" });
   }
 
@@ -127,9 +136,9 @@ function ReportDetail() {
   if (!report) {
     return (
       <div className="text-center py-16">
-        <p className="text-muted-foreground">Report not found.</p>
+        <p className="text-muted-foreground">{t("detail.notFound")}</p>
         <Link to="/feed" className="text-primary underline mt-4 inline-block">
-          Back to feed
+          {t("detail.backToFeed")}
         </Link>
       </div>
     );
@@ -144,7 +153,7 @@ function ReportDetail() {
         onClick={() => history.back()}
         className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
       >
-        <ArrowLeft className="h-4 w-4" /> Back
+        <ArrowLeft className="h-4 w-4" /> {t("common.back")}
       </button>
 
       <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-card">
@@ -160,14 +169,21 @@ function ReportDetail() {
             <CategoryChip category={report.category} />
             <StatusBadge status={report.status} />
             <span className="ml-auto text-xs text-muted-foreground">
-              {timeAgo(report.created_at)} · by {report.author_name}
+              {timeAgo(report.created_at)} · {t("common.by")} {report.author_name}
             </span>
           </div>
-          <h1 className="text-2xl font-bold">{report.title}</h1>
+          <TranslatedText
+            as="h1"
+            text={report.title}
+            sourceLang={report.original_language}
+            className="text-2xl font-bold"
+          />
           {report.description && (
-            <p className="text-muted-foreground whitespace-pre-wrap">
-              {report.description}
-            </p>
+            <TranslatedText
+              text={report.description}
+              sourceLang={report.original_language}
+              className="text-muted-foreground whitespace-pre-wrap"
+            />
           )}
           {(report.address || report.latitude) && (
             <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
@@ -187,7 +203,7 @@ function ReportDetail() {
               )}
             >
               <ThumbsUp className="h-4 w-4" />
-              {report.confirmed_by_me ? "Confirmed" : "Confirm this issue"} ·{" "}
+              {report.confirmed_by_me ? t("detail.confirmed") : t("detail.confirm")} ·{" "}
               {report.confirm_count}
             </button>
             {isOwner && (
@@ -205,7 +221,7 @@ function ReportDetail() {
 
       {/* Progress tracker */}
       <section className="bg-card border border-border rounded-2xl p-5">
-        <h2 className="font-semibold mb-4">Progress</h2>
+        <h2 className="font-semibold mb-4">{t("detail.progress")}</h2>
         <ol className="space-y-3">
           {STATUS_STEPS.map((s, idx) => {
             const step = idx + 1;
@@ -231,7 +247,7 @@ function ReportDetail() {
                       done ? "text-foreground" : "text-muted-foreground",
                     )}
                   >
-                    {STATUS_META[s].label}
+                    {t(`status.${s}` as StringKey)}
                   </div>
                 </div>
                 {isOwner && !current && (
@@ -239,7 +255,7 @@ function ReportDetail() {
                     onClick={() => updateStatus(s)}
                     className="text-xs text-primary hover:underline"
                   >
-                    Set
+                    {t("detail.set")}
                   </button>
                 )}
               </li>
@@ -252,7 +268,9 @@ function ReportDetail() {
       <section className="bg-card border border-border rounded-2xl p-5">
         <div className="flex items-center gap-2 mb-4">
           <MessageCircle className="h-5 w-5 text-primary" />
-          <h2 className="font-semibold">Discussion ({comments.length})</h2>
+          <h2 className="font-semibold">
+            {t("detail.discussion")} ({comments.length})
+          </h2>
         </div>
         <div className="space-y-3">
           {comments.map((c) => (
@@ -267,15 +285,18 @@ function ReportDetail() {
                     · {timeAgo(c.created_at)}
                   </span>
                 </div>
-                <p className="text-sm text-foreground mt-0.5 whitespace-pre-wrap">
-                  {c.message}
-                </p>
+                <TranslatedText
+                  text={c.message}
+                  sourceLang={c.original_language}
+                  className="text-sm text-foreground mt-0.5 whitespace-pre-wrap"
+                  compact
+                />
               </div>
             </div>
           ))}
           {comments.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-4">
-              Be the first to comment.
+              {t("detail.firstComment")}
             </p>
           )}
         </div>
@@ -284,7 +305,7 @@ function ReportDetail() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             maxLength={500}
-            placeholder="Add a comment..."
+            placeholder={t("detail.commentPlaceholder")}
             className="flex-1 rounded-xl border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
           />
           <button
@@ -292,7 +313,7 @@ function ReportDetail() {
             disabled={posting || !text.trim()}
             className="rounded-xl bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold disabled:opacity-50"
           >
-            Post
+            {t("detail.post")}
           </button>
         </form>
       </section>
