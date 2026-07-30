@@ -1,6 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
+import { detectLanguage } from "@/lib/i18n/translate";
+import { useI18n } from "@/lib/i18n";
 import { Camera, MapPin, Check, ArrowLeft } from "lucide-react";
 import {
   CATEGORIES,
@@ -58,9 +60,12 @@ function ReportPage() {
     try {
       let imagePath: string | null = null;
       if (file) imagePath = await uploadReportImage(file);
+      const detected =
+        (await detectLanguage(`${title.trim()}\n${description.trim()}`)) ?? lang;
       const report = await createReport({
         title: title.trim(),
         description: description.trim(),
+        original_language: detected,
         category,
         image_url: imagePath,
         latitude: coords?.lat ?? null,
