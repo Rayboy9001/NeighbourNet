@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiTranslateRouteImport } from './routes/api/translate'
 import { Route as ApiNeighbourbotRouteImport } from './routes/api/neighbourbot'
 import { Route as AuthenticatedReportRouteImport } from './routes/_authenticated/report'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
@@ -34,6 +35,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTranslateRoute = ApiTranslateRouteImport.update({
+  id: '/api/translate',
+  path: '/api/translate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiNeighbourbotRoute = ApiNeighbourbotRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/report': typeof AuthenticatedReportRoute
   '/api/neighbourbot': typeof ApiNeighbourbotRoute
+  '/api/translate': typeof ApiTranslateRoute
   '/reports/$id': typeof AuthenticatedReportsIdRoute
 }
 export interface FileRoutesByTo {
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/report': typeof AuthenticatedReportRoute
   '/api/neighbourbot': typeof ApiNeighbourbotRoute
+  '/api/translate': typeof ApiTranslateRoute
   '/reports/$id': typeof AuthenticatedReportsIdRoute
 }
 export interface FileRoutesById {
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/report': typeof AuthenticatedReportRoute
   '/api/neighbourbot': typeof ApiNeighbourbotRoute
+  '/api/translate': typeof ApiTranslateRoute
   '/_authenticated/reports/$id': typeof AuthenticatedReportsIdRoute
 }
 export interface FileRouteTypes {
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/report'
     | '/api/neighbourbot'
+    | '/api/translate'
     | '/reports/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/report'
     | '/api/neighbourbot'
+    | '/api/translate'
     | '/reports/$id'
   id:
     | '__root__'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/report'
     | '/api/neighbourbot'
+    | '/api/translate'
     | '/_authenticated/reports/$id'
   fileRoutesById: FileRoutesById
 }
@@ -172,6 +184,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ApiNeighbourbotRoute: typeof ApiNeighbourbotRoute
+  ApiTranslateRoute: typeof ApiTranslateRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -195,6 +208,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/translate': {
+      id: '/api/translate'
+      path: '/api/translate'
+      fullPath: '/api/translate'
+      preLoaderRoute: typeof ApiTranslateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/neighbourbot': {
@@ -293,6 +313,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ApiNeighbourbotRoute: ApiNeighbourbotRoute,
+  ApiTranslateRoute: ApiTranslateRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
