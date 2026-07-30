@@ -101,6 +101,14 @@ export interface I18nValue {
 
 const I18nContext = createContext<I18nValue | null>(null);
 
+type ProfileLanguagePatch = {
+  preferred_language?: string;
+  auto_translate?: boolean;
+  show_original_first?: boolean;
+  language_onboarded?: boolean;
+  recent_languages?: string[];
+};
+
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState(DEFAULT_LANGUAGE);
   const [dict, setDict] = useState<Dictionary | null>(null);
@@ -188,14 +196,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     document.documentElement.dir = def.rtl ? "rtl" : "ltr";
   }, [lang]);
 
-  const persist = useCallback(
-    async (patch: Record<string, unknown>) => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) return;
-      await supabase.from("profiles").update(patch).eq("id", data.user.id);
-    },
-    [],
-  );
+  const persist = useCallback(async (patch: ProfileLanguagePatch) => {
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) return;
+    await supabase.from("profiles").update(patch).eq("id", data.user.id);
+  }, []);
 
   const setLang = useCallback(
     (next: string) => {
