@@ -58,6 +58,7 @@ export interface ReportRow {
   longitude: number | null;
   address: string | null;
   status: ReportStatus;
+  original_language: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -80,7 +81,7 @@ export async function fetchReports(opts?: {
   let q = supabase
     .from("reports")
     .select(
-      "id,user_id,title,description,category,image_url,latitude,longitude,address,status,created_at,updated_at",
+      "id,user_id,title,description,category,image_url,latitude,longitude,address,status,original_language,created_at,updated_at",
     )
     .order("created_at", { ascending: false });
 
