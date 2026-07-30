@@ -5,6 +5,8 @@ import { CATEGORIES, fetchReports, type ReportCategory, type ReportWithMeta } fr
 import { ReportCard } from "@/components/ReportCard";
 import { ReportCardSkeleton } from "@/components/Skeleton";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
+import type { StringKey } from "@/lib/i18n/strings";
 
 
 export const Route = createFileRoute("/_authenticated/feed")({
@@ -21,6 +23,7 @@ function FeedPage() {
   const [category, setCategory] = useState<ReportCategory | "all">("all");
   const [reports, setReports] = useState<ReportWithMeta[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useI18n();
 
   useEffect(() => {
     setLoading(true);
@@ -33,24 +36,22 @@ function FeedPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold">Community feed</h1>
-        <p className="mt-1 text-muted-foreground">
-          See what neighbours are reporting.
-        </p>
+        <h1 className="text-2xl md:text-3xl font-bold">{t("feed.title")}</h1>
+        <p className="mt-1 text-muted-foreground">{t("feed.subtitle")}</p>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0">
         <FilterChip
           active={category === "all"}
           onClick={() => setCategory("all")}
-          label="All"
+          label={t("feed.all")}
         />
         {CATEGORIES.map((c) => (
           <FilterChip
             key={c.value}
             active={category === c.value}
             onClick={() => setCategory(c.value)}
-            label={`${c.emoji} ${c.label}`}
+            label={`${c.emoji} ${t(`category.${c.value}` as StringKey)}`}
           />
         ))}
       </div>
@@ -64,10 +65,8 @@ function FeedPage() {
       ) : reports.length === 0 ? (
         <div className="bg-card border border-dashed border-border rounded-2xl p-10 text-center">
           <div className="text-4xl mb-2">📍</div>
-          <h3 className="font-semibold text-lg">No issues nearby</h3>
-          <p className="text-sm text-muted-foreground mt-1">
-            Good news! Nothing has been reported in this category yet.
-          </p>
+          <h3 className="font-semibold text-lg">{t("feed.empty")}</h3>
+          <p className="text-sm text-muted-foreground mt-1">{t("feed.emptyBody")}</p>
         </div>
       ) : (
         <div className="space-y-4">

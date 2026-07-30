@@ -5,6 +5,9 @@ import type { ReportWithMeta } from "@/lib/reports";
 import { CATEGORIES, STATUS_META, timeAgo, toggleConfirm } from "@/lib/reports";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useI18n } from "@/lib/i18n";
+import { TranslatedText } from "@/components/TranslatedText";
+import type { StringKey } from "@/lib/i18n/strings";
 
 
 const TONE: Record<"success" | "warning" | "danger", string> = {
@@ -15,6 +18,7 @@ const TONE: Record<"success" | "warning" | "danger", string> = {
 
 export function StatusBadge({ status }: { status: ReportWithMeta["status"] }) {
   const meta = STATUS_META[status];
+  const { t } = useI18n();
   return (
     <span
       className={cn(
@@ -30,17 +34,18 @@ export function StatusBadge({ status }: { status: ReportWithMeta["status"] }) {
           meta.tone === "danger" && "bg-danger",
         )}
       />
-      {meta.label}
+      {t(`status.${status}` as StringKey)}
     </span>
   );
 }
 
 export function CategoryChip({ category }: { category: ReportWithMeta["category"] }) {
   const c = CATEGORIES.find((x) => x.value === category);
+  const { t } = useI18n();
   return (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-accent text-accent-foreground text-xs font-medium">
       <span>{c?.emoji}</span>
-      {c?.label}
+      {t(`category.${category}` as StringKey)}
     </span>
   );
 }
@@ -49,6 +54,7 @@ export function ReportCard({ report }: { report: ReportWithMeta }) {
   const [confirmed, setConfirmed] = useState(report.confirmed_by_me);
   const [count, setCount] = useState(report.confirm_count);
   const [busy, setBusy] = useState(false);
+  const { t } = useI18n();
 
   async function handleConfirm(e: React.MouseEvent) {
     e.preventDefault();
@@ -99,13 +105,22 @@ export function ReportCard({ report }: { report: ReportWithMeta }) {
           </span>
         </div>
         <div>
-          <h3 className="font-semibold text-base md:text-lg leading-snug">
-            {report.title}
-          </h3>
+          <TranslatedText
+            as="h3"
+            text={report.title}
+            sourceLang={report.original_language}
+            className="font-semibold text-base md:text-lg leading-snug"
+            compact
+            hideControls
+          />
           {report.description && (
-            <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-              {report.description}
-            </p>
+            <TranslatedText
+              text={report.description}
+              sourceLang={report.original_language}
+              className="mt-1 text-sm text-muted-foreground line-clamp-2"
+              compact
+              hideControls
+            />
           )}
         </div>
         {report.address && (
@@ -125,14 +140,14 @@ export function ReportCard({ report }: { report: ReportWithMeta }) {
             )}
           >
             <ThumbsUp className={cn("h-4 w-4 transition-transform", confirmed && "scale-110")} />
-            Confirm · {count}
+            {t("detail.confirm")} · {count}
           </button>
           <div className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-muted-foreground">
             <MessageCircle className="h-4 w-4" />
             {report.comment_count}
           </div>
           <div className="ml-auto text-xs text-muted-foreground">
-            by {report.author_name}
+            {t("common.by")} {report.author_name}
           </div>
         </div>
       </div>

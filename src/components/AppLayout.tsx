@@ -1,5 +1,5 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun, Shield } from "lucide-react";
+import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun, Shield, Globe } from "lucide-react";
 import type { ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,22 +8,25 @@ import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
 import { NeighbourBot } from "@/components/NeighbourBot";
+import { LanguageSetupDialog } from "@/components/LanguageSetupDialog";
+import { useI18n } from "@/lib/i18n";
+import type { StringKey } from "@/lib/i18n/strings";
 
 
 type NavItem = {
   to: "/home" | "/feed" | "/report" | "/map" | "/notifications" | "/profile";
-  label: string;
+  labelKey: StringKey;
   icon: typeof Home;
   primary?: boolean;
 };
 
 const NAV: NavItem[] = [
-  { to: "/home", label: "Home", icon: Home },
-  { to: "/feed", label: "Feed", icon: MapPin },
-  { to: "/report", label: "Report", icon: Plus, primary: true },
-  { to: "/map", label: "Map", icon: Map },
-  { to: "/notifications", label: "Alerts", icon: Bell },
-  { to: "/profile", label: "Profile", icon: User },
+  { to: "/home", labelKey: "nav.home", icon: Home },
+  { to: "/feed", labelKey: "nav.feed", icon: MapPin },
+  { to: "/report", labelKey: "nav.report", icon: Plus, primary: true },
+  { to: "/map", labelKey: "nav.map", icon: Map },
+  { to: "/notifications", labelKey: "nav.alerts", icon: Bell },
+  { to: "/profile", labelKey: "nav.profile", icon: User },
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {
@@ -33,6 +36,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const { isAdmin } = useIsAdmin(user?.id);
   const navigate = useNavigate();
   const { theme, toggle } = useTheme();
+  const { t, lang } = useI18n();
 
   async function handleSignOut() {
     await supabase.auth.signOut();
@@ -50,7 +54,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
             </div>
             <div>
               <div className="font-bold text-lg leading-tight">NeighbourNet</div>
-              <div className="text-xs text-muted-foreground">See it. Report it. Fix it.</div>
+              <div className="text-xs text-muted-foreground">{t("app.tagline")}</div>
             </div>
           </Link>
         </div>
@@ -77,7 +81,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                   />
                 )}
                 <Icon className="relative h-5 w-5" />
-                <span className="relative">{item.label}</span>
+                <span className="relative">{t(item.labelKey)}</span>
               </Link>
             );
           })}
@@ -108,22 +112,29 @@ export function AppLayout({ children }: { children: ReactNode }) {
               to="/admin"
               className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm text-primary hover:bg-sidebar-accent rounded-lg"
             >
-              <Shield className="h-4 w-4" /> Admin
+              <Shield className="h-4 w-4" /> {t("nav.admin")}
             </Link>
           )}
+          <Link
+            to="/settings/language"
+            className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-sidebar-accent"
+          >
+            <Globe className="h-4 w-4" /> {t("nav.language")}
+            <span className="ms-auto text-xs uppercase">{lang}</span>
+          </Link>
           <button
             onClick={toggle}
             className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-sidebar-accent"
-            aria-label="Toggle theme"
+            aria-label={t("nav.lightMode")}
           >
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            {theme === "dark" ? "Light mode" : "Dark mode"}
+            {theme === "dark" ? t("nav.lightMode") : t("nav.darkMode")}
           </button>
           <button
             onClick={handleSignOut}
             className="mt-1 w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-sidebar-accent"
           >
-            <LogOut className="h-4 w-4" /> Sign out
+            <LogOut className="h-4 w-4" /> {t("nav.signOut")}
           </button>
         </div>
       </aside>
@@ -137,6 +148,13 @@ export function AppLayout({ children }: { children: ReactNode }) {
         >
           {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
         </button>
+        <Link
+          to="/settings/language"
+          aria-label={t("nav.language")}
+          className="md:hidden fixed top-4 end-16 z-40 h-10 w-10 grid place-items-center rounded-full border border-border bg-background/90 backdrop-blur text-foreground shadow-card"
+        >
+          <Globe className="h-5 w-5" />
+        </Link>
         <AnimatePresence mode="wait">
           <motion.div
             key={pathname}
@@ -193,7 +211,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                   />
                 )}
                 <Icon className="h-5 w-5" />
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             );
           })}
@@ -201,6 +219,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
       </nav>
 
       <NeighbourBot />
+      <LanguageSetupDialog />
     </div>
   );
 }
