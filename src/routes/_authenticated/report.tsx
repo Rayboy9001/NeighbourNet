@@ -33,6 +33,7 @@ function ReportPage() {
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [address, setAddress] = useState("");
   const [busy, setBusy] = useState(false);
+  const { lang } = useI18n();
 
   function handleFile(f: File | null) {
     setFile(f);
