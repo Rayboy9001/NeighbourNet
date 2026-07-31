@@ -20,6 +20,7 @@ import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authen
 import { Route as AuthenticatedMapRouteImport } from './routes/_authenticated/map'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedFeedRouteImport } from './routes/_authenticated/feed'
+import { Route as AuthenticatedChallengeRouteImport } from './routes/_authenticated/challenge'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedSettingsLanguageRouteImport } from './routes/_authenticated/settings.language'
 import { Route as AuthenticatedReportsIdRouteImport } from './routes/_authenticated/reports.$id'
@@ -79,6 +80,11 @@ const AuthenticatedFeedRoute = AuthenticatedFeedRouteImport.update({
   path: '/feed',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedChallengeRoute = AuthenticatedChallengeRouteImport.update({
+  id: '/challenge',
+  path: '/challenge',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/challenge': typeof AuthenticatedChallengeRoute
   '/feed': typeof AuthenticatedFeedRoute
   '/home': typeof AuthenticatedHomeRoute
   '/map': typeof AuthenticatedMapRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/challenge': typeof AuthenticatedChallengeRoute
   '/feed': typeof AuthenticatedFeedRoute
   '/home': typeof AuthenticatedHomeRoute
   '/map': typeof AuthenticatedMapRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/challenge': typeof AuthenticatedChallengeRoute
   '/_authenticated/feed': typeof AuthenticatedFeedRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/map': typeof AuthenticatedMapRoute
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/admin'
+    | '/challenge'
     | '/feed'
     | '/home'
     | '/map'
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/admin'
+    | '/challenge'
     | '/feed'
     | '/home'
     | '/map'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/admin'
+    | '/_authenticated/challenge'
     | '/_authenticated/feed'
     | '/_authenticated/home'
     | '/_authenticated/map'
@@ -279,6 +291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFeedRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/challenge': {
+      id: '/_authenticated/challenge'
+      path: '/challenge'
+      fullPath: '/challenge'
+      preLoaderRoute: typeof AuthenticatedChallengeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -305,6 +324,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedChallengeRoute: typeof AuthenticatedChallengeRoute
   AuthenticatedFeedRoute: typeof AuthenticatedFeedRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedMapRoute: typeof AuthenticatedMapRoute
@@ -317,6 +337,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedChallengeRoute: AuthenticatedChallengeRoute,
   AuthenticatedFeedRoute: AuthenticatedFeedRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedMapRoute: AuthenticatedMapRoute,
