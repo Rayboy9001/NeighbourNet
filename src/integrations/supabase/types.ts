@@ -14,6 +14,167 @@ export type Database = {
   }
   public: {
     Tables: {
+      challenge_achievements: {
+        Row: {
+          code: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          code: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          code?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      challenge_attempts: {
+        Row: {
+          avg_time_ms: number
+          challenge_date: string
+          challenge_id: string
+          completed_at: string
+          correct_count: number
+          created_at: string
+          id: string
+          points_earned: number
+          score: number
+          total_questions: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avg_time_ms?: number
+          challenge_date: string
+          challenge_id: string
+          completed_at?: string
+          correct_count?: number
+          created_at?: string
+          id?: string
+          points_earned?: number
+          score?: number
+          total_questions?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avg_time_ms?: number
+          challenge_date?: string
+          challenge_id?: string
+          completed_at?: string
+          correct_count?: number
+          created_at?: string
+          id?: string
+          points_earned?: number
+          score?: number
+          total_questions?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_attempts_challenge_id_fkey"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "challenges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      challenge_duels: {
+        Row: {
+          challenge_date: string
+          challenger_id: string
+          challenger_score: number | null
+          created_at: string
+          id: string
+          opponent_id: string
+          opponent_score: number | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          challenge_date: string
+          challenger_id: string
+          challenger_score?: number | null
+          created_at?: string
+          id?: string
+          opponent_id: string
+          opponent_score?: number | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          challenge_date?: string
+          challenger_id?: string
+          challenger_score?: number | null
+          created_at?: string
+          id?: string
+          opponent_id?: string
+          opponent_score?: number | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      challenge_streaks: {
+        Row: {
+          created_at: string
+          current_streak: number
+          last_played_date: string | null
+          longest_streak: number
+          streak_savers: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_streak?: number
+          last_played_date?: string | null
+          longest_streak?: number
+          streak_savers?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_streak?: number
+          last_played_date?: string | null
+          longest_streak?: number
+          streak_savers?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      challenges: {
+        Row: {
+          challenge_date: string
+          created_at: string
+          id: string
+          questions: Json
+        }
+        Insert: {
+          challenge_date: string
+          created_at?: string
+          id?: string
+          questions: Json
+        }
+        Update: {
+          challenge_date?: string
+          created_at?: string
+          id?: string
+          questions?: Json
+        }
+        Relationships: []
+      }
       comments: {
         Row: {
           created_at: string

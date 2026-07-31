@@ -30,6 +30,7 @@ export const STRINGS = {
   "nav.feed": "Feed",
   "nav.report": "Report",
   "nav.map": "Map",
+  "nav.challenge": "Challenge",
   "nav.alerts": "Alerts",
   "nav.profile": "Profile",
   "nav.admin": "Admin",
