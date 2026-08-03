@@ -341,6 +341,418 @@ export type Database = {
         }
         Relationships: []
       }
+      square_blocks: {
+        Row: {
+          blocked_user_id: string
+          created_at: string
+          id: string
+          kind: string
+          user_id: string
+        }
+        Insert: {
+          blocked_user_id: string
+          created_at?: string
+          id?: string
+          kind?: string
+          user_id: string
+        }
+        Update: {
+          blocked_user_id?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      square_members: {
+        Row: {
+          created_at: string
+          id: string
+          is_primary: boolean
+          last_seen_at: string
+          quiet_hours_enabled: boolean
+          quiet_hours_end: number
+          quiet_hours_start: number
+          restricted_until: string | null
+          square_id: string
+          suspended: boolean
+          updated_at: string
+          user_id: string
+          warnings: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_primary?: boolean
+          last_seen_at?: string
+          quiet_hours_enabled?: boolean
+          quiet_hours_end?: number
+          quiet_hours_start?: number
+          restricted_until?: string | null
+          square_id: string
+          suspended?: boolean
+          updated_at?: string
+          user_id: string
+          warnings?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_primary?: boolean
+          last_seen_at?: string
+          quiet_hours_enabled?: boolean
+          quiet_hours_end?: number
+          quiet_hours_start?: number
+          restricted_until?: string | null
+          square_id?: string
+          suspended?: boolean
+          updated_at?: string
+          user_id?: string
+          warnings?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "square_members_square_id_fkey"
+            columns: ["square_id"]
+            isOneToOne: false
+            referencedRelation: "squares"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      square_message_reports: {
+        Row: {
+          created_at: string
+          id: string
+          message_id: string
+          reason: string
+          reporter_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message_id: string
+          reason?: string
+          reporter_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message_id?: string
+          reason?: string
+          reporter_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "square_message_reports_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "square_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      square_messages: {
+        Row: {
+          ai_image_warning: boolean
+          body: string
+          created_at: string
+          deleted_at: string | null
+          edited_at: string | null
+          hidden: boolean
+          id: string
+          image_path: string | null
+          is_bot: boolean
+          mentions: string[]
+          moderation_reason: string | null
+          reply_to_id: string | null
+          report_id: string | null
+          square_id: string
+          thread_id: string
+          user_id: string | null
+        }
+        Insert: {
+          ai_image_warning?: boolean
+          body?: string
+          created_at?: string
+          deleted_at?: string | null
+          edited_at?: string | null
+          hidden?: boolean
+          id?: string
+          image_path?: string | null
+          is_bot?: boolean
+          mentions?: string[]
+          moderation_reason?: string | null
+          reply_to_id?: string | null
+          report_id?: string | null
+          square_id: string
+          thread_id: string
+          user_id?: string | null
+        }
+        Update: {
+          ai_image_warning?: boolean
+          body?: string
+          created_at?: string
+          deleted_at?: string | null
+          edited_at?: string | null
+          hidden?: boolean
+          id?: string
+          image_path?: string | null
+          is_bot?: boolean
+          mentions?: string[]
+          moderation_reason?: string | null
+          reply_to_id?: string | null
+          report_id?: string | null
+          square_id?: string
+          thread_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "square_messages_reply_to_id_fkey"
+            columns: ["reply_to_id"]
+            isOneToOne: false
+            referencedRelation: "square_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "square_messages_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "square_messages_square_id_fkey"
+            columns: ["square_id"]
+            isOneToOne: false
+            referencedRelation: "squares"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "square_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "square_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      square_poll_votes: {
+        Row: {
+          created_at: string
+          id: string
+          option_index: number
+          poll_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          option_index: number
+          poll_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          option_index?: number
+          poll_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "square_poll_votes_poll_id_fkey"
+            columns: ["poll_id"]
+            isOneToOne: false
+            referencedRelation: "square_polls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      square_polls: {
+        Row: {
+          closes_at: string
+          created_at: string
+          created_by: string
+          id: string
+          message_id: string
+          options: string[]
+          question: string
+        }
+        Insert: {
+          closes_at: string
+          created_at?: string
+          created_by: string
+          id?: string
+          message_id: string
+          options: string[]
+          question: string
+        }
+        Update: {
+          closes_at?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          message_id?: string
+          options?: string[]
+          question?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "square_polls_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "square_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      square_reactions: {
+        Row: {
+          created_at: string
+          emoji: string
+          id: string
+          message_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          emoji: string
+          id?: string
+          message_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string
+          id?: string
+          message_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "square_reactions_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "square_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      square_reads: {
+        Row: {
+          id: string
+          last_read_at: string
+          thread_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          last_read_at?: string
+          thread_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          last_read_at?: string
+          thread_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "square_reads_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "square_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      square_threads: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          emoji: string
+          id: string
+          slug: string
+          sort_order: number
+          square_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          emoji?: string
+          id?: string
+          slug: string
+          sort_order?: number
+          square_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          emoji?: string
+          id?: string
+          slug?: string
+          sort_order?: number
+          square_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "square_threads_square_id_fkey"
+            columns: ["square_id"]
+            isOneToOne: false
+            referencedRelation: "squares"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      squares: {
+        Row: {
+          area_label: string
+          created_at: string
+          description: string
+          emoji: string
+          id: string
+          is_public: boolean
+          max_participants: number
+          name: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          area_label?: string
+          created_at?: string
+          description?: string
+          emoji?: string
+          id?: string
+          is_public?: boolean
+          max_participants?: number
+          name: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          area_label?: string
+          created_at?: string
+          description?: string
+          emoji?: string
+          id?: string
+          is_public?: boolean
+          max_participants?: number
+          name?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       translation_cache: {
         Row: {
           approximate: boolean
