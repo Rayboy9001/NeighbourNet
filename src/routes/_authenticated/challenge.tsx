@@ -327,6 +327,7 @@ function ChallengePage() {
                     })}
                   </div>
                 ) : null}
+                <NextChallengeTimer completedAt={done.completedAt ?? null} />
                 <p className="text-center text-sm text-muted-foreground">
                   Come back tomorrow for a fresh set of questions — keep your streak alive 🔥
                 </p>
