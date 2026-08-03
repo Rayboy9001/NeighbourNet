@@ -81,6 +81,7 @@ export type AttemptSummary = {
   streakSavers: number;
   newAchievements: string[];
   alreadyCompleted: boolean;
+  completedAt: string;
 };
 
 function daysBetween(a: string, b: string) {
@@ -121,7 +122,7 @@ export async function scoreAndSaveAttempt(
 
   const existing = await db
     .from("challenge_attempts")
-    .select("id,score,correct_count,avg_time_ms,points_earned")
+    .select("id,score,correct_count,avg_time_ms,points_earned,completed_at")
     .eq("user_id", userId)
     .eq("challenge_id", challengeId)
     .maybeSingle();
@@ -145,6 +146,7 @@ export async function scoreAndSaveAttempt(
       streakSavers: streakRow.data?.streak_savers ?? 0,
       newAchievements: [],
       alreadyCompleted: true,
+      completedAt: existing.data.completed_at,
     };
   }
 
@@ -168,16 +170,21 @@ export async function scoreAndSaveAttempt(
   const pointsEarned =
     Math.round(score / 10) + COMPLETION_BONUS + (perfect ? PERFECT_BONUS : 0);
 
-  await db.from("challenge_attempts").insert({
-    user_id: userId,
-    challenge_id: challengeId,
-    challenge_date: dateKey,
-    score,
-    correct_count: correctCount,
-    total_questions: questions.length || QUESTIONS_PER_CHALLENGE,
-    avg_time_ms: avgTimeMs,
-    points_earned: pointsEarned,
-  });
+  const insertedAttempt = await db
+    .from("challenge_attempts")
+    .insert({
+      user_id: userId,
+      challenge_id: challengeId,
+      challenge_date: dateKey,
+      score,
+      correct_count: correctCount,
+      total_questions: questions.length || QUESTIONS_PER_CHALLENGE,
+      avg_time_ms: avgTimeMs,
+      points_earned: pointsEarned,
+    })
+    .select("completed_at")
+    .maybeSingle();
+  const completedAt = insertedAttempt.data?.completed_at ?? new Date().toISOString();
 
   // ---- streak ----
   let current = 1;
@@ -253,6 +260,7 @@ export async function scoreAndSaveAttempt(
     streakSavers: savers,
     newAchievements,
     alreadyCompleted: false,
+    completedAt,
   };
 }
 
