@@ -124,7 +124,14 @@ function ChallengePage() {
     ]);
 
     const rows = attempts.data ?? [];
-    const today = rows.find((r) => r.challenge_date === dateKey);
+    // Locked out for 24 hours from the moment the last challenge was completed.
+    const recent = [...rows]
+      .sort((a, b) => (a.completed_at < b.completed_at ? 1 : -1))
+      .find(
+        (r) =>
+          r.challenge_date === dateKey ||
+          Date.now() - new Date(r.completed_at).getTime() < 24 * 60 * 60 * 1000,
+      );
     setStats({
       streak: streak.data?.current_streak ?? 0,
       longest: streak.data?.longest_streak ?? 0,
@@ -132,19 +139,20 @@ function ChallengePage() {
       played: rows.length,
       bestScore: rows.reduce((m, r) => Math.max(m, r.score), 0),
       badges: (badges.data ?? []).map((b) => b.code),
-      todayDone: today
+      todayDone: recent
         ? {
-            score: today.score,
-            correctCount: today.correct_count,
-            totalQuestions: today.total_questions,
-            avgTimeMs: today.avg_time_ms,
-            pointsEarned: today.points_earned,
-            perfect: today.correct_count === today.total_questions,
+            score: recent.score,
+            correctCount: recent.correct_count,
+            totalQuestions: recent.total_questions,
+            avgTimeMs: recent.avg_time_ms,
+            pointsEarned: recent.points_earned,
+            perfect: recent.correct_count === recent.total_questions,
             currentStreak: streak.data?.current_streak ?? 0,
             longestStreak: streak.data?.longest_streak ?? 0,
             streakSavers: streak.data?.streak_savers ?? 0,
             newAchievements: [],
             alreadyCompleted: true,
+            completedAt: recent.completed_at,
           }
         : null,
     });
