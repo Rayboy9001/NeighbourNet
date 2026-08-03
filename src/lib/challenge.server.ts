@@ -260,6 +260,7 @@ export async function scoreAndSaveAttempt(
     streakSavers: savers,
     newAchievements,
     alreadyCompleted: false,
+    completedAt,
   };
 }
 
