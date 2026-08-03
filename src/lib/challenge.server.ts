@@ -170,16 +170,21 @@ export async function scoreAndSaveAttempt(
   const pointsEarned =
     Math.round(score / 10) + COMPLETION_BONUS + (perfect ? PERFECT_BONUS : 0);
 
-  await db.from("challenge_attempts").insert({
-    user_id: userId,
-    challenge_id: challengeId,
-    challenge_date: dateKey,
-    score,
-    correct_count: correctCount,
-    total_questions: questions.length || QUESTIONS_PER_CHALLENGE,
-    avg_time_ms: avgTimeMs,
-    points_earned: pointsEarned,
-  });
+  const insertedAttempt = await db
+    .from("challenge_attempts")
+    .insert({
+      user_id: userId,
+      challenge_id: challengeId,
+      challenge_date: dateKey,
+      score,
+      correct_count: correctCount,
+      total_questions: questions.length || QUESTIONS_PER_CHALLENGE,
+      avg_time_ms: avgTimeMs,
+      points_earned: pointsEarned,
+    })
+    .select("completed_at")
+    .maybeSingle();
+  const completedAt = insertedAttempt.data?.completed_at ?? new Date().toISOString();
 
   // ---- streak ----
   let current = 1;
