@@ -111,7 +111,9 @@ function ChallengePage() {
     const [attempts, streak, badges] = await Promise.all([
       supabase
         .from("challenge_attempts")
-        .select("score,correct_count,total_questions,avg_time_ms,points_earned,challenge_date")
+        .select(
+          "score,correct_count,total_questions,avg_time_ms,points_earned,challenge_date,completed_at",
+        )
         .eq("user_id", user.id),
       supabase
         .from("challenge_streaks")
