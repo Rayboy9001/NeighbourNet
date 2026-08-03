@@ -122,7 +122,7 @@ export async function scoreAndSaveAttempt(
 
   const existing = await db
     .from("challenge_attempts")
-    .select("id,score,correct_count,avg_time_ms,points_earned")
+    .select("id,score,correct_count,avg_time_ms,points_earned,completed_at")
     .eq("user_id", userId)
     .eq("challenge_id", challengeId)
     .maybeSingle();
@@ -146,6 +146,7 @@ export async function scoreAndSaveAttempt(
       streakSavers: streakRow.data?.streak_savers ?? 0,
       newAchievements: [],
       alreadyCompleted: true,
+      completedAt: existing.data.completed_at,
     };
   }
 
