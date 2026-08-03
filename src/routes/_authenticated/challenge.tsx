@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { QuizRunner, type Answer } from "@/components/challenge/QuizRunner";
 import { Leaderboard } from "@/components/challenge/Leaderboard";
+import { NextChallengeTimer } from "@/components/challenge/NextChallengeTimer";
 import { Confetti } from "@/components/challenge/Confetti";
 import { getDailyChallenge, submitChallengeAttempt } from "@/lib/challenge.functions";
 import type { AttemptSummary } from "@/lib/challenge.server";
