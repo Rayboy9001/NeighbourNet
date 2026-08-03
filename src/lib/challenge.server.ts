@@ -81,6 +81,7 @@ export type AttemptSummary = {
   streakSavers: number;
   newAchievements: string[];
   alreadyCompleted: boolean;
+  completedAt: string;
 };
 
 function daysBetween(a: string, b: string) {
