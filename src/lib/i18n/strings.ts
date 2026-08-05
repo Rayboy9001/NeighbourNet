@@ -31,6 +31,7 @@ export const STRINGS = {
   "nav.report": "Report",
   "nav.map": "Map",
   "nav.challenge": "Challenge",
+  "nav.square": "Square",
   "nav.alerts": "Alerts",
   "nav.profile": "Profile",
   "nav.admin": "Admin",
