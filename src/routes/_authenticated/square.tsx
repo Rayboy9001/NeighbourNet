@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useServerFn } from "@tanstack/react-start";
 import { MessageSquare, Users, ArrowRight, Plus } from "lucide-react";
 import { useAuth, useProfile } from "@/hooks/use-auth";
-import { fetchSquares, fetchMemberCounts, fetchMyMemberships } from "@/lib/square.client";
+import { fetchSquares, fetchMemberCounts, fetchMyMemberships } from "@/lib/square-browser";
 import { joinSquareRoom } from "@/lib/square.functions";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import type { Square, SquareMember } from "@/lib/square";

@@ -20,7 +20,7 @@ import {
   reputationBadges,
   timeLabel,
 } from "@/lib/square";
-import type { EnrichedMessage } from "@/lib/square.client";
+import type { EnrichedMessage } from "@/lib/square-browser";
 
 function Avatar({ name, url, bot }: { name: string; url: string | null; bot?: boolean }) {
   if (bot)
