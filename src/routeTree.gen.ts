@@ -23,6 +23,7 @@ import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/h
 import { Route as AuthenticatedFeedRouteImport } from './routes/_authenticated/feed'
 import { Route as AuthenticatedChallengeRouteImport } from './routes/_authenticated/challenge'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedSquareIndexRouteImport } from './routes/_authenticated/square.index'
 import { Route as AuthenticatedSquareSlugRouteImport } from './routes/_authenticated/square.$slug'
 import { Route as AuthenticatedSettingsLanguageRouteImport } from './routes/_authenticated/settings.language'
 import { Route as AuthenticatedReportsIdRouteImport } from './routes/_authenticated/reports.$id'
@@ -97,6 +98,12 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSquareIndexRoute =
+  AuthenticatedSquareIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedSquareRoute,
+  } as any)
 const AuthenticatedSquareSlugRoute = AuthenticatedSquareSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -131,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/reports/$id': typeof AuthenticatedReportsIdRoute
   '/settings/language': typeof AuthenticatedSettingsLanguageRoute
   '/square/$slug': typeof AuthenticatedSquareSlugRoute
+  '/square/': typeof AuthenticatedSquareIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -143,12 +151,12 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/report': typeof AuthenticatedReportRoute
-  '/square': typeof AuthenticatedSquareRouteWithChildren
   '/api/neighbourbot': typeof ApiNeighbourbotRoute
   '/api/translate': typeof ApiTranslateRoute
   '/reports/$id': typeof AuthenticatedReportsIdRoute
   '/settings/language': typeof AuthenticatedSettingsLanguageRoute
   '/square/$slug': typeof AuthenticatedSquareSlugRoute
+  '/square': typeof AuthenticatedSquareIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/_authenticated/reports/$id': typeof AuthenticatedReportsIdRoute
   '/_authenticated/settings/language': typeof AuthenticatedSettingsLanguageRoute
   '/_authenticated/square/$slug': typeof AuthenticatedSquareSlugRoute
+  '/_authenticated/square/': typeof AuthenticatedSquareIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/reports/$id'
     | '/settings/language'
     | '/square/$slug'
+    | '/square/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -201,12 +211,12 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/profile'
     | '/report'
-    | '/square'
     | '/api/neighbourbot'
     | '/api/translate'
     | '/reports/$id'
     | '/settings/language'
     | '/square/$slug'
+    | '/square'
   id:
     | '__root__'
     | '/'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/_authenticated/reports/$id'
     | '/_authenticated/settings/language'
     | '/_authenticated/square/$slug'
+    | '/_authenticated/square/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -336,6 +347,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/square/': {
+      id: '/_authenticated/square/'
+      path: '/'
+      fullPath: '/square/'
+      preLoaderRoute: typeof AuthenticatedSquareIndexRouteImport
+      parentRoute: typeof AuthenticatedSquareRoute
+    }
     '/_authenticated/square/$slug': {
       id: '/_authenticated/square/$slug'
       path: '/$slug'
@@ -362,10 +380,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedSquareRouteChildren {
   AuthenticatedSquareSlugRoute: typeof AuthenticatedSquareSlugRoute
+  AuthenticatedSquareIndexRoute: typeof AuthenticatedSquareIndexRoute
 }
 
 const AuthenticatedSquareRouteChildren: AuthenticatedSquareRouteChildren = {
   AuthenticatedSquareSlugRoute: AuthenticatedSquareSlugRoute,
+  AuthenticatedSquareIndexRoute: AuthenticatedSquareIndexRoute,
 }
 
 const AuthenticatedSquareRouteWithChildren =
