@@ -20,7 +20,7 @@ import {
   votePoll,
   markRead,
   type EnrichedMessage,
-} from "@/lib/square.client";
+} from "@/lib/square-browser";
 import { joinSquareRoom as joinSquareRoomFn, sendSquareMessage as sendSquareMessageFn } from "@/lib/square.functions";
 import { MessageBubble } from "@/components/square/MessageBubble";
 import { checkContentPolicy, checkImageFile, type Square, type SquareThread } from "@/lib/square";
