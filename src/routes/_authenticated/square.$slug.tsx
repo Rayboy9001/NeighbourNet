@@ -21,7 +21,7 @@ import {
   markRead,
   type EnrichedMessage,
 } from "@/lib/square.client";
-import { joinSquareRoom, sendSquareMessage } from "@/lib/square.functions";
+import { joinSquareRoom as joinSquareRoomFn, sendSquareMessage as sendSquareMessageFn } from "@/lib/square.functions";
 import { MessageBubble } from "@/components/square/MessageBubble";
 import { checkContentPolicy, checkImageFile, type Square, type SquareThread } from "@/lib/square";
 import { cn } from "@/lib/utils";
@@ -54,8 +54,8 @@ function SquareChatPage() {
   const [error, setError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const joinSquare = useServerFn(joinSquareRoom);
-  const sendMessage = useServerFn(sendSquareMessage);
+  const joinSquare = useServerFn(joinSquareRoomFn);
+  const sendMessage = useServerFn(sendSquareMessageFn);
 
   useEffect(() => {
     async function load() {
@@ -66,7 +66,6 @@ function SquareChatPage() {
         setLoading(false);
         return;
       }
-      await joinSquareRoom({ squareId: found.id }).catch(() => {});
       const [ths, mems] = await Promise.all([
         fetchThreads(found.id),
         fetchMyMemberships(user.id),
