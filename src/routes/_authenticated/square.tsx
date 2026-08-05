@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useServerFn } from "@tanstack/react-start";
 import { MessageSquare, Users, ArrowRight, Plus } from "lucide-react";
 import { useAuth, useProfile } from "@/hooks/use-auth";
 import { fetchSquares, fetchMemberCounts, fetchMyMemberships } from "@/lib/square.client";
@@ -27,6 +28,7 @@ function SquareDiscoveryPage() {
   const [memberships, setMemberships] = useState<Map<string, SquareMember>>(new Map());
   const [loading, setLoading] = useState(true);
   const [joining, setJoining] = useState<string | null>(null);
+  const joinSquare = useServerFn(joinSquareRoom);
 
   useEffect(() => {
     async function load() {
@@ -45,7 +47,7 @@ function SquareDiscoveryPage() {
   async function handleJoin(squareId: string) {
     setJoining(squareId);
     try {
-      await joinSquareRoom({ squareId });
+      await joinSquare({ data: { squareId } });
       if (!user) return;
       const mems = await fetchMyMemberships(user.id);
       setMemberships(new Map(mems.map((m) => [m.square_id, m])));
