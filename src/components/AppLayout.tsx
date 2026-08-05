@@ -1,5 +1,5 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun, Shield, Globe, Brain } from "lucide-react";
+import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun, Shield, Globe, Brain, MessageSquare } from "lucide-react";
 import type { ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,7 +14,7 @@ import type { StringKey } from "@/lib/i18n/strings";
 
 
 type NavItem = {
-  to: "/home" | "/feed" | "/report" | "/map" | "/challenge" | "/notifications" | "/profile";
+  to: "/home" | "/feed" | "/report" | "/map" | "/challenge" | "/square" | "/notifications" | "/profile";
   labelKey: StringKey;
   icon: typeof Home;
   primary?: boolean;
@@ -26,6 +26,7 @@ const NAV: NavItem[] = [
   { to: "/report", labelKey: "nav.report", icon: Plus, primary: true },
   { to: "/map", labelKey: "nav.map", icon: Map },
   { to: "/challenge", labelKey: "nav.challenge", icon: Brain },
+  { to: "/square", labelKey: "nav.square", icon: MessageSquare },
   { to: "/notifications", labelKey: "nav.alerts", icon: Bell },
   { to: "/profile", labelKey: "nav.profile", icon: User },
 ];
@@ -172,7 +173,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
 
       {/* Mobile bottom nav */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-border bg-background/85 backdrop-blur-xl">
-        <div className="grid grid-cols-6 h-16">
+        <div className="grid grid-cols-7 h-16">
           {NAV.filter((n) => n.to !== "/notifications").map((item) => {
             const active = pathname === item.to || pathname.startsWith(item.to + "/");
             const Icon = item.icon;
