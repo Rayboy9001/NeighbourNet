@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, Send, Image, X, Hash } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
@@ -11,7 +12,6 @@ import {
   fetchBlockedIds,
   fetchMyMemberships,
   uploadSquareImage,
-  sendSquareMessage,
   toggleReaction,
   editMessage,
   deleteMessage,
@@ -19,10 +19,11 @@ import {
   setBlock,
   votePoll,
   markRead,
+  type EnrichedMessage,
 } from "@/lib/square.client";
-import { joinSquareRoom } from "@/lib/square.functions";
+import { joinSquareRoom, sendSquareMessage } from "@/lib/square.functions";
 import { MessageBubble } from "@/components/square/MessageBubble";
-import { checkContentPolicy, checkImageFile, type Square, type SquareThread, type EnrichedMessage } from "@/lib/square";
+import { checkContentPolicy, checkImageFile, type Square, type SquareThread } from "@/lib/square";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/square/$slug")({
@@ -53,6 +54,8 @@ function SquareChatPage() {
   const [error, setError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const joinSquare = useServerFn(joinSquareRoom);
+  const sendMessage = useServerFn(sendSquareMessage);
 
   useEffect(() => {
     async function load() {
@@ -68,7 +71,7 @@ function SquareChatPage() {
         fetchThreads(found.id),
         fetchMyMemberships(user.id),
       ]);
-      setThreads(ths);
+      await joinSquare({ data: { squareId: found.id } }).catch(() => {});
       const active = ths[0]?.id ?? null;
       setActiveThreadId(active);
       if (active) {
@@ -139,12 +142,14 @@ function SquareChatPage() {
       if (pendingImage) {
         imagePath = await uploadSquareImage(pendingImage, user.id);
       }
-      await sendSquareMessage({
-        squareId: square.id,
-        threadId: activeThreadId,
-        body: body.trim(),
-        imagePath,
-        replyToId: replyTo?.id ?? null,
+      await sendMessage({
+        data: {
+          squareId: square.id,
+          threadId: activeThreadId,
+          body: body.trim(),
+          imagePath,
+          replyToId: replyTo?.id ?? null,
+        },
       });
       setBody("");
       setPendingImage(null);
