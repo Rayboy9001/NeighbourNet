@@ -27,6 +27,7 @@ import { checkContentPolicy, checkImageFile, type Square, type SquareThread } fr
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/square/$slug")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Square · NeighbourNet" },

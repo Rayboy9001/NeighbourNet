@@ -10,6 +10,7 @@ import { useIsAdmin } from "@/hooks/use-is-admin";
 import type { Square, SquareMember } from "@/lib/square";
 
 export const Route = createFileRoute("/_authenticated/square")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Neighbourhood Square · NeighbourNet" },
