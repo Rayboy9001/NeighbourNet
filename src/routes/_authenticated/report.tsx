@@ -33,6 +33,8 @@ function ReportPage() {
   const [address, setAddress] = useState("");
   const [busy, setBusy] = useState(false);
   const { lang } = useI18n();
+  const submitReportFn = useServerFn(submitReport);
+
 
   function handleFile(f: File | null) {
     setFile(f);
