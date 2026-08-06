@@ -208,7 +208,7 @@ function ReportPage() {
           </div>
           <button
             onClick={() => setStep(3)}
-            disabled={!title.trim()}
+            disabled={title.trim().length < TITLE_MIN}
             className="w-full rounded-xl bg-primary text-primary-foreground py-2.5 text-sm font-semibold disabled:opacity-50"
           >
             Continue
