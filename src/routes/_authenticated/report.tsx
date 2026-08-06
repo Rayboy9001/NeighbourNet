@@ -1,16 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
 import { detectLanguage } from "@/lib/i18n/translate";
 import { useI18n } from "@/lib/i18n";
 import { Camera, MapPin, Check, ArrowLeft } from "lucide-react";
-import {
-  CATEGORIES,
-  createReport,
-  uploadReportImage,
-  type ReportCategory,
-} from "@/lib/reports";
+import { CATEGORIES, uploadReportImage, type ReportCategory } from "@/lib/reports";
+import { submitReport } from "@/lib/reports.functions";
+import { TITLE_MIN, TITLE_MAX, DESCRIPTION_MAX, validateReport } from "@/lib/validation/report";
 import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/_authenticated/report")({
   head: () => ({
