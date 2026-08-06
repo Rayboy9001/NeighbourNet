@@ -1,16 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
 import { detectLanguage } from "@/lib/i18n/translate";
 import { useI18n } from "@/lib/i18n";
 import { Camera, MapPin, Check, ArrowLeft } from "lucide-react";
-import {
-  CATEGORIES,
-  createReport,
-  uploadReportImage,
-  type ReportCategory,
-} from "@/lib/reports";
+import { CATEGORIES, uploadReportImage, type ReportCategory } from "@/lib/reports";
+import { submitReport } from "@/lib/reports.functions";
+import { TITLE_MIN, TITLE_MAX, DESCRIPTION_MAX, validateReport } from "@/lib/validation/report";
 import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/_authenticated/report")({
   head: () => ({
@@ -34,6 +33,8 @@ function ReportPage() {
   const [address, setAddress] = useState("");
   const [busy, setBusy] = useState(false);
   const { lang } = useI18n();
+  const submitReportFn = useServerFn(submitReport);
+
 
   function handleFile(f: File | null) {
     setFile(f);
@@ -57,21 +58,40 @@ function ReportPage() {
 
   async function handleSubmit() {
     if (!category) return;
+
+    // Same rules as the server — fast feedback before uploading anything.
+    const precheck = validateReport({
+      title,
+      description,
+      category,
+      latitude: coords?.lat ?? null,
+      longitude: coords?.lng ?? null,
+      address,
+      image_url: null,
+      original_language: lang,
+    });
+    if (!precheck.success) {
+      toast.error(Object.values(precheck.errors)[0] ?? "Please check the form");
+      return;
+    }
+
     setBusy(true);
     try {
       let imagePath: string | null = null;
       if (file) imagePath = await uploadReportImage(file);
       const detected =
         (await detectLanguage(`${title.trim()}\n${description.trim()}`)) ?? lang;
-      const report = await createReport({
-        title: title.trim(),
-        description: description.trim(),
-        original_language: detected,
-        category,
-        image_url: imagePath,
-        latitude: coords?.lat ?? null,
-        longitude: coords?.lng ?? null,
-        address: address.trim() || null,
+      const report = await submitReportFn({
+        data: {
+          title,
+          description,
+          category,
+          latitude: coords?.lat ?? null,
+          longitude: coords?.lng ?? null,
+          address,
+          image_url: imagePath,
+          original_language: detected,
+        },
       });
       toast.success("Report submitted — thanks for helping!");
       navigate({ to: "/reports/$id", params: { id: report.id } });
@@ -81,6 +101,7 @@ function ReportPage() {
       setBusy(false);
     }
   }
+
 
   return (
     <div className="space-y-6 max-w-xl mx-auto">
@@ -142,21 +163,28 @@ function ReportPage() {
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              maxLength={120}
+              maxLength={TITLE_MAX}
               className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring"
               placeholder="e.g. Broken streetlight near school entrance"
             />
+            <p className="mt-1 text-xs text-muted-foreground">
+              {title.trim().length}/{TITLE_MAX} · minimum {TITLE_MIN} characters
+            </p>
           </div>
           <div>
             <label className="text-sm font-medium">Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              maxLength={1000}
+              maxLength={DESCRIPTION_MAX}
               rows={4}
               className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring"
               placeholder="Add helpful details..."
             />
+            <p className="mt-1 text-xs text-muted-foreground">
+              {description.length}/{DESCRIPTION_MAX}
+            </p>
+
           </div>
           <div>
             <label className="text-sm font-medium">Photo (optional)</label>
@@ -180,7 +208,7 @@ function ReportPage() {
           </div>
           <button
             onClick={() => setStep(3)}
-            disabled={!title.trim()}
+            disabled={title.trim().length < TITLE_MIN}
             className="w-full rounded-xl bg-primary text-primary-foreground py-2.5 text-sm font-semibold disabled:opacity-50"
           >
             Continue
