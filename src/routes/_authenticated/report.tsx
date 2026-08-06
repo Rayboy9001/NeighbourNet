@@ -163,21 +163,28 @@ function ReportPage() {
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              maxLength={120}
+              maxLength={TITLE_MAX}
               className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring"
               placeholder="e.g. Broken streetlight near school entrance"
             />
+            <p className="mt-1 text-xs text-muted-foreground">
+              {title.trim().length}/{TITLE_MAX} · minimum {TITLE_MIN} characters
+            </p>
           </div>
           <div>
             <label className="text-sm font-medium">Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              maxLength={1000}
+              maxLength={DESCRIPTION_MAX}
               rows={4}
               className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring"
               placeholder="Add helpful details..."
             />
+            <p className="mt-1 text-xs text-muted-foreground">
+              {description.length}/{DESCRIPTION_MAX}
+            </p>
+
           </div>
           <div>
             <label className="text-sm font-medium">Photo (optional)</label>
