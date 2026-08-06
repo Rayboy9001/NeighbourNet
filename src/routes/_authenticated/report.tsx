@@ -56,21 +56,40 @@ function ReportPage() {
 
   async function handleSubmit() {
     if (!category) return;
+
+    // Same rules as the server — fast feedback before uploading anything.
+    const precheck = validateReport({
+      title,
+      description,
+      category,
+      latitude: coords?.lat ?? null,
+      longitude: coords?.lng ?? null,
+      address,
+      image_url: null,
+      original_language: lang,
+    });
+    if (!precheck.success) {
+      toast.error(Object.values(precheck.errors)[0] ?? "Please check the form");
+      return;
+    }
+
     setBusy(true);
     try {
       let imagePath: string | null = null;
       if (file) imagePath = await uploadReportImage(file);
       const detected =
         (await detectLanguage(`${title.trim()}\n${description.trim()}`)) ?? lang;
-      const report = await createReport({
-        title: title.trim(),
-        description: description.trim(),
-        original_language: detected,
-        category,
-        image_url: imagePath,
-        latitude: coords?.lat ?? null,
-        longitude: coords?.lng ?? null,
-        address: address.trim() || null,
+      const report = await submitReportFn({
+        data: {
+          title,
+          description,
+          category,
+          latitude: coords?.lat ?? null,
+          longitude: coords?.lng ?? null,
+          address,
+          image_url: imagePath,
+          original_language: detected,
+        },
       });
       toast.success("Report submitted — thanks for helping!");
       navigate({ to: "/reports/$id", params: { id: report.id } });
@@ -80,6 +99,7 @@ function ReportPage() {
       setBusy(false);
     }
   }
+
 
   return (
     <div className="space-y-6 max-w-xl mx-auto">
