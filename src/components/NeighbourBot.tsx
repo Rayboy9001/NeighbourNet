@@ -57,8 +57,8 @@ function renderMarkdown(text: string) {
   });
 }
 
-export function NeighbourBot() {
-  const [open, setOpen] = useState(false);
+export function NeighbourBot({ initialOpen = false }: { initialOpen?: boolean }) {
+  const [open, setOpen] = useState(initialOpen);
   const [messages, setMessages] = useState<Msg[]>([WELCOME]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
