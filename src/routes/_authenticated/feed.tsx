@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { CATEGORIES, fetchReports, type ReportCategory, type ReportWithMeta } from "@/lib/reports";
+import { CATEGORIES, type ReportCategory } from "@/lib/reports";
+import { reportsQuery } from "@/lib/queries";
 import { ReportCard } from "@/components/ReportCard";
 import { ReportCardSkeleton } from "@/components/Skeleton";
 import { cn } from "@/lib/utils";
@@ -21,17 +23,10 @@ export const Route = createFileRoute("/_authenticated/feed")({
 
 function FeedPage() {
   const [category, setCategory] = useState<ReportCategory | "all">("all");
-  const [reports, setReports] = useState<ReportWithMeta[]>([]);
-  const [loading, setLoading] = useState(true);
   const { t } = useI18n();
-
-  useEffect(() => {
-    setLoading(true);
-    fetchReports(category === "all" ? {} : { category }).then((r) => {
-      setReports(r);
-      setLoading(false);
-    });
-  }, [category]);
+  const { data: reports = [], isPending: loading } = useQuery(
+    reportsQuery(category === "all" ? {} : { category }),
+  );
 
   return (
     <div className="space-y-6">

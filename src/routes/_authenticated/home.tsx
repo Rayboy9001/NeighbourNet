@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Plus, MapPin, ClipboardList, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
-import { fetchReports, type ReportWithMeta } from "@/lib/reports";
+import { reportsQuery } from "@/lib/queries";
 import { ReportCard } from "@/components/ReportCard";
 import { ReportCardSkeleton } from "@/components/Skeleton";
 
@@ -22,15 +23,10 @@ export const Route = createFileRoute("/_authenticated/home")({
 function HomePage() {
   const { user } = useAuth();
   const { profile } = useProfile(user?.id);
-  const [reports, setReports] = useState<ReportWithMeta[]>([]);
-  const [loading, setLoading] = useState(true);
   const [myCount, setMyCount] = useState<number>(0);
+  const { data: reports = [], isPending: loading } = useQuery(reportsQuery({ limit: 5 }));
 
   useEffect(() => {
-    fetchReports({ limit: 5 }).then((r) => {
-      setReports(r);
-      setLoading(false);
-    });
     if (user) {
       supabase
         .from("reports")
