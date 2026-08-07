@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { compressImage } from "@/lib/image-compress";
 
 export type ReportCategory =
   | "roads"
@@ -182,11 +183,12 @@ export async function toggleConfirm(reportId: string, currentlyConfirmed: boolea
 export async function uploadReportImage(file: File): Promise<string> {
   const { data: sess } = await supabase.auth.getUser();
   if (!sess.user) throw new Error("Not signed in");
-  const ext = file.name.split(".").pop() ?? "jpg";
+  const compressed = await compressImage(file);
+  const ext = compressed.name.split(".").pop() ?? "jpg";
   const path = `${sess.user.id}/${crypto.randomUUID()}.${ext}`;
   const { error } = await supabase.storage
     .from("reports-images")
-    .upload(path, file, { cacheControl: "3600", upsert: false });
+    .upload(path, compressed, { cacheControl: "31536000", upsert: false });
   if (error) throw error;
   return path;
 }

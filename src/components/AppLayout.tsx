@@ -7,7 +7,7 @@ import { useAuth, useProfile } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
-import { NeighbourBot } from "@/components/NeighbourBot";
+import { LazyNeighbourBot } from "@/components/LazyNeighbourBot";
 import { LanguageSetupDialog } from "@/components/LanguageSetupDialog";
 import { useI18n } from "@/lib/i18n";
 import type { StringKey } from "@/lib/i18n/strings";
@@ -220,7 +220,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
         </div>
       </nav>
 
-      <NeighbourBot />
+      <LazyNeighbourBot />
       <LanguageSetupDialog />
     </div>
   );

@@ -11,7 +11,7 @@ export const DOT: Record<"success" | "warning" | "danger", string> = {
 export function MapCanvasSkeleton() {
   return (
     <div className="relative w-full aspect-[4/3] md:aspect-[16/9] rounded-2xl border border-border overflow-hidden bg-muted/40">
-      <div className="absolute inset-0 shimmer" />
+      <div className="absolute inset-0 skeleton" />
       <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
         Loading map…
       </div>
