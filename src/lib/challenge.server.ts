@@ -319,6 +319,8 @@ export type LeaderboardRow = {
   score: number;
   challenges: number;
   streak: number;
+  /** Shared Community Points balance (same value shown everywhere). */
+  communityPoints: number;
 };
 
 export async function loadLeaderboard(range: "today" | "week" | "month" | "all") {
@@ -350,7 +352,7 @@ export async function loadLeaderboard(range: "today" | "week" | "month" | "all")
 
   const ids = [...totals.keys()];
   const [profiles, streaks] = await Promise.all([
-    db.from("profiles").select("id,name,avatar_url").in("id", ids),
+    db.from("profiles").select("id,name,avatar_url,community_points").in("id", ids),
     db.from("challenge_streaks").select("user_id,current_streak").in("user_id", ids),
   ]);
   const nameById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
@@ -364,6 +366,7 @@ export async function loadLeaderboard(range: "today" | "week" | "month" | "all")
       score: totals.get(id)!.score,
       challenges: totals.get(id)!.challenges,
       streak: streakById.get(id) ?? 0,
+      communityPoints: nameById.get(id)?.community_points ?? 0,
     }))
     .sort((a, b) => b.score - a.score)
     .slice(0, 50);

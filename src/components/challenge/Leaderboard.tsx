@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { Flame, Trophy } from "lucide-react";
 import { getLeaderboard } from "@/lib/challenge.functions";
 import type { LeaderboardRow } from "@/lib/challenge.server";
+import { formatPoints } from "@/hooks/use-points";
 import { cn } from "@/lib/utils";
 
 const RANGES = [
@@ -103,7 +104,12 @@ export function Leaderboard({ currentUserId }: { currentUserId?: string | null }
                     )}
                   </div>
                 </div>
-                <span className="text-sm font-semibold tabular-nums">{row.score}</span>
+                <div className="text-end">
+                  <div className="text-sm font-semibold tabular-nums">{row.score}</div>
+                  <div className="text-[11px] text-muted-foreground tabular-nums">
+                    🏆 {formatPoints(row.communityPoints)}
+                  </div>
+                </div>
               </motion.li>
             );
           })}
