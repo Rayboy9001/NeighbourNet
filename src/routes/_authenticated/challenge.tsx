@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useServerFn } from "@tanstack/react-start";
 import { Flame, Trophy, Sparkles, Target, Clock, Award, Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { formatPoints, usePoints } from "@/hooks/use-points";
 import { QuizRunner, type Answer } from "@/components/challenge/QuizRunner";
 import { Leaderboard } from "@/components/challenge/Leaderboard";
 import { NextChallengeTimer } from "@/components/challenge/NextChallengeTimer";
@@ -83,6 +84,8 @@ function StatCard({
 
 function ChallengePage() {
   const { user } = useAuth();
+  const { points: livePoints } = usePoints(user?.id);
+  const pointsRef = useRef(0);
   const [tab, setTab] = useState<Tab>("today");
   const [challenge, setChallenge] = useState<DailyChallenge | null>(null);
   const [loading, setLoading] = useState(true);
@@ -159,6 +162,10 @@ function ChallengePage() {
         : null,
     });
   }, [user?.id, dateKey]);
+
+  useEffect(() => {
+    pointsRef.current = livePoints;
+  }, [livePoints]);
 
   useEffect(() => {
     void refreshStats();
