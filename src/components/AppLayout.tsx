@@ -105,7 +105,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 {profile?.name || "Neighbour"}
               </div>
               <div className="text-xs text-muted-foreground">
-                ⭐ {profile?.points ?? 0} points
+                🏆 {formatPoints(points)} points
               </div>
             </div>
           </Link>
