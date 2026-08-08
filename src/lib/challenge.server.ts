@@ -75,6 +75,9 @@ export type AttemptSummary = {
   totalQuestions: number;
   avgTimeMs: number;
   pointsEarned: number;
+  /** Authoritative Community Points balance after this attempt. */
+  pointsBalance: number;
+
   perfect: boolean;
   currentStreak: number;
   longestStreak: number;
