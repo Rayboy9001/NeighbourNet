@@ -7,8 +7,10 @@ export interface Profile {
   name: string;
   avatar_url: string | null;
   bio: string | null;
-  points: number;
+  /** Single source of truth for Community Points. */
+  community_points: number;
 }
+
 
 export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
