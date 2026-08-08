@@ -239,11 +239,42 @@ export type Database = {
           },
         ]
       }
+      point_transactions: {
+        Row: {
+          amount: number
+          balance_after: number
+          created_at: string
+          id: string
+          reason: string
+          source_key: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          balance_after: number
+          created_at?: string
+          id?: string
+          reason: string
+          source_key?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          balance_after?: number
+          created_at?: string
+          id?: string
+          reason?: string
+          source_key?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           auto_translate: boolean
           avatar_url: string | null
           bio: string | null
+          community_points: number
           created_at: string
           id: string
           language_onboarded: boolean
@@ -258,6 +289,7 @@ export type Database = {
           auto_translate?: boolean
           avatar_url?: string | null
           bio?: string | null
+          community_points?: number
           created_at?: string
           id: string
           language_onboarded?: boolean
@@ -272,6 +304,7 @@ export type Database = {
           auto_translate?: boolean
           avatar_url?: string | null
           bio?: string | null
+          community_points?: number
           created_at?: string
           id?: string
           language_onboarded?: boolean
@@ -842,6 +875,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      award_points: {
+        Args: {
+          _amount: number
+          _reason: string
+          _source_key?: string
+          _user_id: string
+        }
+        Returns: {
+          awarded: boolean
+          balance: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
