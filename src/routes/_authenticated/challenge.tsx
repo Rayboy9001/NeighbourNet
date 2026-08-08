@@ -147,6 +147,7 @@ function ChallengePage() {
             totalQuestions: recent.total_questions,
             avgTimeMs: recent.avg_time_ms,
             pointsEarned: recent.points_earned,
+            pointsBalance: pointsRef.current,
             perfect: recent.correct_count === recent.total_questions,
             currentStreak: streak.data?.current_streak ?? 0,
             longestStreak: streak.data?.longest_streak ?? 0,
@@ -309,6 +310,9 @@ function ChallengePage() {
                 </div>
                 <div className="rounded-xl bg-muted/60 p-3 text-center text-sm">
                   <span className="font-semibold">+{done.pointsEarned}</span> community points
+                  <span className="ms-2 text-muted-foreground">
+                    (balance: {formatPoints(livePoints)})
+                  </span>
                   earned{done.perfect && " · Perfect score bonus 🎉"}
                 </div>
                 {summary?.newAchievements?.length ? (
