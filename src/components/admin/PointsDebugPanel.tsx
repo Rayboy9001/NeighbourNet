@@ -52,9 +52,7 @@ export function PointsDebugPanel() {
 
       {error && <p className="text-sm text-danger">{error}</p>}
       {rows === null && <div className="h-20 rounded-xl skeleton" />}
-      {rows?.length === 0 && (
-        <p className="text-sm text-muted-foreground">No neighbours found.</p>
-      )}
+      {rows?.length === 0 && <p className="text-sm text-muted-foreground">No neighbours found.</p>}
 
       <div className="space-y-3">
         {(rows ?? []).map((row) => (
@@ -101,9 +99,7 @@ export function PointsDebugPanel() {
                       {t.amount}
                     </span>
                     <span className="flex-1 truncate">{t.reason}</span>
-                    <span className="tabular-nums text-muted-foreground">
-                      → {t.balance_after}
-                    </span>
+                    <span className="tabular-nums text-muted-foreground">→ {t.balance_after}</span>
                     <span className="text-muted-foreground">
                       {new Date(t.created_at).toLocaleString()}
                     </span>

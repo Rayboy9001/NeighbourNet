@@ -76,7 +76,10 @@ export function checkContentPolicy(text: string): ContentIssue {
   if (CODE_RE.test(t))
     return { ok: false, reason: "Code snippets aren't allowed — plain text and photos only." };
   if (FILE_RE.test(t))
-    return { ok: false, reason: "Only photos can be shared — documents, videos and archives aren't allowed." };
+    return {
+      ok: false,
+      reason: "Only photos can be shared — documents, videos and archives aren't allowed.",
+    };
   return { ok: true };
 }
 
@@ -119,7 +122,10 @@ export function reputationBadges(input: {
   return badges.slice(0, 2);
 }
 
-export function isQuietHour(member: Pick<SquareMember, "quiet_hours_enabled" | "quiet_hours_start" | "quiet_hours_end">, now = new Date()) {
+export function isQuietHour(
+  member: Pick<SquareMember, "quiet_hours_enabled" | "quiet_hours_start" | "quiet_hours_end">,
+  now = new Date(),
+) {
   if (!member.quiet_hours_enabled) return false;
   const h = now.getHours();
   const { quiet_hours_start: s, quiet_hours_end: e } = member;

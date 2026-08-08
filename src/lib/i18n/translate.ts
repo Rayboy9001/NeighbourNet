@@ -70,11 +70,7 @@ export async function detectLanguage(text: string): Promise<string | null> {
   }
 }
 
-export async function improveText(
-  text: string,
-  target: string,
-  context?: string,
-): Promise<string> {
+export async function improveText(text: string, target: string, context?: string): Promise<string> {
   const data = await post<{ text: string }>({ op: "improve", text, target, context });
   return data.text;
 }

@@ -11,12 +11,7 @@ export type ReportCategory =
   | "animals"
   | "other";
 
-export type ReportStatus =
-  | "reported"
-  | "verified"
-  | "assigned"
-  | "in_progress"
-  | "resolved";
+export type ReportStatus = "reported" | "verified" | "assigned" | "in_progress" | "resolved";
 
 export const CATEGORIES: { value: ReportCategory; label: string; emoji: string }[] = [
   { value: "roads", label: "Roads", emoji: "🚧" },
@@ -97,11 +92,7 @@ export async function fetchReports(opts?: {
 }
 
 export async function fetchReport(id: string): Promise<ReportWithMeta | null> {
-  const { data, error } = await supabase
-    .from("reports")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle();
+  const { data, error } = await supabase.from("reports").select("*").eq("id", id).maybeSingle();
   if (error) throw error;
   if (!data) return null;
   const [enriched] = await enrichReports([data as ReportRow]);
@@ -121,7 +112,10 @@ async function enrichReports(rows: ReportRow[]): Promise<ReportWithMeta[]> {
   ]);
 
   const profiles = new Map(
-    (profilesRes.data ?? []).map((p) => [p.id, p as { id: string; name: string; avatar_url: string | null }]),
+    (profilesRes.data ?? []).map((p) => [
+      p.id,
+      p as { id: string; name: string; avatar_url: string | null },
+    ]),
   );
   const currentUserId = sessionRes.data.user?.id ?? null;
 
@@ -174,9 +168,7 @@ export async function toggleConfirm(reportId: string, currentlyConfirmed: boolea
       .eq("report_id", reportId)
       .eq("user_id", sess.user.id);
   } else {
-    await supabase
-      .from("confirmations")
-      .insert({ report_id: reportId, user_id: sess.user.id });
+    await supabase.from("confirmations").insert({ report_id: reportId, user_id: sess.user.id });
   }
 }
 

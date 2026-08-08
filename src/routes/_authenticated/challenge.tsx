@@ -36,7 +36,8 @@ export const Route = createFileRoute("/_authenticated/challenge")({
       { property: "og:title", content: "Community Challenge — NeighbourNet" },
       {
         property: "og:description",
-        content: "Learn practical neighbourhood skills with a fun daily quiz. Earn points, badges and streaks.",
+        content:
+          "Learn practical neighbourhood skills with a fun daily quiz. Earn points, badges and streaks.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

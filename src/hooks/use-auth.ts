@@ -11,7 +11,6 @@ export interface Profile {
   community_points: number;
 }
 
-
 export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);

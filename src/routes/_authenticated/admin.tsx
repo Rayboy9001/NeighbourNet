@@ -152,9 +152,7 @@ function AdminPage() {
               </div>
               <div className="font-medium truncate">{r.title}</div>
               {r.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2 mt-0.5">
-                  {r.description}
-                </p>
+                <p className="text-sm text-muted-foreground line-clamp-2 mt-0.5">{r.description}</p>
               )}
             </div>
             <button

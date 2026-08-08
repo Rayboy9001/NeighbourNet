@@ -1,902 +1,896 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
-  }
+    PostgrestVersion: "14.5";
+  };
   public: {
     Tables: {
       challenge_achievements: {
         Row: {
-          code: string
-          earned_at: string
-          id: string
-          user_id: string
-        }
+          code: string;
+          earned_at: string;
+          id: string;
+          user_id: string;
+        };
         Insert: {
-          code: string
-          earned_at?: string
-          id?: string
-          user_id: string
-        }
+          code: string;
+          earned_at?: string;
+          id?: string;
+          user_id: string;
+        };
         Update: {
-          code?: string
-          earned_at?: string
-          id?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          code?: string;
+          earned_at?: string;
+          id?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       challenge_attempts: {
         Row: {
-          avg_time_ms: number
-          challenge_date: string
-          challenge_id: string
-          completed_at: string
-          correct_count: number
-          created_at: string
-          id: string
-          points_earned: number
-          score: number
-          total_questions: number
-          updated_at: string
-          user_id: string
-        }
+          avg_time_ms: number;
+          challenge_date: string;
+          challenge_id: string;
+          completed_at: string;
+          correct_count: number;
+          created_at: string;
+          id: string;
+          points_earned: number;
+          score: number;
+          total_questions: number;
+          updated_at: string;
+          user_id: string;
+        };
         Insert: {
-          avg_time_ms?: number
-          challenge_date: string
-          challenge_id: string
-          completed_at?: string
-          correct_count?: number
-          created_at?: string
-          id?: string
-          points_earned?: number
-          score?: number
-          total_questions?: number
-          updated_at?: string
-          user_id: string
-        }
+          avg_time_ms?: number;
+          challenge_date: string;
+          challenge_id: string;
+          completed_at?: string;
+          correct_count?: number;
+          created_at?: string;
+          id?: string;
+          points_earned?: number;
+          score?: number;
+          total_questions?: number;
+          updated_at?: string;
+          user_id: string;
+        };
         Update: {
-          avg_time_ms?: number
-          challenge_date?: string
-          challenge_id?: string
-          completed_at?: string
-          correct_count?: number
-          created_at?: string
-          id?: string
-          points_earned?: number
-          score?: number
-          total_questions?: number
-          updated_at?: string
-          user_id?: string
-        }
+          avg_time_ms?: number;
+          challenge_date?: string;
+          challenge_id?: string;
+          completed_at?: string;
+          correct_count?: number;
+          created_at?: string;
+          id?: string;
+          points_earned?: number;
+          score?: number;
+          total_questions?: number;
+          updated_at?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "challenge_attempts_challenge_id_fkey"
-            columns: ["challenge_id"]
-            isOneToOne: false
-            referencedRelation: "challenges"
-            referencedColumns: ["id"]
+            foreignKeyName: "challenge_attempts_challenge_id_fkey";
+            columns: ["challenge_id"];
+            isOneToOne: false;
+            referencedRelation: "challenges";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       challenge_duels: {
         Row: {
-          challenge_date: string
-          challenger_id: string
-          challenger_score: number | null
-          created_at: string
-          id: string
-          opponent_id: string
-          opponent_score: number | null
-          status: string
-          updated_at: string
-        }
+          challenge_date: string;
+          challenger_id: string;
+          challenger_score: number | null;
+          created_at: string;
+          id: string;
+          opponent_id: string;
+          opponent_score: number | null;
+          status: string;
+          updated_at: string;
+        };
         Insert: {
-          challenge_date: string
-          challenger_id: string
-          challenger_score?: number | null
-          created_at?: string
-          id?: string
-          opponent_id: string
-          opponent_score?: number | null
-          status?: string
-          updated_at?: string
-        }
+          challenge_date: string;
+          challenger_id: string;
+          challenger_score?: number | null;
+          created_at?: string;
+          id?: string;
+          opponent_id: string;
+          opponent_score?: number | null;
+          status?: string;
+          updated_at?: string;
+        };
         Update: {
-          challenge_date?: string
-          challenger_id?: string
-          challenger_score?: number | null
-          created_at?: string
-          id?: string
-          opponent_id?: string
-          opponent_score?: number | null
-          status?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
+          challenge_date?: string;
+          challenger_id?: string;
+          challenger_score?: number | null;
+          created_at?: string;
+          id?: string;
+          opponent_id?: string;
+          opponent_score?: number | null;
+          status?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       challenge_streaks: {
         Row: {
-          created_at: string
-          current_streak: number
-          last_played_date: string | null
-          longest_streak: number
-          streak_savers: number
-          updated_at: string
-          user_id: string
-        }
+          created_at: string;
+          current_streak: number;
+          last_played_date: string | null;
+          longest_streak: number;
+          streak_savers: number;
+          updated_at: string;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          current_streak?: number
-          last_played_date?: string | null
-          longest_streak?: number
-          streak_savers?: number
-          updated_at?: string
-          user_id: string
-        }
+          created_at?: string;
+          current_streak?: number;
+          last_played_date?: string | null;
+          longest_streak?: number;
+          streak_savers?: number;
+          updated_at?: string;
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          current_streak?: number
-          last_played_date?: string | null
-          longest_streak?: number
-          streak_savers?: number
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          created_at?: string;
+          current_streak?: number;
+          last_played_date?: string | null;
+          longest_streak?: number;
+          streak_savers?: number;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       challenges: {
         Row: {
-          challenge_date: string
-          created_at: string
-          id: string
-          questions: Json
-        }
+          challenge_date: string;
+          created_at: string;
+          id: string;
+          questions: Json;
+        };
         Insert: {
-          challenge_date: string
-          created_at?: string
-          id?: string
-          questions: Json
-        }
+          challenge_date: string;
+          created_at?: string;
+          id?: string;
+          questions: Json;
+        };
         Update: {
-          challenge_date?: string
-          created_at?: string
-          id?: string
-          questions?: Json
-        }
-        Relationships: []
-      }
+          challenge_date?: string;
+          created_at?: string;
+          id?: string;
+          questions?: Json;
+        };
+        Relationships: [];
+      };
       comments: {
         Row: {
-          created_at: string
-          id: string
-          message: string
-          original_language: string | null
-          report_id: string
-          user_id: string
-        }
+          created_at: string;
+          id: string;
+          message: string;
+          original_language: string | null;
+          report_id: string;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          id?: string
-          message: string
-          original_language?: string | null
-          report_id: string
-          user_id: string
-        }
+          created_at?: string;
+          id?: string;
+          message: string;
+          original_language?: string | null;
+          report_id: string;
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          id?: string
-          message?: string
-          original_language?: string | null
-          report_id?: string
-          user_id?: string
-        }
+          created_at?: string;
+          id?: string;
+          message?: string;
+          original_language?: string | null;
+          report_id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "comments_report_id_fkey"
-            columns: ["report_id"]
-            isOneToOne: false
-            referencedRelation: "reports"
-            referencedColumns: ["id"]
+            foreignKeyName: "comments_report_id_fkey";
+            columns: ["report_id"];
+            isOneToOne: false;
+            referencedRelation: "reports";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       confirmations: {
         Row: {
-          created_at: string
-          id: string
-          report_id: string
-          user_id: string
-        }
+          created_at: string;
+          id: string;
+          report_id: string;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          id?: string
-          report_id: string
-          user_id: string
-        }
+          created_at?: string;
+          id?: string;
+          report_id: string;
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          id?: string
-          report_id?: string
-          user_id?: string
-        }
+          created_at?: string;
+          id?: string;
+          report_id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "confirmations_report_id_fkey"
-            columns: ["report_id"]
-            isOneToOne: false
-            referencedRelation: "reports"
-            referencedColumns: ["id"]
+            foreignKeyName: "confirmations_report_id_fkey";
+            columns: ["report_id"];
+            isOneToOne: false;
+            referencedRelation: "reports";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       point_transactions: {
         Row: {
-          amount: number
-          balance_after: number
-          created_at: string
-          id: string
-          reason: string
-          source_key: string | null
-          user_id: string
-        }
+          amount: number;
+          balance_after: number;
+          created_at: string;
+          id: string;
+          reason: string;
+          source_key: string | null;
+          user_id: string;
+        };
         Insert: {
-          amount: number
-          balance_after: number
-          created_at?: string
-          id?: string
-          reason: string
-          source_key?: string | null
-          user_id: string
-        }
+          amount: number;
+          balance_after: number;
+          created_at?: string;
+          id?: string;
+          reason: string;
+          source_key?: string | null;
+          user_id: string;
+        };
         Update: {
-          amount?: number
-          balance_after?: number
-          created_at?: string
-          id?: string
-          reason?: string
-          source_key?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
+          amount?: number;
+          balance_after?: number;
+          created_at?: string;
+          id?: string;
+          reason?: string;
+          source_key?: string | null;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       profiles: {
         Row: {
-          auto_translate: boolean
-          avatar_url: string | null
-          bio: string | null
-          community_points: number
-          created_at: string
-          id: string
-          language_onboarded: boolean
-          name: string
-          points: number
-          preferred_language: string
-          recent_languages: string[]
-          show_original_first: boolean
-          updated_at: string
-        }
+          auto_translate: boolean;
+          avatar_url: string | null;
+          bio: string | null;
+          community_points: number;
+          created_at: string;
+          id: string;
+          language_onboarded: boolean;
+          name: string;
+          points: number;
+          preferred_language: string;
+          recent_languages: string[];
+          show_original_first: boolean;
+          updated_at: string;
+        };
         Insert: {
-          auto_translate?: boolean
-          avatar_url?: string | null
-          bio?: string | null
-          community_points?: number
-          created_at?: string
-          id: string
-          language_onboarded?: boolean
-          name?: string
-          points?: number
-          preferred_language?: string
-          recent_languages?: string[]
-          show_original_first?: boolean
-          updated_at?: string
-        }
+          auto_translate?: boolean;
+          avatar_url?: string | null;
+          bio?: string | null;
+          community_points?: number;
+          created_at?: string;
+          id: string;
+          language_onboarded?: boolean;
+          name?: string;
+          points?: number;
+          preferred_language?: string;
+          recent_languages?: string[];
+          show_original_first?: boolean;
+          updated_at?: string;
+        };
         Update: {
-          auto_translate?: boolean
-          avatar_url?: string | null
-          bio?: string | null
-          community_points?: number
-          created_at?: string
-          id?: string
-          language_onboarded?: boolean
-          name?: string
-          points?: number
-          preferred_language?: string
-          recent_languages?: string[]
-          show_original_first?: boolean
-          updated_at?: string
-        }
-        Relationships: []
-      }
+          auto_translate?: boolean;
+          avatar_url?: string | null;
+          bio?: string | null;
+          community_points?: number;
+          created_at?: string;
+          id?: string;
+          language_onboarded?: boolean;
+          name?: string;
+          points?: number;
+          preferred_language?: string;
+          recent_languages?: string[];
+          show_original_first?: boolean;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       reports: {
         Row: {
-          address: string | null
-          category: Database["public"]["Enums"]["report_category"]
-          created_at: string
-          description: string
-          description_en: string | null
-          id: string
-          image_url: string | null
-          is_emergency: boolean
-          latitude: number | null
-          longitude: number | null
-          original_language: string | null
-          status: Database["public"]["Enums"]["report_status"]
-          title: string
-          title_en: string | null
-          updated_at: string
-          user_id: string
-        }
+          address: string | null;
+          category: Database["public"]["Enums"]["report_category"];
+          created_at: string;
+          description: string;
+          description_en: string | null;
+          id: string;
+          image_url: string | null;
+          is_emergency: boolean;
+          latitude: number | null;
+          longitude: number | null;
+          original_language: string | null;
+          status: Database["public"]["Enums"]["report_status"];
+          title: string;
+          title_en: string | null;
+          updated_at: string;
+          user_id: string;
+        };
         Insert: {
-          address?: string | null
-          category: Database["public"]["Enums"]["report_category"]
-          created_at?: string
-          description?: string
-          description_en?: string | null
-          id?: string
-          image_url?: string | null
-          is_emergency?: boolean
-          latitude?: number | null
-          longitude?: number | null
-          original_language?: string | null
-          status?: Database["public"]["Enums"]["report_status"]
-          title: string
-          title_en?: string | null
-          updated_at?: string
-          user_id: string
-        }
+          address?: string | null;
+          category: Database["public"]["Enums"]["report_category"];
+          created_at?: string;
+          description?: string;
+          description_en?: string | null;
+          id?: string;
+          image_url?: string | null;
+          is_emergency?: boolean;
+          latitude?: number | null;
+          longitude?: number | null;
+          original_language?: string | null;
+          status?: Database["public"]["Enums"]["report_status"];
+          title: string;
+          title_en?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
         Update: {
-          address?: string | null
-          category?: Database["public"]["Enums"]["report_category"]
-          created_at?: string
-          description?: string
-          description_en?: string | null
-          id?: string
-          image_url?: string | null
-          is_emergency?: boolean
-          latitude?: number | null
-          longitude?: number | null
-          original_language?: string | null
-          status?: Database["public"]["Enums"]["report_status"]
-          title?: string
-          title_en?: string | null
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          address?: string | null;
+          category?: Database["public"]["Enums"]["report_category"];
+          created_at?: string;
+          description?: string;
+          description_en?: string | null;
+          id?: string;
+          image_url?: string | null;
+          is_emergency?: boolean;
+          latitude?: number | null;
+          longitude?: number | null;
+          original_language?: string | null;
+          status?: Database["public"]["Enums"]["report_status"];
+          title?: string;
+          title_en?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       square_blocks: {
         Row: {
-          blocked_user_id: string
-          created_at: string
-          id: string
-          kind: string
-          user_id: string
-        }
+          blocked_user_id: string;
+          created_at: string;
+          id: string;
+          kind: string;
+          user_id: string;
+        };
         Insert: {
-          blocked_user_id: string
-          created_at?: string
-          id?: string
-          kind?: string
-          user_id: string
-        }
+          blocked_user_id: string;
+          created_at?: string;
+          id?: string;
+          kind?: string;
+          user_id: string;
+        };
         Update: {
-          blocked_user_id?: string
-          created_at?: string
-          id?: string
-          kind?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          blocked_user_id?: string;
+          created_at?: string;
+          id?: string;
+          kind?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       square_members: {
         Row: {
-          created_at: string
-          id: string
-          is_primary: boolean
-          last_seen_at: string
-          quiet_hours_enabled: boolean
-          quiet_hours_end: number
-          quiet_hours_start: number
-          restricted_until: string | null
-          square_id: string
-          suspended: boolean
-          updated_at: string
-          user_id: string
-          warnings: number
-        }
+          created_at: string;
+          id: string;
+          is_primary: boolean;
+          last_seen_at: string;
+          quiet_hours_enabled: boolean;
+          quiet_hours_end: number;
+          quiet_hours_start: number;
+          restricted_until: string | null;
+          square_id: string;
+          suspended: boolean;
+          updated_at: string;
+          user_id: string;
+          warnings: number;
+        };
         Insert: {
-          created_at?: string
-          id?: string
-          is_primary?: boolean
-          last_seen_at?: string
-          quiet_hours_enabled?: boolean
-          quiet_hours_end?: number
-          quiet_hours_start?: number
-          restricted_until?: string | null
-          square_id: string
-          suspended?: boolean
-          updated_at?: string
-          user_id: string
-          warnings?: number
-        }
+          created_at?: string;
+          id?: string;
+          is_primary?: boolean;
+          last_seen_at?: string;
+          quiet_hours_enabled?: boolean;
+          quiet_hours_end?: number;
+          quiet_hours_start?: number;
+          restricted_until?: string | null;
+          square_id: string;
+          suspended?: boolean;
+          updated_at?: string;
+          user_id: string;
+          warnings?: number;
+        };
         Update: {
-          created_at?: string
-          id?: string
-          is_primary?: boolean
-          last_seen_at?: string
-          quiet_hours_enabled?: boolean
-          quiet_hours_end?: number
-          quiet_hours_start?: number
-          restricted_until?: string | null
-          square_id?: string
-          suspended?: boolean
-          updated_at?: string
-          user_id?: string
-          warnings?: number
-        }
+          created_at?: string;
+          id?: string;
+          is_primary?: boolean;
+          last_seen_at?: string;
+          quiet_hours_enabled?: boolean;
+          quiet_hours_end?: number;
+          quiet_hours_start?: number;
+          restricted_until?: string | null;
+          square_id?: string;
+          suspended?: boolean;
+          updated_at?: string;
+          user_id?: string;
+          warnings?: number;
+        };
         Relationships: [
           {
-            foreignKeyName: "square_members_square_id_fkey"
-            columns: ["square_id"]
-            isOneToOne: false
-            referencedRelation: "squares"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_members_square_id_fkey";
+            columns: ["square_id"];
+            isOneToOne: false;
+            referencedRelation: "squares";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       square_message_reports: {
         Row: {
-          created_at: string
-          id: string
-          message_id: string
-          reason: string
-          reporter_id: string
-        }
+          created_at: string;
+          id: string;
+          message_id: string;
+          reason: string;
+          reporter_id: string;
+        };
         Insert: {
-          created_at?: string
-          id?: string
-          message_id: string
-          reason?: string
-          reporter_id: string
-        }
+          created_at?: string;
+          id?: string;
+          message_id: string;
+          reason?: string;
+          reporter_id: string;
+        };
         Update: {
-          created_at?: string
-          id?: string
-          message_id?: string
-          reason?: string
-          reporter_id?: string
-        }
+          created_at?: string;
+          id?: string;
+          message_id?: string;
+          reason?: string;
+          reporter_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "square_message_reports_message_id_fkey"
-            columns: ["message_id"]
-            isOneToOne: false
-            referencedRelation: "square_messages"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_message_reports_message_id_fkey";
+            columns: ["message_id"];
+            isOneToOne: false;
+            referencedRelation: "square_messages";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       square_messages: {
         Row: {
-          ai_image_warning: boolean
-          body: string
-          created_at: string
-          deleted_at: string | null
-          edited_at: string | null
-          hidden: boolean
-          id: string
-          image_path: string | null
-          is_bot: boolean
-          mentions: string[]
-          moderation_reason: string | null
-          reply_to_id: string | null
-          report_id: string | null
-          square_id: string
-          thread_id: string
-          user_id: string | null
-        }
+          ai_image_warning: boolean;
+          body: string;
+          created_at: string;
+          deleted_at: string | null;
+          edited_at: string | null;
+          hidden: boolean;
+          id: string;
+          image_path: string | null;
+          is_bot: boolean;
+          mentions: string[];
+          moderation_reason: string | null;
+          reply_to_id: string | null;
+          report_id: string | null;
+          square_id: string;
+          thread_id: string;
+          user_id: string | null;
+        };
         Insert: {
-          ai_image_warning?: boolean
-          body?: string
-          created_at?: string
-          deleted_at?: string | null
-          edited_at?: string | null
-          hidden?: boolean
-          id?: string
-          image_path?: string | null
-          is_bot?: boolean
-          mentions?: string[]
-          moderation_reason?: string | null
-          reply_to_id?: string | null
-          report_id?: string | null
-          square_id: string
-          thread_id: string
-          user_id?: string | null
-        }
+          ai_image_warning?: boolean;
+          body?: string;
+          created_at?: string;
+          deleted_at?: string | null;
+          edited_at?: string | null;
+          hidden?: boolean;
+          id?: string;
+          image_path?: string | null;
+          is_bot?: boolean;
+          mentions?: string[];
+          moderation_reason?: string | null;
+          reply_to_id?: string | null;
+          report_id?: string | null;
+          square_id: string;
+          thread_id: string;
+          user_id?: string | null;
+        };
         Update: {
-          ai_image_warning?: boolean
-          body?: string
-          created_at?: string
-          deleted_at?: string | null
-          edited_at?: string | null
-          hidden?: boolean
-          id?: string
-          image_path?: string | null
-          is_bot?: boolean
-          mentions?: string[]
-          moderation_reason?: string | null
-          reply_to_id?: string | null
-          report_id?: string | null
-          square_id?: string
-          thread_id?: string
-          user_id?: string | null
-        }
+          ai_image_warning?: boolean;
+          body?: string;
+          created_at?: string;
+          deleted_at?: string | null;
+          edited_at?: string | null;
+          hidden?: boolean;
+          id?: string;
+          image_path?: string | null;
+          is_bot?: boolean;
+          mentions?: string[];
+          moderation_reason?: string | null;
+          reply_to_id?: string | null;
+          report_id?: string | null;
+          square_id?: string;
+          thread_id?: string;
+          user_id?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "square_messages_reply_to_id_fkey"
-            columns: ["reply_to_id"]
-            isOneToOne: false
-            referencedRelation: "square_messages"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_messages_reply_to_id_fkey";
+            columns: ["reply_to_id"];
+            isOneToOne: false;
+            referencedRelation: "square_messages";
+            referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "square_messages_report_id_fkey"
-            columns: ["report_id"]
-            isOneToOne: false
-            referencedRelation: "reports"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_messages_report_id_fkey";
+            columns: ["report_id"];
+            isOneToOne: false;
+            referencedRelation: "reports";
+            referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "square_messages_square_id_fkey"
-            columns: ["square_id"]
-            isOneToOne: false
-            referencedRelation: "squares"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_messages_square_id_fkey";
+            columns: ["square_id"];
+            isOneToOne: false;
+            referencedRelation: "squares";
+            referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "square_messages_thread_id_fkey"
-            columns: ["thread_id"]
-            isOneToOne: false
-            referencedRelation: "square_threads"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_messages_thread_id_fkey";
+            columns: ["thread_id"];
+            isOneToOne: false;
+            referencedRelation: "square_threads";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       square_poll_votes: {
         Row: {
-          created_at: string
-          id: string
-          option_index: number
-          poll_id: string
-          user_id: string
-        }
+          created_at: string;
+          id: string;
+          option_index: number;
+          poll_id: string;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          id?: string
-          option_index: number
-          poll_id: string
-          user_id: string
-        }
+          created_at?: string;
+          id?: string;
+          option_index: number;
+          poll_id: string;
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          id?: string
-          option_index?: number
-          poll_id?: string
-          user_id?: string
-        }
+          created_at?: string;
+          id?: string;
+          option_index?: number;
+          poll_id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "square_poll_votes_poll_id_fkey"
-            columns: ["poll_id"]
-            isOneToOne: false
-            referencedRelation: "square_polls"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_poll_votes_poll_id_fkey";
+            columns: ["poll_id"];
+            isOneToOne: false;
+            referencedRelation: "square_polls";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       square_polls: {
         Row: {
-          closes_at: string
-          created_at: string
-          created_by: string
-          id: string
-          message_id: string
-          options: string[]
-          question: string
-        }
+          closes_at: string;
+          created_at: string;
+          created_by: string;
+          id: string;
+          message_id: string;
+          options: string[];
+          question: string;
+        };
         Insert: {
-          closes_at: string
-          created_at?: string
-          created_by: string
-          id?: string
-          message_id: string
-          options: string[]
-          question: string
-        }
+          closes_at: string;
+          created_at?: string;
+          created_by: string;
+          id?: string;
+          message_id: string;
+          options: string[];
+          question: string;
+        };
         Update: {
-          closes_at?: string
-          created_at?: string
-          created_by?: string
-          id?: string
-          message_id?: string
-          options?: string[]
-          question?: string
-        }
+          closes_at?: string;
+          created_at?: string;
+          created_by?: string;
+          id?: string;
+          message_id?: string;
+          options?: string[];
+          question?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "square_polls_message_id_fkey"
-            columns: ["message_id"]
-            isOneToOne: false
-            referencedRelation: "square_messages"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_polls_message_id_fkey";
+            columns: ["message_id"];
+            isOneToOne: false;
+            referencedRelation: "square_messages";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       square_reactions: {
         Row: {
-          created_at: string
-          emoji: string
-          id: string
-          message_id: string
-          user_id: string
-        }
+          created_at: string;
+          emoji: string;
+          id: string;
+          message_id: string;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          emoji: string
-          id?: string
-          message_id: string
-          user_id: string
-        }
+          created_at?: string;
+          emoji: string;
+          id?: string;
+          message_id: string;
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          emoji?: string
-          id?: string
-          message_id?: string
-          user_id?: string
-        }
+          created_at?: string;
+          emoji?: string;
+          id?: string;
+          message_id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "square_reactions_message_id_fkey"
-            columns: ["message_id"]
-            isOneToOne: false
-            referencedRelation: "square_messages"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_reactions_message_id_fkey";
+            columns: ["message_id"];
+            isOneToOne: false;
+            referencedRelation: "square_messages";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       square_reads: {
         Row: {
-          id: string
-          last_read_at: string
-          thread_id: string
-          user_id: string
-        }
+          id: string;
+          last_read_at: string;
+          thread_id: string;
+          user_id: string;
+        };
         Insert: {
-          id?: string
-          last_read_at?: string
-          thread_id: string
-          user_id: string
-        }
+          id?: string;
+          last_read_at?: string;
+          thread_id: string;
+          user_id: string;
+        };
         Update: {
-          id?: string
-          last_read_at?: string
-          thread_id?: string
-          user_id?: string
-        }
+          id?: string;
+          last_read_at?: string;
+          thread_id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "square_reads_thread_id_fkey"
-            columns: ["thread_id"]
-            isOneToOne: false
-            referencedRelation: "square_threads"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_reads_thread_id_fkey";
+            columns: ["thread_id"];
+            isOneToOne: false;
+            referencedRelation: "square_threads";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       square_threads: {
         Row: {
-          created_at: string
-          created_by: string | null
-          emoji: string
-          id: string
-          slug: string
-          sort_order: number
-          square_id: string
-          title: string
-          updated_at: string
-        }
+          created_at: string;
+          created_by: string | null;
+          emoji: string;
+          id: string;
+          slug: string;
+          sort_order: number;
+          square_id: string;
+          title: string;
+          updated_at: string;
+        };
         Insert: {
-          created_at?: string
-          created_by?: string | null
-          emoji?: string
-          id?: string
-          slug: string
-          sort_order?: number
-          square_id: string
-          title: string
-          updated_at?: string
-        }
+          created_at?: string;
+          created_by?: string | null;
+          emoji?: string;
+          id?: string;
+          slug: string;
+          sort_order?: number;
+          square_id: string;
+          title: string;
+          updated_at?: string;
+        };
         Update: {
-          created_at?: string
-          created_by?: string | null
-          emoji?: string
-          id?: string
-          slug?: string
-          sort_order?: number
-          square_id?: string
-          title?: string
-          updated_at?: string
-        }
+          created_at?: string;
+          created_by?: string | null;
+          emoji?: string;
+          id?: string;
+          slug?: string;
+          sort_order?: number;
+          square_id?: string;
+          title?: string;
+          updated_at?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "square_threads_square_id_fkey"
-            columns: ["square_id"]
-            isOneToOne: false
-            referencedRelation: "squares"
-            referencedColumns: ["id"]
+            foreignKeyName: "square_threads_square_id_fkey";
+            columns: ["square_id"];
+            isOneToOne: false;
+            referencedRelation: "squares";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       squares: {
         Row: {
-          area_label: string
-          created_at: string
-          description: string
-          emoji: string
-          id: string
-          is_public: boolean
-          max_participants: number
-          name: string
-          slug: string
-          updated_at: string
-        }
+          area_label: string;
+          created_at: string;
+          description: string;
+          emoji: string;
+          id: string;
+          is_public: boolean;
+          max_participants: number;
+          name: string;
+          slug: string;
+          updated_at: string;
+        };
         Insert: {
-          area_label?: string
-          created_at?: string
-          description?: string
-          emoji?: string
-          id?: string
-          is_public?: boolean
-          max_participants?: number
-          name: string
-          slug: string
-          updated_at?: string
-        }
+          area_label?: string;
+          created_at?: string;
+          description?: string;
+          emoji?: string;
+          id?: string;
+          is_public?: boolean;
+          max_participants?: number;
+          name: string;
+          slug: string;
+          updated_at?: string;
+        };
         Update: {
-          area_label?: string
-          created_at?: string
-          description?: string
-          emoji?: string
-          id?: string
-          is_public?: boolean
-          max_participants?: number
-          name?: string
-          slug?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
+          area_label?: string;
+          created_at?: string;
+          description?: string;
+          emoji?: string;
+          id?: string;
+          is_public?: boolean;
+          max_participants?: number;
+          name?: string;
+          slug?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       translation_cache: {
         Row: {
-          approximate: boolean
-          created_at: string
-          id: string
-          source_hash: string
-          source_lang: string | null
-          source_text: string
-          target_lang: string
-          translated_text: string
-        }
+          approximate: boolean;
+          created_at: string;
+          id: string;
+          source_hash: string;
+          source_lang: string | null;
+          source_text: string;
+          target_lang: string;
+          translated_text: string;
+        };
         Insert: {
-          approximate?: boolean
-          created_at?: string
-          id?: string
-          source_hash: string
-          source_lang?: string | null
-          source_text: string
-          target_lang: string
-          translated_text: string
-        }
+          approximate?: boolean;
+          created_at?: string;
+          id?: string;
+          source_hash: string;
+          source_lang?: string | null;
+          source_text: string;
+          target_lang: string;
+          translated_text: string;
+        };
         Update: {
-          approximate?: boolean
-          created_at?: string
-          id?: string
-          source_hash?: string
-          source_lang?: string | null
-          source_text?: string
-          target_lang?: string
-          translated_text?: string
-        }
-        Relationships: []
-      }
+          approximate?: boolean;
+          created_at?: string;
+          id?: string;
+          source_hash?: string;
+          source_lang?: string | null;
+          source_text?: string;
+          target_lang?: string;
+          translated_text?: string;
+        };
+        Relationships: [];
+      };
       translation_reports: {
         Row: {
-          created_at: string
-          id: string
-          note: string | null
-          source_text: string
-          target_lang: string
-          translated_text: string
-          user_id: string
-        }
+          created_at: string;
+          id: string;
+          note: string | null;
+          source_text: string;
+          target_lang: string;
+          translated_text: string;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          id?: string
-          note?: string | null
-          source_text: string
-          target_lang: string
-          translated_text: string
-          user_id: string
-        }
+          created_at?: string;
+          id?: string;
+          note?: string | null;
+          source_text: string;
+          target_lang: string;
+          translated_text: string;
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          id?: string
-          note?: string | null
-          source_text?: string
-          target_lang?: string
-          translated_text?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          created_at?: string;
+          id?: string;
+          note?: string | null;
+          source_text?: string;
+          target_lang?: string;
+          translated_text?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       user_roles: {
         Row: {
-          created_at: string
-          id: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
+          created_at: string;
+          id: string;
+          role: Database["public"]["Enums"]["app_role"];
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          id?: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
+          created_at?: string;
+          id?: string;
+          role: Database["public"]["Enums"]["app_role"];
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
-    }
+          created_at?: string;
+          id?: string;
+          role?: Database["public"]["Enums"]["app_role"];
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
       award_points: {
         Args: {
-          _amount: number
-          _reason: string
-          _source_key?: string
-          _user_id: string
-        }
+          _amount: number;
+          _reason: string;
+          _source_key?: string;
+          _user_id: string;
+        };
         Returns: {
-          awarded: boolean
-          balance: number
-        }[]
-      }
+          awarded: boolean;
+          balance: number;
+        }[];
+      };
       has_role: {
         Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-    }
+          _role: Database["public"]["Enums"]["app_role"];
+          _user_id: string;
+        };
+        Returns: boolean;
+      };
+    };
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user";
       report_category:
         | "roads"
         | "electricity"
@@ -905,136 +899,129 @@ export type Database = {
         | "environment"
         | "safety"
         | "animals"
-        | "other"
-      report_status:
-        | "reported"
-        | "verified"
-        | "assigned"
-        | "in_progress"
-        | "resolved"
-    }
+        | "other";
+      report_status: "reported" | "verified" | "assigned" | "in_progress" | "resolved";
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">];
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
       DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] & DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R;
       }
       ? R
       : never
-    : never
+    : never;
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I
+        Insert: infer I;
       }
       ? I
       : never
-    : never
+    : never;
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U
+        Update: infer U;
       }
       ? U
       : never
-    : never
+    : never;
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never
+    : never;
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+    : never;
 
 export const Constants = {
   public: {
@@ -1050,13 +1037,7 @@ export const Constants = {
         "animals",
         "other",
       ],
-      report_status: [
-        "reported",
-        "verified",
-        "assigned",
-        "in_progress",
-        "resolved",
-      ],
+      report_status: ["reported", "verified", "assigned", "in_progress", "resolved"],
     },
   },
-} as const
+} as const;

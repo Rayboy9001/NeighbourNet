@@ -174,8 +174,7 @@ export async function scoreAndSaveAttempt(
 
   const perfect = correctCount === questions.length && questions.length > 0;
   const avgTimeMs = questions.length ? Math.round(totalTime / questions.length) : 0;
-  const pointsEarned =
-    Math.round(score / 10) + COMPLETION_BONUS + (perfect ? PERFECT_BONUS : 0);
+  const pointsEarned = Math.round(score / 10) + COMPLETION_BONUS + (perfect ? PERFECT_BONUS : 0);
 
   const insertedAttempt = await db
     .from("challenge_attempts")
@@ -230,14 +229,12 @@ export async function scoreAndSaveAttempt(
   if (categoryAllCorrect(questions, answers, ["electrical"], 1)) candidates.push("safety_champion");
   if (categoryAllCorrect(questions, answers, ["fire"], 1)) candidates.push("fire_ready");
   if (categoryAllCorrect(questions, answers, ["home"], 1)) candidates.push("diy_expert");
-  if (categoryAllCorrect(questions, answers, ["water", "plumbing"], 2)) candidates.push("water_saver");
+  if (categoryAllCorrect(questions, answers, ["water", "plumbing"], 2))
+    candidates.push("water_saver");
   if (categoryAllCorrect(questions, answers, ["environment", "recycling"], 2))
     candidates.push("eco_neighbour");
 
-  const owned = await db
-    .from("challenge_achievements")
-    .select("code")
-    .eq("user_id", userId);
+  const owned = await db.from("challenge_achievements").select("code").eq("user_id", userId);
   const ownedSet = new Set((owned.data ?? []).map((r) => r.code));
   const newAchievements = candidates.filter((c) => !ownedSet.has(c));
   if (newAchievements.length) {

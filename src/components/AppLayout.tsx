@@ -1,5 +1,19 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Home, Map, Plus, Bell, User, LogOut, MapPin, Moon, Sun, Shield, Globe, Brain, MessageSquare } from "lucide-react";
+import {
+  Home,
+  Map,
+  Plus,
+  Bell,
+  User,
+  LogOut,
+  MapPin,
+  Moon,
+  Sun,
+  Shield,
+  Globe,
+  Brain,
+  MessageSquare,
+} from "lucide-react";
 import type { ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,9 +28,16 @@ import { LanguageSetupDialog } from "@/components/LanguageSetupDialog";
 import { useI18n } from "@/lib/i18n";
 import type { StringKey } from "@/lib/i18n/strings";
 
-
 type NavItem = {
-  to: "/home" | "/feed" | "/report" | "/map" | "/challenge" | "/square" | "/notifications" | "/profile";
+  to:
+    | "/home"
+    | "/feed"
+    | "/report"
+    | "/map"
+    | "/challenge"
+    | "/square"
+    | "/notifications"
+    | "/profile";
   labelKey: StringKey;
   icon: typeof Home;
   primary?: boolean;
@@ -105,12 +126,8 @@ export function AppLayout({ children }: { children: ReactNode }) {
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-medium truncate">
-                {profile?.name || "Neighbour"}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                🏆 {formatPoints(points)} points
-              </div>
+              <div className="text-sm font-medium truncate">{profile?.name || "Neighbour"}</div>
+              <div className="text-xs text-muted-foreground">🏆 {formatPoints(points)} points</div>
             </div>
           </Link>
           {isAdmin && (

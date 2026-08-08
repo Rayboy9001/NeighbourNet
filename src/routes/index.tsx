@@ -50,9 +50,8 @@ function Landing() {
           <span className="text-primary">Fix it together.</span>
         </h1>
         <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
-          NeighbourNet helps residents report, discover, and track local
-          issues — potholes, broken streetlights, waste, and more. Real problems,
-          real neighbours, real progress.
+          NeighbourNet helps residents report, discover, and track local issues — potholes, broken
+          streetlights, waste, and more. Real problems, real neighbours, real progress.
         </p>
         <div className="mt-8 flex items-center justify-center gap-3">
           <Link
@@ -81,10 +80,7 @@ function Landing() {
               body: "Follow every issue from reported to resolved.",
             },
           ].map(({ icon: Icon, title, body }) => (
-            <div
-              key={title}
-              className="bg-card border border-border rounded-2xl p-6 shadow-card"
-            >
+            <div key={title} className="bg-card border border-border rounded-2xl p-6 shadow-card">
               <div className="h-11 w-11 rounded-xl bg-primary/10 text-primary grid place-items-center mb-4">
                 <Icon className="h-5 w-5" />
               </div>

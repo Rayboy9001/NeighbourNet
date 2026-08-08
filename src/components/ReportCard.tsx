@@ -9,7 +9,6 @@ import { useI18n } from "@/lib/i18n";
 import { TranslatedText } from "@/components/TranslatedText";
 import type { StringKey } from "@/lib/i18n/strings";
 
-
 const TONE: Record<"success" | "warning" | "danger", string> = {
   success: "bg-success/15 text-success",
   warning: "bg-warning/20 text-warning-foreground",
@@ -81,77 +80,77 @@ export function ReportCard({ report }: { report: ReportWithMeta }) {
       whileHover={{ y: -3 }}
       className="rounded-2xl"
     >
-    <Link
-      to="/reports/$id"
-      params={{ id: report.id }}
-      className="group block bg-card rounded-2xl border border-border shadow-card hover:shadow-lift hover:border-primary/25 transition-all duration-300 overflow-hidden"
-    >
-      {report.image_display_url && (
-        <div className="aspect-[16/10] w-full bg-muted overflow-hidden">
-          <img
-            src={report.image_display_url}
-            alt=""
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-          />
-        </div>
-      )}
-      <div className="p-4 md:p-5 space-y-3">
-        <div className="flex items-center gap-2 flex-wrap">
-          <CategoryChip category={report.category} />
-          <StatusBadge status={report.status} />
-          <span className="text-xs text-muted-foreground ml-auto">
-            {timeAgo(report.created_at)}
-          </span>
-        </div>
-        <div>
-          <TranslatedText
-            as="h3"
-            text={report.title}
-            sourceLang={report.original_language}
-            className="font-semibold text-base md:text-lg leading-snug"
-            compact
-            hideControls
-          />
-          {report.description && (
+      <Link
+        to="/reports/$id"
+        params={{ id: report.id }}
+        className="group block bg-card rounded-2xl border border-border shadow-card hover:shadow-lift hover:border-primary/25 transition-all duration-300 overflow-hidden"
+      >
+        {report.image_display_url && (
+          <div className="aspect-[16/10] w-full bg-muted overflow-hidden">
+            <img
+              src={report.image_display_url}
+              alt=""
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            />
+          </div>
+        )}
+        <div className="p-4 md:p-5 space-y-3">
+          <div className="flex items-center gap-2 flex-wrap">
+            <CategoryChip category={report.category} />
+            <StatusBadge status={report.status} />
+            <span className="text-xs text-muted-foreground ml-auto">
+              {timeAgo(report.created_at)}
+            </span>
+          </div>
+          <div>
             <TranslatedText
-              text={report.description}
+              as="h3"
+              text={report.title}
               sourceLang={report.original_language}
-              className="mt-1 text-sm text-muted-foreground line-clamp-2"
+              className="font-semibold text-base md:text-lg leading-snug"
               compact
               hideControls
             />
-          )}
-        </div>
-        {report.address && (
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <MapPin className="h-3.5 w-3.5" />
-            {report.address}
-          </div>
-        )}
-        <div className="flex items-center gap-2 pt-1">
-          <button
-            onClick={handleConfirm}
-            className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border press active:scale-95 transition-all",
-              confirmed
-                ? "bg-primary text-primary-foreground border-primary shadow-card"
-                : "bg-background text-foreground border-border hover:bg-accent hover:border-primary/30",
+            {report.description && (
+              <TranslatedText
+                text={report.description}
+                sourceLang={report.original_language}
+                className="mt-1 text-sm text-muted-foreground line-clamp-2"
+                compact
+                hideControls
+              />
             )}
-          >
-            <ThumbsUp className={cn("h-4 w-4 transition-transform", confirmed && "scale-110")} />
-            {t("detail.confirm")} · {count}
-          </button>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-muted-foreground">
-            <MessageCircle className="h-4 w-4" />
-            {report.comment_count}
           </div>
-          <div className="ml-auto text-xs text-muted-foreground">
-            {t("common.by")} {report.author_name}
+          {report.address && (
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <MapPin className="h-3.5 w-3.5" />
+              {report.address}
+            </div>
+          )}
+          <div className="flex items-center gap-2 pt-1">
+            <button
+              onClick={handleConfirm}
+              className={cn(
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border press active:scale-95 transition-all",
+                confirmed
+                  ? "bg-primary text-primary-foreground border-primary shadow-card"
+                  : "bg-background text-foreground border-border hover:bg-accent hover:border-primary/30",
+              )}
+            >
+              <ThumbsUp className={cn("h-4 w-4 transition-transform", confirmed && "scale-110")} />
+              {t("detail.confirm")} · {count}
+            </button>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-muted-foreground">
+              <MessageCircle className="h-4 w-4" />
+              {report.comment_count}
+            </div>
+            <div className="ml-auto text-xs text-muted-foreground">
+              {t("common.by")} {report.author_name}
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
     </motion.div>
   );
 }

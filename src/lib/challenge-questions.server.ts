@@ -9,37 +9,63 @@ const FALLBACK: Omit<QuizQuestion, "id">[] = [
   {
     category: "plumbing",
     question: "A tap in your kitchen is dripping constantly. What should you do first?",
-    options: ["Ignore it", "Tighten the tap if possible, then check the washer", "Paint over it", "Pour hot water into it"],
+    options: [
+      "Ignore it",
+      "Tighten the tap if possible, then check the washer",
+      "Paint over it",
+      "Pour hot water into it",
+    ],
     correctIndex: 1,
-    explanation: "A drip is usually a worn washer or a loose tap head. Gently tightening it and replacing the washer stops litres of daily waste — if it keeps dripping, shut off the supply valve and call a plumber.",
+    explanation:
+      "A drip is usually a worn washer or a loose tap head. Gently tightening it and replacing the washer stops litres of daily waste — if it keeps dripping, shut off the supply valve and call a plumber.",
   },
   {
     category: "emergency",
     question: "You smell gas inside your home. Who should you contact?",
-    options: ["Your neighbour", "Emergency services or your gas supplier", "The post office", "Nobody, wait it out"],
+    options: [
+      "Your neighbour",
+      "Emergency services or your gas supplier",
+      "The post office",
+      "Nobody, wait it out",
+    ],
     correctIndex: 1,
-    explanation: "Leave the building, avoid switches and flames, then call emergency services or your gas supplier's emergency line from outside.",
+    explanation:
+      "Leave the building, avoid switches and flames, then call emergency services or your gas supplier's emergency line from outside.",
   },
   {
     category: "fire",
     question: "Which extinguisher should NEVER be used on an electrical fire?",
     options: ["CO₂", "Dry powder", "Water", "Clean agent"],
     correctIndex: 2,
-    explanation: "Water conducts electricity, so it can electrocute you and spread the fire. Use CO₂ or dry powder on electrical fires — and only if it is safe to stay.",
+    explanation:
+      "Water conducts electricity, so it can electrocute you and spread the fire. Use CO₂ or dry powder on electrical fires — and only if it is safe to stay.",
   },
   {
     category: "electrical",
     question: "A socket feels warm and slightly discoloured. The safest first step is to:",
-    options: ["Keep using it carefully", "Stop using it and switch off that circuit", "Cover it with tape", "Spray it with water"],
+    options: [
+      "Keep using it carefully",
+      "Stop using it and switch off that circuit",
+      "Cover it with tape",
+      "Spray it with water",
+    ],
     correctIndex: 1,
-    explanation: "Heat and discolouration signal loose wiring or overload — a real fire risk. Isolate the circuit at the consumer unit and get a qualified electrician.",
+    explanation:
+      "Heat and discolouration signal loose wiring or overload — a real fire risk. Isolate the circuit at the consumer unit and get a qualified electrician.",
   },
   {
     category: "road",
-    question: "Scenario: after a storm you see a power line lying across the road. What do you do first?",
-    options: ["Move it with a wooden stick", "Stay well back, keep others away and call emergency services", "Drive over it slowly", "Take a close-up photo for your report"],
+    question:
+      "Scenario: after a storm you see a power line lying across the road. What do you do first?",
+    options: [
+      "Move it with a wooden stick",
+      "Stay well back, keep others away and call emergency services",
+      "Drive over it slowly",
+      "Take a close-up photo for your report",
+    ],
     correctIndex: 1,
-    explanation: "Always assume a downed line is live — even wood can conduct when wet. Stay at least 10 metres away, warn others, and report it to emergency services and the power company before posting it to NeighbourNet.",
+    explanation:
+      "Always assume a downed line is live — even wood can conduct when wet. Stay at least 10 metres away, warn others, and report it to emergency services and the power company before posting it to NeighbourNet.",
     scenario: true,
   },
   {
@@ -47,107 +73,179 @@ const FALLBACK: Omit<QuizQuestion, "id">[] = [
     question: "Roughly how much water can a running tap use per minute?",
     options: ["About 0.5 litres", "About 6–12 litres", "About 50 litres", "About 100 litres"],
     correctIndex: 1,
-    explanation: "Most taps flow at 6–12 litres a minute. Turning the tap off while brushing your teeth saves several litres every single day.",
+    explanation:
+      "Most taps flow at 6–12 litres a minute. Turning the tap off while brushing your teeth saves several litres every single day.",
   },
   {
     category: "recycling",
     question: "Which of these usually should NOT go in a household recycling bin?",
     options: ["Clean cardboard", "Greasy pizza box", "Rinsed glass jar", "Plastic bottle"],
     correctIndex: 1,
-    explanation: "Food grease contaminates paper recycling. Tear off the clean lid to recycle and compost or bin the greasy base.",
+    explanation:
+      "Food grease contaminates paper recycling. Tear off the clean lid to recycle and compost or bin the greasy base.",
   },
   {
     category: "home",
     question: "Condensation and black mould keep appearing on a bedroom wall. Best first response?",
-    options: ["Paint over the mould", "Improve ventilation and reduce humidity, then clean the mould", "Seal the window permanently", "Turn off the heating"],
+    options: [
+      "Paint over the mould",
+      "Improve ventilation and reduce humidity, then clean the mould",
+      "Seal the window permanently",
+      "Turn off the heating",
+    ],
     correctIndex: 1,
-    explanation: "Mould is a symptom of trapped moisture. Ventilate daily, use an extractor or dehumidifier, then clean affected areas — painting over it only hides the cause.",
+    explanation:
+      "Mould is a symptom of trapped moisture. Ventilate daily, use an extractor or dehumidifier, then clean affected areas — painting over it only hides the cause.",
   },
   {
     category: "weather",
     question: "A heavy storm is forecast tonight. Which action helps most?",
-    options: ["Leave garden furniture out", "Secure loose outdoor items and clear drains", "Open all windows", "Park under a large old tree"],
+    options: [
+      "Leave garden furniture out",
+      "Secure loose outdoor items and clear drains",
+      "Open all windows",
+      "Park under a large old tree",
+    ],
     correctIndex: 1,
-    explanation: "Loose items become projectiles and blocked drains cause flooding. Ten minutes of tidying prevents most storm damage around a home.",
+    explanation:
+      "Loose items become projectiles and blocked drains cause flooding. Ten minutes of tidying prevents most storm damage around a home.",
   },
   {
     category: "health",
     question: "Standing water in plant pots and buckets mainly attracts:",
     options: ["Bees", "Mosquitoes", "Butterflies", "Earthworms"],
     correctIndex: 1,
-    explanation: "Mosquitoes breed in still water within about a week. Emptying containers weekly is the simplest way to cut local mosquito numbers.",
+    explanation:
+      "Mosquitoes breed in still water within about a week. Emptying containers weekly is the simplest way to cut local mosquito numbers.",
   },
   {
     category: "pets",
-    question: "You find a friendly stray dog wandering near a busy road. What is the safest first step?",
-    options: ["Chase it off the road", "Keep a calm distance, call animal services and warn drivers if safe", "Feed it chocolate", "Let it into traffic to find its way"],
+    question:
+      "You find a friendly stray dog wandering near a busy road. What is the safest first step?",
+    options: [
+      "Chase it off the road",
+      "Keep a calm distance, call animal services and warn drivers if safe",
+      "Feed it chocolate",
+      "Let it into traffic to find its way",
+    ],
     correctIndex: 1,
-    explanation: "Sudden movement can push a frightened dog into traffic. Stay calm, contact animal control or a local shelter, and only approach if the animal seems relaxed.",
+    explanation:
+      "Sudden movement can push a frightened dog into traffic. Stay calm, contact animal control or a local shelter, and only approach if the animal seems relaxed.",
     scenario: true,
   },
   {
     category: "gardening",
     question: "When is the best time to water a garden during hot weather?",
-    options: ["Midday", "Early morning or evening", "Whenever convenient", "During the hottest hour"],
+    options: [
+      "Midday",
+      "Early morning or evening",
+      "Whenever convenient",
+      "During the hottest hour",
+    ],
     correctIndex: 1,
-    explanation: "Watering when it is cool reduces evaporation dramatically, so more water reaches the roots and less is wasted.",
+    explanation:
+      "Watering when it is cool reduces evaporation dramatically, so more water reaches the roots and less is wasted.",
   },
   {
     category: "etiquette",
-    question: "Your neighbour's tree drops leaves into your garden every autumn. The best first move is to:",
-    options: ["Cut the tree down", "Have a friendly conversation with your neighbour", "Post about them publicly", "Throw the leaves back over"],
+    question:
+      "Your neighbour's tree drops leaves into your garden every autumn. The best first move is to:",
+    options: [
+      "Cut the tree down",
+      "Have a friendly conversation with your neighbour",
+      "Post about them publicly",
+      "Throw the leaves back over",
+    ],
     correctIndex: 1,
-    explanation: "Most neighbour disputes end quickly with a polite chat. Escalate to mediation or the council only if a direct conversation does not work.",
+    explanation:
+      "Most neighbour disputes end quickly with a polite chat. Escalate to mediation or the council only if a direct conversation does not work.",
   },
   {
     category: "environment",
     question: "Which everyday change reduces household carbon output the most?",
-    options: ["Turning off a phone charger", "Reducing heating by 1°C and improving insulation", "Using thinner bin bags", "Buying bottled water"],
+    options: [
+      "Turning off a phone charger",
+      "Reducing heating by 1°C and improving insulation",
+      "Using thinner bin bags",
+      "Buying bottled water",
+    ],
     correctIndex: 1,
-    explanation: "Heating dominates most home energy use — a single degree lower plus better insulation saves far more than switching off small devices.",
+    explanation:
+      "Heating dominates most home energy use — a single degree lower plus better insulation saves far more than switching off small devices.",
   },
   {
     category: "general",
     question: "What is the first thing to do before any DIY work on a light fitting?",
-    options: ["Wear gloves", "Switch off the circuit at the consumer unit and test it is dead", "Open a window", "Turn the light switch off only"],
+    options: [
+      "Wear gloves",
+      "Switch off the circuit at the consumer unit and test it is dead",
+      "Open a window",
+      "Turn the light switch off only",
+    ],
     correctIndex: 1,
-    explanation: "A wall switch may only break one conductor. Isolate the circuit at the consumer unit and verify with a tester before touching anything.",
+    explanation:
+      "A wall switch may only break one conductor. Isolate the circuit at the consumer unit and verify with a tester before touching anything.",
   },
   {
     category: "emergency",
     question: "What belongs in a basic home emergency kit?",
-    options: ["Torch, water, first aid kit, power bank", "Candles only", "Spare paint", "Extra keys only"],
+    options: [
+      "Torch, water, first aid kit, power bank",
+      "Candles only",
+      "Spare paint",
+      "Extra keys only",
+    ],
     correctIndex: 0,
-    explanation: "Light, clean water, first aid supplies and a charged power bank cover the first 24 hours of most outages or evacuations.",
+    explanation:
+      "Light, clean water, first aid supplies and a charged power bank cover the first 24 hours of most outages or evacuations.",
   },
   {
     category: "fire",
     question: "How often should smoke alarms be tested?",
     options: ["Once a year", "Monthly", "Every five years", "Only when they beep"],
     correctIndex: 1,
-    explanation: "A monthly press of the test button confirms both the sensor and the battery. Replace the whole unit roughly every ten years.",
+    explanation:
+      "A monthly press of the test button confirms both the sensor and the battery. Replace the whole unit roughly every ten years.",
   },
   {
     category: "plumbing",
     question: "Scenario: water is pouring from under your kitchen sink. What comes first?",
-    options: ["Mop the floor", "Shut off the water supply valve if it is safe to reach", "Call your insurer", "Open the cupboard and wait"],
+    options: [
+      "Mop the floor",
+      "Shut off the water supply valve if it is safe to reach",
+      "Call your insurer",
+      "Open the cupboard and wait",
+    ],
     correctIndex: 1,
-    explanation: "Stopping the flow limits damage. Close the isolation valve under the sink or the main stopcock, then clear water and call a plumber.",
+    explanation:
+      "Stopping the flow limits damage. Close the isolation valve under the sink or the main stopcock, then clear water and call a plumber.",
     scenario: true,
   },
   {
     category: "road",
     question: "A pothole is forming on your street. The most useful action for neighbours is to:",
-    options: ["Fill it with loose gravel", "Report it with a photo and location so it can be tracked and fixed", "Ignore it until it grows", "Place a chair in the hole"],
+    options: [
+      "Fill it with loose gravel",
+      "Report it with a photo and location so it can be tracked and fixed",
+      "Ignore it until it grows",
+      "Place a chair in the hole",
+    ],
     correctIndex: 1,
-    explanation: "A documented report with a photo and pin lets the council prioritise repairs — and other neighbours can confirm it to raise its urgency.",
+    explanation:
+      "A documented report with a photo and pin lets the council prioritise repairs — and other neighbours can confirm it to raise its urgency.",
   },
   {
     category: "electrical",
     question: "Which practice most increases the risk of an electrical fire?",
-    options: ["Using an RCD-protected socket", "Daisy-chaining several extension leads", "Unplugging unused devices", "Replacing damaged cables"],
+    options: [
+      "Using an RCD-protected socket",
+      "Daisy-chaining several extension leads",
+      "Unplugging unused devices",
+      "Replacing damaged cables",
+    ],
     correctIndex: 1,
-    explanation: "Chained extension leads easily exceed their rated current and overheat. Use one properly rated lead per socket.",
+    explanation:
+      "Chained extension leads easily exceed their rated current and overheat. Use one properly rated lead per socket.",
   },
 ];
 
@@ -189,7 +287,10 @@ export function fallbackQuestions(dateKey: string): QuizQuestion[] {
   return out;
 }
 
-const GEN_PROMPT = (dateKey: string, categories: string) => `Create today's NeighbourNet Community Challenge for ${dateKey}.
+const GEN_PROMPT = (
+  dateKey: string,
+  categories: string,
+) => `Create today's NeighbourNet Community Challenge for ${dateKey}.
 
 Produce exactly ${QUESTIONS_PER_CHALLENGE} multiple-choice questions that teach practical, real-world neighbourhood knowledge.
 
@@ -217,13 +318,14 @@ export async function generateQuestions(dateKey: string): Promise<QuizQuestion[]
         model: "openai/gpt-5.6-sol",
         reasoning_effort: "none",
         messages: [
-          { role: "system", content: "You are NeighbourBot, a practical community-safety quiz writer. Always answer with valid JSON only." },
+          {
+            role: "system",
+            content:
+              "You are NeighbourBot, a practical community-safety quiz writer. Always answer with valid JSON only.",
+          },
           {
             role: "user",
-            content: GEN_PROMPT(
-              dateKey,
-              CHALLENGE_CATEGORIES.map((c) => c.key).join(", "),
-            ),
+            content: GEN_PROMPT(dateKey, CHALLENGE_CATEGORIES.map((c) => c.key).join(", ")),
           },
         ],
         response_format: { type: "json_object" },

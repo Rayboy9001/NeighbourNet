@@ -125,9 +125,7 @@ function NotificationsPage() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-sm">{n.message}</div>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    on “{n.report_title}”
-                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">on “{n.report_title}”</div>
                 </div>
                 <div className="text-xs text-muted-foreground shrink-0">
                   {timeAgo(n.created_at)}

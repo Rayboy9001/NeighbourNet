@@ -89,7 +89,7 @@ export function Leaderboard({ currentUserId }: { currentUserId?: string | null }
                   {row.avatarUrl ? (
                     <img src={row.avatarUrl} alt="" className="h-full w-full object-cover" />
                   ) : (
-                    row.name[0]?.toUpperCase() ?? "N"
+                    (row.name[0]?.toUpperCase() ?? "N")
                   )}
                 </div>
                 <div className="min-w-0 flex-1">

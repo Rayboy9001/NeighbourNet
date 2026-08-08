@@ -82,8 +82,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "NeighbourNet — See it. Report it. Fix it together." },
       {
         name: "description",
-        content:
-          "A friendly community platform for reporting and tracking local issues.",
+        content: "A friendly community platform for reporting and tracking local issues.",
       },
       { name: "author", content: "NeighbourNet" },
       { property: "og:title", content: "NeighbourNet" },

@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import type { StringKey } from "@/lib/i18n/strings";
 
-
 export const Route = createFileRoute("/_authenticated/feed")({
   head: () => ({
     meta: [

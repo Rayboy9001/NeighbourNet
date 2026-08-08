@@ -36,10 +36,7 @@ function renderMarkdown(text: string) {
         );
       if (/^`[^`]+`$/.test(p))
         return (
-          <code
-            key={j}
-            className="px-1 py-0.5 rounded bg-muted text-[0.85em] font-mono"
-          >
+          <code key={j} className="px-1 py-0.5 rounded bg-muted text-[0.85em] font-mono">
             {p.slice(1, -1)}
           </code>
         );
@@ -102,10 +99,7 @@ export function NeighbourBot({ initialOpen = false }: { initialOpen?: boolean })
           },
         ]);
       } else {
-        setMessages((m) => [
-          ...m,
-          { role: "assistant", content: data.reply ?? "" },
-        ]);
+        setMessages((m) => [...m, { role: "assistant", content: data.reply ?? "" }]);
       }
     } catch {
       setMessages((m) => [
@@ -181,9 +175,7 @@ export function NeighbourBot({ initialOpen = false }: { initialOpen?: boolean })
               </div>
               <div className="min-w-0">
                 <div className="font-semibold leading-tight">NeighbourBot</div>
-                <div className="text-xs text-muted-foreground">
-                  Your neighbourhood AI helper
-                </div>
+                <div className="text-xs text-muted-foreground">Your neighbourhood AI helper</div>
               </div>
               <button
                 onClick={() => setOpen(false)}
@@ -195,19 +187,13 @@ export function NeighbourBot({ initialOpen = false }: { initialOpen?: boolean })
             </div>
 
             {/* Messages */}
-            <div
-              ref={scrollRef}
-              className="flex-1 overflow-y-auto px-4 py-4 space-y-3"
-            >
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
               {messages.map((m, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={cn(
-                    "flex",
-                    m.role === "user" ? "justify-end" : "justify-start",
-                  )}
+                  className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}
                 >
                   <div
                     className={cn(

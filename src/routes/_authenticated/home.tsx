@@ -9,7 +9,6 @@ import { reportsQuery } from "@/lib/queries";
 import { ReportCard } from "@/components/ReportCard";
 import { ReportCardSkeleton } from "@/components/Skeleton";
 
-
 export const Route = createFileRoute("/_authenticated/home")({
   head: () => ({
     meta: [
@@ -37,8 +36,7 @@ function HomePage() {
   }, [user]);
 
   const greet = new Date().getHours();
-  const greeting =
-    greet < 12 ? "Good morning" : greet < 18 ? "Good afternoon" : "Good evening";
+  const greeting = greet < 12 ? "Good morning" : greet < 18 ? "Good afternoon" : "Good evening";
 
   return (
     <div className="space-y-8">
@@ -46,13 +44,15 @@ function HomePage() {
         <h1 className="text-2xl md:text-3xl font-bold">
           {greeting}, {profile?.name || "neighbour"} 👋
         </h1>
-        <p className="mt-1 text-muted-foreground">
-          Help improve your neighbourhood today.
-        </p>
+        <p className="mt-1 text-muted-foreground">Help improve your neighbourhood today.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} className="col-span-2 md:col-span-1">
+        <motion.div
+          whileHover={{ y: -3 }}
+          whileTap={{ scale: 0.98 }}
+          className="col-span-2 md:col-span-1"
+        >
           <Link
             to="/report"
             className="group block relative overflow-hidden bg-primary text-primary-foreground p-5 rounded-2xl shadow-lift transition-shadow hover:shadow-pop"
@@ -82,9 +82,7 @@ function HomePage() {
           >
             <ClipboardList className="h-6 w-6 mb-3 text-primary" />
             <div className="font-semibold">My reports</div>
-            <div className="text-sm text-muted-foreground mt-1">
-              {myCount} submitted
-            </div>
+            <div className="text-sm text-muted-foreground mt-1">{myCount} submitted</div>
           </Link>
         </motion.div>
       </div>

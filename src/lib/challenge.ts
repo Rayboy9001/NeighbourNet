@@ -59,14 +59,49 @@ export type AchievementDef = {
 };
 
 export const ACHIEVEMENTS: AchievementDef[] = [
-  { code: "first_challenge", emoji: "🏅", label: "First Challenge", description: "Complete your first daily challenge" },
-  { code: "diy_expert", emoji: "🛠", label: "DIY Expert", description: "Ace every home-maintenance question in a challenge" },
-  { code: "safety_champion", emoji: "⚡", label: "Safety Champion", description: "Ace every electrical safety question in a challenge" },
-  { code: "water_saver", emoji: "🚰", label: "Water Saver", description: "Ace all water & plumbing questions in a challenge" },
-  { code: "fire_ready", emoji: "🧯", label: "Fire Ready", description: "Ace every fire safety question in a challenge" },
+  {
+    code: "first_challenge",
+    emoji: "🏅",
+    label: "First Challenge",
+    description: "Complete your first daily challenge",
+  },
+  {
+    code: "diy_expert",
+    emoji: "🛠",
+    label: "DIY Expert",
+    description: "Ace every home-maintenance question in a challenge",
+  },
+  {
+    code: "safety_champion",
+    emoji: "⚡",
+    label: "Safety Champion",
+    description: "Ace every electrical safety question in a challenge",
+  },
+  {
+    code: "water_saver",
+    emoji: "🚰",
+    label: "Water Saver",
+    description: "Ace all water & plumbing questions in a challenge",
+  },
+  {
+    code: "fire_ready",
+    emoji: "🧯",
+    label: "Fire Ready",
+    description: "Ace every fire safety question in a challenge",
+  },
   { code: "home_hero", emoji: "🏡", label: "Home Hero", description: "Reach a 10-day streak" },
-  { code: "eco_neighbour", emoji: "🌳", label: "Eco Neighbour", description: "Ace all eco questions in a challenge" },
-  { code: "community_genius", emoji: "🧠", label: "Community Genius", description: "Score 200+ in a single challenge" },
+  {
+    code: "eco_neighbour",
+    emoji: "🌳",
+    label: "Eco Neighbour",
+    description: "Ace all eco questions in a challenge",
+  },
+  {
+    code: "community_genius",
+    emoji: "🧠",
+    label: "Community Genius",
+    description: "Score 200+ in a single challenge",
+  },
   { code: "quiz_master", emoji: "👑", label: "Quiz Master", description: "Get a perfect 15 / 15" },
 ];
 

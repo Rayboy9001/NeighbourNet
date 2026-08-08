@@ -157,15 +157,7 @@ function ProfilePage() {
   );
 }
 
-function Stat({
-  icon: Icon,
-  value,
-  label,
-}: {
-  icon: typeof Star;
-  value: string;
-  label: string;
-}) {
+function Stat({ icon: Icon, value, label }: { icon: typeof Star; value: string; label: string }) {
   return (
     <div className="bg-primary-foreground/10 rounded-xl p-3">
       <Icon className="h-4 w-4 opacity-80" />
