@@ -106,7 +106,7 @@ export async function fetchThreadMessages(threadId: string, viewerId: string) {
 
   const [profilesRes, reactionsRes, pollsRes, reportsRes, readsRes] = await Promise.all([
     userIds.length
-      ? supabase.from("profiles").select("id,name,avatar_url,points").in("id", userIds)
+      ? supabase.from("profiles").select("id,name,avatar_url,points:community_points").in("id", userIds)
       : Promise.resolve({ data: [] as MessageAuthor[] }),
     supabase.from("square_reactions").select("message_id,user_id,emoji").in("message_id", messageIds),
     supabase
