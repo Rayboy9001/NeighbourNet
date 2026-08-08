@@ -12,15 +12,28 @@ Open your project in the [Lovable editor](https://lovable.dev) and keep building
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+This project uses **npm** as its only package manager (`package-lock.json` is the committed lockfile — do not add bun/yarn/pnpm lockfiles). You need Node.js 20+ and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
 git clone <this-repository-url>
 cd <repository-name>
-npm i
+npm ci                 # or `npm install` when adding dependencies
 cp .env.example .env   # then fill in your values
 npm run dev
 ```
+
+### npm scripts
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server. |
+| `npm run build` | Production build. |
+| `npm run build:dev` | Build in development mode. |
+| `npm run preview` | Preview the production build locally. |
+| `npm run lint` | Run ESLint. |
+| `npm run format` | Format with Prettier. |
+| `npm test` | Run the Vitest suite once. |
+
 
 ## Environment variables
 
