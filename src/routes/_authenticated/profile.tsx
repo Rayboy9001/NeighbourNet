@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Award, Star, ClipboardList, ThumbsUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useProfile } from "@/hooks/use-auth";
+import { formatPoints, usePoints } from "@/hooks/use-points";
 import { fetchReports, type ReportWithMeta } from "@/lib/reports";
 import { ReportCard } from "@/components/ReportCard";
 
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/_authenticated/profile")({
 function ProfilePage() {
   const { user } = useAuth();
   const { profile, setProfile } = useProfile(user?.id);
+  const { points } = usePoints(user?.id);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [saving, setSaving] = useState(false);
@@ -58,7 +60,6 @@ function ProfilePage() {
     toast.success("Profile updated");
   }
 
-  const points = (reports.length * 10) + (confirmCount * 2);
   const badges = [
     reports.length >= 1 && { icon: "🌱", label: "First Reporter" },
     confirmCount >= 5 && { icon: "🤝", label: "Helpful Neighbour" },
@@ -83,9 +84,9 @@ function ProfilePage() {
           </div>
         </div>
         <div className="mt-6 grid grid-cols-3 gap-4">
-          <Stat icon={Star} value={points} label="Points" />
-          <Stat icon={ClipboardList} value={reports.length} label="Reports" />
-          <Stat icon={ThumbsUp} value={confirmCount} label="Confirmed" />
+          <Stat icon={Star} value={formatPoints(points)} label="Community Points" />
+          <Stat icon={ClipboardList} value={String(reports.length)} label="Reports" />
+          <Stat icon={ThumbsUp} value={String(confirmCount)} label="Confirmed" />
         </div>
       </div>
 
@@ -162,7 +163,7 @@ function Stat({
   label,
 }: {
   icon: typeof Star;
-  value: number;
+  value: string;
   label: string;
 }) {
   return (

@@ -239,12 +239,14 @@ export async function scoreAndSaveAttempt(
       .insert(newAchievements.map((code) => ({ user_id: userId, code })));
   }
 
-  // ---- community points ----
-  const profile = await db.from("profiles").select("points").eq("id", userId).maybeSingle();
-  await db
-    .from("profiles")
-    .update({ points: (profile.data?.points ?? 0) + pointsEarned })
-    .eq("id", userId);
+  // ---- community points (single source of truth + idempotent per challenge) ----
+  const { awardPoints } = await import("./points.server");
+  const award = await awardPoints(
+    userId,
+    pointsEarned,
+    "Community Challenge Completion",
+    `challenge:${challengeId}`,
+  );
 
   await awardWeeklyPodium();
 
@@ -254,6 +256,7 @@ export async function scoreAndSaveAttempt(
     totalQuestions: questions.length,
     avgTimeMs,
     pointsEarned,
+    pointsBalance: award.balance,
     perfect,
     currentStreak: current,
     longestStreak: longest,
@@ -297,11 +300,8 @@ export async function awardWeeklyPodium() {
       .insert({ user_id: userId, code })
       .select("id");
     if (inserted.error || !inserted.data?.length) continue;
-    const p = await db.from("profiles").select("points").eq("id", userId).maybeSingle();
-    await db
-      .from("profiles")
-      .update({ points: (p.data?.points ?? 0) + prizes[i] })
-      .eq("id", userId);
+    const { awardPoints } = await import("./points.server");
+    await awardPoints(userId, prizes[i], `Weekly leaderboard prize #${i + 1}`, code);
   }
 }
 
