@@ -106,16 +106,30 @@ export async function fetchThreadMessages(threadId: string, viewerId: string) {
 
   const [profilesRes, reactionsRes, pollsRes, reportsRes, readsRes] = await Promise.all([
     userIds.length
-      ? supabase.from("profiles").select("id,name,avatar_url,points").in("id", userIds)
+      ? supabase
+          .from("profiles")
+          .select("id,name,avatar_url,points:community_points")
+          .in("id", userIds)
       : Promise.resolve({ data: [] as MessageAuthor[] }),
-    supabase.from("square_reactions").select("message_id,user_id,emoji").in("message_id", messageIds),
+    supabase
+      .from("square_reactions")
+      .select("message_id,user_id,emoji")
+      .in("message_id", messageIds),
     supabase
       .from("square_polls")
       .select("id,message_id,question,options,closes_at")
       .in("message_id", messageIds),
     reportIds.length
       ? supabase.from("reports").select("id,title,category,status,image_url").in("id", reportIds)
-      : Promise.resolve({ data: [] as { id: string; title: string; category: string; status: string; image_url: string | null }[] }),
+      : Promise.resolve({
+          data: [] as {
+            id: string;
+            title: string;
+            category: string;
+            status: string;
+            image_url: string | null;
+          }[],
+        }),
     supabase.from("square_reads").select("user_id,last_read_at").eq("thread_id", threadId),
   ]);
 
@@ -191,9 +205,16 @@ export async function fetchThreadMessages(threadId: string, viewerId: string) {
   );
 }
 
-export async function toggleReaction(messageId: string, userId: string, emoji: string, on: boolean) {
+export async function toggleReaction(
+  messageId: string,
+  userId: string,
+  emoji: string,
+  on: boolean,
+) {
   if (on) {
-    await supabase.from("square_reactions").insert({ message_id: messageId, user_id: userId, emoji });
+    await supabase
+      .from("square_reactions")
+      .insert({ message_id: messageId, user_id: userId, emoji });
   } else {
     await supabase
       .from("square_reactions")
@@ -207,7 +228,10 @@ export async function toggleReaction(messageId: string, userId: string, emoji: s
 export async function votePoll(pollId: string, userId: string, optionIndex: number) {
   await supabase
     .from("square_poll_votes")
-    .upsert({ poll_id: pollId, user_id: userId, option_index: optionIndex }, { onConflict: "poll_id,user_id" });
+    .upsert(
+      { poll_id: pollId, user_id: userId, option_index: optionIndex },
+      { onConflict: "poll_id,user_id" },
+    );
 }
 
 export async function editMessage(messageId: string, body: string) {
@@ -227,23 +251,36 @@ export async function deleteMessage(messageId: string) {
 export async function reportMessage(messageId: string, reporterId: string, reason: string) {
   await supabase
     .from("square_message_reports")
-    .upsert({ message_id: messageId, reporter_id: reporterId, reason }, { onConflict: "message_id,reporter_id" });
+    .upsert(
+      { message_id: messageId, reporter_id: reporterId, reason },
+      { onConflict: "message_id,reporter_id" },
+    );
 }
 
 export async function setBlock(userId: string, targetId: string, kind: "block" | "mute") {
   await supabase
     .from("square_blocks")
-    .upsert({ user_id: userId, blocked_user_id: targetId, kind }, { onConflict: "user_id,blocked_user_id" });
+    .upsert(
+      { user_id: userId, blocked_user_id: targetId, kind },
+      { onConflict: "user_id,blocked_user_id" },
+    );
 }
 
 export async function clearBlock(userId: string, targetId: string) {
-  await supabase.from("square_blocks").delete().eq("user_id", userId).eq("blocked_user_id", targetId);
+  await supabase
+    .from("square_blocks")
+    .delete()
+    .eq("user_id", userId)
+    .eq("blocked_user_id", targetId);
 }
 
 export async function markRead(threadId: string, userId: string) {
   await supabase
     .from("square_reads")
-    .upsert({ thread_id: threadId, user_id: userId, last_read_at: new Date().toISOString() }, { onConflict: "thread_id,user_id" });
+    .upsert(
+      { thread_id: threadId, user_id: userId, last_read_at: new Date().toISOString() },
+      { onConflict: "thread_id,user_id" },
+    );
 }
 
 export async function leaveSquare(userId: string, squareId: string) {

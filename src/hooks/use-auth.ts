@@ -7,7 +7,8 @@ export interface Profile {
   name: string;
   avatar_url: string | null;
   bio: string | null;
-  points: number;
+  /** Single source of truth for Community Points. */
+  community_points: number;
 }
 
 export function useAuth() {
@@ -44,7 +45,7 @@ export function useProfile(userId: string | null | undefined) {
     setLoading(true);
     supabase
       .from("profiles")
-      .select("id,name,avatar_url,bio,points")
+      .select("id,name,avatar_url,bio,community_points")
       .eq("id", userId)
       .maybeSingle()
       .then(({ data }) => {

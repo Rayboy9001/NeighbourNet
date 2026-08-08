@@ -52,8 +52,20 @@ export const LANGUAGES: LanguageDef[] = [
   { code: "ur", name: "Urdu", native: "اردو", flag: "🇵🇰", rtl: true, locale: "ur-PK" },
   { code: "vi", name: "Vietnamese", native: "Tiếng Việt", flag: "🇻🇳", locale: "vi-VN" },
   { code: "yo", name: "Yoruba", native: "Yorùbá", flag: "🇳🇬", locale: "yo-NG" },
-  { code: "zh-Hans", name: "Chinese (Simplified)", native: "中文（简体）", flag: "🇨🇳", locale: "zh-Hans" },
-  { code: "zh-Hant", name: "Chinese (Traditional)", native: "中文（繁體）", flag: "🇹🇼", locale: "zh-Hant" },
+  {
+    code: "zh-Hans",
+    name: "Chinese (Simplified)",
+    native: "中文（简体）",
+    flag: "🇨🇳",
+    locale: "zh-Hans",
+  },
+  {
+    code: "zh-Hant",
+    name: "Chinese (Traditional)",
+    native: "中文（繁體）",
+    flag: "🇹🇼",
+    locale: "zh-Hant",
+  },
   { code: "zu", name: "Zulu", native: "isiZulu", flag: "🇿🇦", locale: "zu-ZA" },
 ].sort((a, b) => a.name.localeCompare(b.name));
 

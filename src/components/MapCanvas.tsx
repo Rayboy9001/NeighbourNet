@@ -61,10 +61,7 @@ export default function MapCanvas({ reports }: { reports: ReportWithMeta[] }) {
             className="absolute -translate-x-1/2 -translate-y-full group"
           >
             <div
-              className={cn(
-                "h-6 w-6 rounded-full ring-4 ring-background shadow-lift",
-                DOT[tone],
-              )}
+              className={cn("h-6 w-6 rounded-full ring-4 ring-background shadow-lift", DOT[tone])}
             />
             <div className="absolute left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap px-2 py-1 rounded-md bg-card border border-border text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity shadow-card">
               {r.title}

@@ -14,12 +14,7 @@ import {
   VolumeX,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  EDIT_WINDOW_MS,
-  REACTION_EMOJIS,
-  reputationBadges,
-  timeLabel,
-} from "@/lib/square";
+import { EDIT_WINDOW_MS, REACTION_EMOJIS, reputationBadges, timeLabel } from "@/lib/square";
 import type { EnrichedMessage } from "@/lib/square-browser";
 
 function Avatar({ name, url, bot }: { name: string; url: string | null; bot?: boolean }) {
@@ -44,8 +39,7 @@ function Markdownish({ text }: { text: string }) {
       {text.split("\n").map((line, i) => (
         <p key={i} className="whitespace-pre-wrap break-words">
           {line.split(/(\*\*[^*]+\*\*|@[a-z0-9_.-]{2,32})/gi).map((part, j) => {
-            if (/^\*\*[^*]+\*\*$/.test(part))
-              return <strong key={j}>{part.slice(2, -2)}</strong>;
+            if (/^\*\*[^*]+\*\*$/.test(part)) return <strong key={j}>{part.slice(2, -2)}</strong>;
             if (/^@[a-z0-9_.-]{2,32}$/i.test(part))
               return (
                 <span key={j} className="rounded bg-primary/10 px-1 font-medium text-primary">

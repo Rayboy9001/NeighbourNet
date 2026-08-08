@@ -10,7 +10,6 @@ import { submitReport } from "@/lib/reports.functions";
 import { TITLE_MIN, TITLE_MAX, DESCRIPTION_MAX, validateReport } from "@/lib/validation/report";
 import { cn } from "@/lib/utils";
 
-
 export const Route = createFileRoute("/_authenticated/report")({
   head: () => ({
     meta: [
@@ -34,7 +33,6 @@ function ReportPage() {
   const [busy, setBusy] = useState(false);
   const { lang } = useI18n();
   const submitReportFn = useServerFn(submitReport);
-
 
   function handleFile(f: File | null) {
     setFile(f);
@@ -79,8 +77,7 @@ function ReportPage() {
     try {
       let imagePath: string | null = null;
       if (file) imagePath = await uploadReportImage(file);
-      const detected =
-        (await detectLanguage(`${title.trim()}\n${description.trim()}`)) ?? lang;
+      const detected = (await detectLanguage(`${title.trim()}\n${description.trim()}`)) ?? lang;
       const report = await submitReportFn({
         data: {
           title,
@@ -102,7 +99,6 @@ function ReportPage() {
     }
   }
 
-
   return (
     <div className="space-y-6 max-w-xl mx-auto">
       <div className="flex items-center gap-3">
@@ -120,10 +116,7 @@ function ReportPage() {
             {[1, 2, 3].map((s) => (
               <div
                 key={s}
-                className={cn(
-                  "h-1.5 flex-1 rounded-full",
-                  s <= step ? "bg-primary" : "bg-muted",
-                )}
+                className={cn("h-1.5 flex-1 rounded-full", s <= step ? "bg-primary" : "bg-muted")}
               />
             ))}
           </div>
@@ -184,7 +177,6 @@ function ReportPage() {
             <p className="mt-1 text-xs text-muted-foreground">
               {description.length}/{DESCRIPTION_MAX}
             </p>
-
           </div>
           <div>
             <label className="text-sm font-medium">Photo (optional)</label>

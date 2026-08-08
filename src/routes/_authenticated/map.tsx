@@ -60,10 +60,7 @@ function MapPage() {
               className="flex items-center gap-3 p-3 bg-card border border-border rounded-xl hover:bg-accent transition"
             >
               <div
-                className={cn(
-                  "h-3 w-3 rounded-full shrink-0",
-                  DOT[STATUS_META[r.status].tone],
-                )}
+                className={cn("h-3 w-3 rounded-full shrink-0", DOT[STATUS_META[r.status].tone])}
               />
               <div className="flex-1 min-w-0">
                 <div className="font-medium truncate">{r.title}</div>
@@ -80,13 +77,7 @@ function MapPage() {
   );
 }
 
-function Legend({
-  color,
-  label,
-}: {
-  color: "success" | "warning" | "danger";
-  label: string;
-}) {
+function Legend({ color, label }: { color: "success" | "warning" | "danger"; label: string }) {
   return (
     <span className="flex items-center gap-1.5">
       <span className={cn("h-2.5 w-2.5 rounded-full", DOT[color])} /> {label}

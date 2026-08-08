@@ -68,7 +68,9 @@ describe("validateReport - description", () => {
   });
 
   it("accepts 2000 characters and rejects 2001", () => {
-    expect(validateReport({ ...base, description: "a".repeat(DESCRIPTION_MAX) }).success).toBe(true);
+    expect(validateReport({ ...base, description: "a".repeat(DESCRIPTION_MAX) }).success).toBe(
+      true,
+    );
     const res = validateReport({ ...base, description: "a".repeat(DESCRIPTION_MAX + 1) });
     expect(res.success).toBe(false);
     if (!res.success) expect(res.errors.description).toMatch(/2000/);

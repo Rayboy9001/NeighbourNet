@@ -49,24 +49,21 @@ export const Route = createFileRoute("/api/neighbourbot")({
             ? `\n\nCurrent page the user is viewing: ${body.context.path}`
             : "";
 
-          const upstream = await fetch(
-            "https://ai.gateway.lovable.dev/v1/chat/completions",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${key}`,
-              },
-              body: JSON.stringify({
-                model: "openai/gpt-5.6-sol",
-                reasoning_effort: "none",
-                messages: [
-                  { role: "system", content: SYSTEM_PROMPT + contextNote },
-                  ...messages.slice(-20),
-                ],
-              }),
+          const upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${key}`,
             },
-          );
+            body: JSON.stringify({
+              model: "openai/gpt-5.6-sol",
+              reasoning_effort: "none",
+              messages: [
+                { role: "system", content: SYSTEM_PROMPT + contextNote },
+                ...messages.slice(-20),
+              ],
+            }),
+          });
 
           if (!upstream.ok) {
             const text = await upstream.text();
@@ -92,10 +89,10 @@ export const Route = createFileRoute("/api/neighbourbot")({
           });
         } catch (err) {
           console.error("NeighbourBot error", err);
-          return new Response(
-            JSON.stringify({ error: "NeighbourBot is unavailable right now." }),
-            { status: 500, headers: { "Content-Type": "application/json" } },
-          );
+          return new Response(JSON.stringify({ error: "NeighbourBot is unavailable right now." }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          });
         }
       },
     },

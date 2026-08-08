@@ -21,7 +21,10 @@ import {
   markRead,
   type EnrichedMessage,
 } from "@/lib/square-browser";
-import { joinSquareRoom as joinSquareRoomFn, sendSquareMessage as sendSquareMessageFn } from "@/lib/square.functions";
+import {
+  joinSquareRoom as joinSquareRoomFn,
+  sendSquareMessage as sendSquareMessageFn,
+} from "@/lib/square.functions";
 import { MessageBubble } from "@/components/square/MessageBubble";
 import { checkContentPolicy, checkImageFile, type Square, type SquareThread } from "@/lib/square";
 import { cn } from "@/lib/utils";
@@ -67,10 +70,7 @@ function SquareChatPage() {
         setLoading(false);
         return;
       }
-      const [ths, mems] = await Promise.all([
-        fetchThreads(found.id),
-        fetchMyMemberships(user.id),
-      ]);
+      const [ths, mems] = await Promise.all([fetchThreads(found.id), fetchMyMemberships(user.id)]);
       await joinSquare({ data: { squareId: found.id } }).catch(() => {});
       const active = ths[0]?.id ?? null;
       setActiveThreadId(active);
@@ -95,7 +95,12 @@ function SquareChatPage() {
       .channel(`square:${activeThreadId}`)
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "square_messages", filter: `thread_id=eq.${activeThreadId}` },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "square_messages",
+          filter: `thread_id=eq.${activeThreadId}`,
+        },
         async () => {
           const msgs = await fetchThreadMessages(activeThreadId, user.id);
           setMessages(msgs);
@@ -103,7 +108,12 @@ function SquareChatPage() {
       )
       .on(
         "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "square_messages", filter: `thread_id=eq.${activeThreadId}` },
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "square_messages",
+          filter: `thread_id=eq.${activeThreadId}`,
+        },
         async () => {
           const msgs = await fetchThreadMessages(activeThreadId, user.id);
           setMessages(msgs);
@@ -345,7 +355,7 @@ function SquareChatPage() {
         {replyTo && (
           <div className="mb-2 flex items-center justify-between rounded-lg bg-muted px-3 py-2 text-xs">
             <span className="text-muted-foreground truncate">
-              Replying to {replyTo.is_bot ? "NeighbourBot" : replyTo.author?.name ?? "Neighbour"}
+              Replying to {replyTo.is_bot ? "NeighbourBot" : (replyTo.author?.name ?? "Neighbour")}
             </span>
             <button onClick={() => setReplyTo(null)}>
               <X className="h-3.5 w-3.5" />

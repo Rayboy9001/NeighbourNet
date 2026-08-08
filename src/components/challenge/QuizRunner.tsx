@@ -66,16 +66,13 @@ export function QuizRunner({
   const question = questions[index];
   const meta = categoryMeta(question?.category ?? "general");
 
-  const commit = useCallback(
-    (choice: number | null, remainingMs: number) => {
-      setLocked(true);
-      setSelected(choice);
-      const answer: Answer = { selected: choice, remainingMs };
-      answersRef.current = [...answersRef.current, answer];
-      setAnswers(answersRef.current);
-    },
-    [],
-  );
+  const commit = useCallback((choice: number | null, remainingMs: number) => {
+    setLocked(true);
+    setSelected(choice);
+    const answer: Answer = { selected: choice, remainingMs };
+    answersRef.current = [...answersRef.current, answer];
+    setAnswers(answersRef.current);
+  }, []);
 
   useEffect(() => {
     if (locked) return;
@@ -161,11 +158,15 @@ export function QuizRunner({
               {meta.emoji} {meta.label}
             </span>
             {question.scenario && (
-              <span className="rounded-full border border-border px-2.5 py-1">Neighbour scenario</span>
+              <span className="rounded-full border border-border px-2.5 py-1">
+                Neighbour scenario
+              </span>
             )}
           </div>
 
-          <h2 className="text-lg md:text-xl font-semibold leading-snug mb-4">{question.question}</h2>
+          <h2 className="text-lg md:text-xl font-semibold leading-snug mb-4">
+            {question.question}
+          </h2>
 
           <div className="grid gap-2.5">
             {question.options.map((option, i) => {
@@ -182,7 +183,8 @@ export function QuizRunner({
                   onClick={() => commit(i, Math.max(0, remaining))}
                   className={cn(
                     "flex items-center gap-3 rounded-xl border px-4 py-3 text-start text-sm font-medium transition-colors",
-                    !locked && "border-border bg-background hover:border-primary/60 hover:bg-accent",
+                    !locked &&
+                      "border-border bg-background hover:border-primary/60 hover:bg-accent",
                     locked && isCorrect && "border-primary bg-primary/10 text-foreground",
                     locked && isChosen && !isCorrect && "border-destructive bg-destructive/10",
                     locked && !isCorrect && !isChosen && "border-border opacity-60",

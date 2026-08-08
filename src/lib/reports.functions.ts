@@ -26,5 +26,14 @@ export const submitReport = createServerFn({ method: "POST" })
       .select("id")
       .single();
     if (error) throw new Error(error.message);
-    return { id: row.id as string };
+
+    // All point changes go through the single awardPoints system.
+    const { awardPoints } = await import("./points.server");
+    const award = await awardPoints(
+      context.userId,
+      20,
+      "Community Report Submitted",
+      `report:${row.id}`,
+    );
+    return { id: row.id as string, pointsBalance: award.balance };
   });

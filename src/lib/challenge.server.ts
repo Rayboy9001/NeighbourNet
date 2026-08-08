@@ -75,6 +75,9 @@ export type AttemptSummary = {
   totalQuestions: number;
   avgTimeMs: number;
   pointsEarned: number;
+  /** Authoritative Community Points balance after this attempt. */
+  pointsBalance: number;
+
   perfect: boolean;
   currentStreak: number;
   longestStreak: number;
@@ -134,13 +137,17 @@ export async function scoreAndSaveAttempt(
     .maybeSingle();
 
   if (existing.data) {
+    // Reward already claimed for this challenge — never award again.
+    const { getPointsBalance } = await import("./points.server");
     return {
       score: existing.data.score,
       correctCount: existing.data.correct_count,
       totalQuestions: questions.length,
       avgTimeMs: existing.data.avg_time_ms,
       pointsEarned: existing.data.points_earned,
+      pointsBalance: await getPointsBalance(userId),
       perfect: existing.data.correct_count === questions.length,
+
       currentStreak: streakRow.data?.current_streak ?? 0,
       longestStreak: streakRow.data?.longest_streak ?? 0,
       streakSavers: streakRow.data?.streak_savers ?? 0,
@@ -167,8 +174,7 @@ export async function scoreAndSaveAttempt(
 
   const perfect = correctCount === questions.length && questions.length > 0;
   const avgTimeMs = questions.length ? Math.round(totalTime / questions.length) : 0;
-  const pointsEarned =
-    Math.round(score / 10) + COMPLETION_BONUS + (perfect ? PERFECT_BONUS : 0);
+  const pointsEarned = Math.round(score / 10) + COMPLETION_BONUS + (perfect ? PERFECT_BONUS : 0);
 
   const insertedAttempt = await db
     .from("challenge_attempts")
@@ -223,14 +229,12 @@ export async function scoreAndSaveAttempt(
   if (categoryAllCorrect(questions, answers, ["electrical"], 1)) candidates.push("safety_champion");
   if (categoryAllCorrect(questions, answers, ["fire"], 1)) candidates.push("fire_ready");
   if (categoryAllCorrect(questions, answers, ["home"], 1)) candidates.push("diy_expert");
-  if (categoryAllCorrect(questions, answers, ["water", "plumbing"], 2)) candidates.push("water_saver");
+  if (categoryAllCorrect(questions, answers, ["water", "plumbing"], 2))
+    candidates.push("water_saver");
   if (categoryAllCorrect(questions, answers, ["environment", "recycling"], 2))
     candidates.push("eco_neighbour");
 
-  const owned = await db
-    .from("challenge_achievements")
-    .select("code")
-    .eq("user_id", userId);
+  const owned = await db.from("challenge_achievements").select("code").eq("user_id", userId);
   const ownedSet = new Set((owned.data ?? []).map((r) => r.code));
   const newAchievements = candidates.filter((c) => !ownedSet.has(c));
   if (newAchievements.length) {
@@ -239,12 +243,14 @@ export async function scoreAndSaveAttempt(
       .insert(newAchievements.map((code) => ({ user_id: userId, code })));
   }
 
-  // ---- community points ----
-  const profile = await db.from("profiles").select("points").eq("id", userId).maybeSingle();
-  await db
-    .from("profiles")
-    .update({ points: (profile.data?.points ?? 0) + pointsEarned })
-    .eq("id", userId);
+  // ---- community points (single source of truth + idempotent per challenge) ----
+  const { awardPoints } = await import("./points.server");
+  const award = await awardPoints(
+    userId,
+    pointsEarned,
+    "Community Challenge Completion",
+    `challenge:${challengeId}`,
+  );
 
   await awardWeeklyPodium();
 
@@ -254,6 +260,7 @@ export async function scoreAndSaveAttempt(
     totalQuestions: questions.length,
     avgTimeMs,
     pointsEarned,
+    pointsBalance: award.balance,
     perfect,
     currentStreak: current,
     longestStreak: longest,
@@ -297,11 +304,8 @@ export async function awardWeeklyPodium() {
       .insert({ user_id: userId, code })
       .select("id");
     if (inserted.error || !inserted.data?.length) continue;
-    const p = await db.from("profiles").select("points").eq("id", userId).maybeSingle();
-    await db
-      .from("profiles")
-      .update({ points: (p.data?.points ?? 0) + prizes[i] })
-      .eq("id", userId);
+    const { awardPoints } = await import("./points.server");
+    await awardPoints(userId, prizes[i], `Weekly leaderboard prize #${i + 1}`, code);
   }
 }
 
@@ -312,6 +316,8 @@ export type LeaderboardRow = {
   score: number;
   challenges: number;
   streak: number;
+  /** Shared Community Points balance (same value shown everywhere). */
+  communityPoints: number;
 };
 
 export async function loadLeaderboard(range: "today" | "week" | "month" | "all") {
@@ -343,7 +349,7 @@ export async function loadLeaderboard(range: "today" | "week" | "month" | "all")
 
   const ids = [...totals.keys()];
   const [profiles, streaks] = await Promise.all([
-    db.from("profiles").select("id,name,avatar_url").in("id", ids),
+    db.from("profiles").select("id,name,avatar_url,community_points").in("id", ids),
     db.from("challenge_streaks").select("user_id,current_streak").in("user_id", ids),
   ]);
   const nameById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
@@ -357,6 +363,7 @@ export async function loadLeaderboard(range: "today" | "week" | "month" | "all")
       score: totals.get(id)!.score,
       challenges: totals.get(id)!.challenges,
       streak: streakById.get(id) ?? 0,
+      communityPoints: nameById.get(id)?.community_points ?? 0,
     }))
     .sort((a, b) => b.score - a.score)
     .slice(0, 50);

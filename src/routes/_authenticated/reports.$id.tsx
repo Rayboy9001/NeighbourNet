@@ -112,10 +112,7 @@ function ReportDetail() {
 
   async function updateStatus(next: ReportStatus) {
     if (!report) return;
-    const { error } = await supabase
-      .from("reports")
-      .update({ status: next })
-      .eq("id", report.id);
+    const { error } = await supabase.from("reports").update({ status: next }).eq("id", report.id);
     if (error) return toast.error(error.message);
     setReport({ ...report, status: next });
     toast.success(t("detail.statusUpdated"));
@@ -188,8 +185,7 @@ function ReportDetail() {
           {(report.address || report.latitude) && (
             <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <MapPin className="h-4 w-4" />
-              {report.address ??
-                `${report.latitude?.toFixed(4)}, ${report.longitude?.toFixed(4)}`}
+              {report.address ?? `${report.latitude?.toFixed(4)}, ${report.longitude?.toFixed(4)}`}
             </div>
           )}
           <div className="flex items-center gap-3 pt-2">
@@ -232,9 +228,7 @@ function ReportDetail() {
                 <div
                   className={cn(
                     "h-8 w-8 rounded-full grid place-items-center text-xs font-bold shrink-0",
-                    done
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground",
+                    done ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground",
                     current && "ring-4 ring-primary/20",
                   )}
                 >
@@ -281,9 +275,7 @@ function ReportDetail() {
               <div className="flex-1">
                 <div className="text-sm">
                   <span className="font-medium">{c.author_name}</span>{" "}
-                  <span className="text-xs text-muted-foreground">
-                    · {timeAgo(c.created_at)}
-                  </span>
+                  <span className="text-xs text-muted-foreground">· {timeAgo(c.created_at)}</span>
                 </div>
                 <TranslatedText
                   text={c.message}

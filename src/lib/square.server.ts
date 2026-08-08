@@ -37,7 +37,10 @@ async function callGateway(messages: GwMessage[]): Promise<string> {
 }
 
 function parseJson<T>(raw: string): T | null {
-  const cleaned = raw.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+  const cleaned = raw
+    .replace(/^```(?:json)?/i, "")
+    .replace(/```$/, "")
+    .trim();
   try {
     return JSON.parse(cleaned) as T;
   } catch {
@@ -136,7 +139,10 @@ async function threadContext(db: Admin, threadId: string, limit = 25) {
   const { data: profiles } = await db.from("profiles").select("id,name").in("id", ids);
   const names = new Map((profiles ?? []).map((p) => [p.id, p.name]));
   return rows
-    .map((r) => `${r.is_bot ? "NeighbourBot" : (names.get(r.user_id ?? "") ?? "Neighbour")}: ${r.body}`)
+    .map(
+      (r) =>
+        `${r.is_bot ? "NeighbourBot" : (names.get(r.user_id ?? "") ?? "Neighbour")}: ${r.body}`,
+    )
     .join("\n");
 }
 
@@ -149,9 +155,7 @@ async function nearbyReportSummary(db: Admin) {
     .order("created_at", { ascending: false })
     .limit(15);
   if (!data?.length) return "No reports have been filed in the last 7 days.";
-  return data
-    .map((r) => `- ${r.title} (${r.category}, status: ${r.status})`)
-    .join("\n");
+  return data.map((r) => `- ${r.title} (${r.category}, status: ${r.status})`).join("\n");
 }
 
 const BOT_SYSTEM = `You are NeighbourBot, a friendly member of a NeighbourNet "Neighbourhood Square" — a local community chat.
@@ -195,7 +199,10 @@ export async function sendMessage(input: {
 
   if (!member) return { status: "blocked", reason: "Join this Square before posting." };
   if (member.suspended)
-    return { status: "restricted", reason: "You're suspended from this Square after repeated rule breaches." };
+    return {
+      status: "restricted",
+      reason: "You're suspended from this Square after repeated rule breaches.",
+    };
   if (member.restricted_until && new Date(member.restricted_until) > new Date())
     return {
       status: "restricted",
@@ -370,7 +377,9 @@ export async function joinSquare(userId: string, squareId: string) {
   if (existing.data) return { ok: true as const };
   if ((count ?? 0) >= (square?.max_participants ?? 50))
     return { ok: false as const, reason: "This Square is full (50 neighbours). Try another one." };
-  const { error } = await db.from("square_members").insert({ square_id: squareId, user_id: userId });
+  const { error } = await db
+    .from("square_members")
+    .insert({ square_id: squareId, user_id: userId });
   if (error) throw error;
   return { ok: true as const };
 }

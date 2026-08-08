@@ -63,9 +63,7 @@ function SquareDiscoveryPage() {
         <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
           <MessageSquare className="h-7 w-7 text-primary" /> Neighbourhood Square
         </h1>
-        <p className="mt-1 text-muted-foreground">
-          Moderated local chat rooms for your community.
-        </p>
+        <p className="mt-1 text-muted-foreground">Moderated local chat rooms for your community.</p>
       </div>
 
       {loading ? (
@@ -157,7 +155,8 @@ function EmptyState({ isAdmin }: { isAdmin: boolean }) {
       <div className="text-4xl mb-3">🏘️</div>
       <h3 className="font-semibold text-lg">No squares nearby yet</h3>
       <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">
-        Neighbourhood Squares are local discussion rooms. Check back soon or ask an admin to create one for your area.
+        Neighbourhood Squares are local discussion rooms. Check back soon or ask an admin to create
+        one for your area.
       </p>
       {isAdmin && (
         <Link

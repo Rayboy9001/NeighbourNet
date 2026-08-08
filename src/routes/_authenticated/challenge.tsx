@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useServerFn } from "@tanstack/react-start";
 import { Flame, Trophy, Sparkles, Target, Clock, Award, Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { formatPoints, usePoints } from "@/hooks/use-points";
 import { QuizRunner, type Answer } from "@/components/challenge/QuizRunner";
 import { Leaderboard } from "@/components/challenge/Leaderboard";
 import { NextChallengeTimer } from "@/components/challenge/NextChallengeTimer";
@@ -35,7 +36,8 @@ export const Route = createFileRoute("/_authenticated/challenge")({
       { property: "og:title", content: "Community Challenge — NeighbourNet" },
       {
         property: "og:description",
-        content: "Learn practical neighbourhood skills with a fun daily quiz. Earn points, badges and streaks.",
+        content:
+          "Learn practical neighbourhood skills with a fun daily quiz. Earn points, badges and streaks.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -83,6 +85,8 @@ function StatCard({
 
 function ChallengePage() {
   const { user } = useAuth();
+  const { points: livePoints } = usePoints(user?.id);
+  const pointsRef = useRef(0);
   const [tab, setTab] = useState<Tab>("today");
   const [challenge, setChallenge] = useState<DailyChallenge | null>(null);
   const [loading, setLoading] = useState(true);
@@ -147,6 +151,7 @@ function ChallengePage() {
             totalQuestions: recent.total_questions,
             avgTimeMs: recent.avg_time_ms,
             pointsEarned: recent.points_earned,
+            pointsBalance: pointsRef.current,
             perfect: recent.correct_count === recent.total_questions,
             currentStreak: streak.data?.current_streak ?? 0,
             longestStreak: streak.data?.longest_streak ?? 0,
@@ -158,6 +163,10 @@ function ChallengePage() {
         : null,
     });
   }, [user?.id, dateKey]);
+
+  useEffect(() => {
+    pointsRef.current = livePoints;
+  }, [livePoints]);
 
   useEffect(() => {
     void refreshStats();
@@ -309,6 +318,9 @@ function ChallengePage() {
                 </div>
                 <div className="rounded-xl bg-muted/60 p-3 text-center text-sm">
                   <span className="font-semibold">+{done.pointsEarned}</span> community points
+                  <span className="ms-2 text-muted-foreground">
+                    (balance: {formatPoints(livePoints)})
+                  </span>
                   earned{done.perfect && " · Perfect score bonus 🎉"}
                 </div>
                 {summary?.newAchievements?.length ? (

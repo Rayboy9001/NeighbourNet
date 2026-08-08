@@ -8,6 +8,7 @@ import { useIsAdmin } from "@/hooks/use-is-admin";
 import { fetchReports, timeAgo, type ReportWithMeta } from "@/lib/reports";
 import { CategoryChip, StatusBadge } from "@/components/ReportCard";
 import { claimAdmin, deleteReportAsAdmin } from "@/lib/admin.functions";
+import { PointsDebugPanel } from "@/components/admin/PointsDebugPanel";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -128,6 +129,8 @@ function AdminPage() {
         </div>
       </header>
 
+      <PointsDebugPanel />
+
       <section className="bg-card border border-border rounded-2xl divide-y divide-border">
         {reportsLoading && (
           <div className="p-6 text-sm text-muted-foreground">Loading reports…</div>
@@ -149,9 +152,7 @@ function AdminPage() {
               </div>
               <div className="font-medium truncate">{r.title}</div>
               {r.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2 mt-0.5">
-                  {r.description}
-                </p>
+                <p className="text-sm text-muted-foreground line-clamp-2 mt-0.5">{r.description}</p>
               )}
             </div>
             <button

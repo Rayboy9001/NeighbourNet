@@ -48,9 +48,7 @@ export function LanguageSetupDialog() {
           >
             <div className="flex items-center gap-2 text-primary">
               <Globe className="h-5 w-5" />
-              <span className="text-xs font-semibold uppercase tracking-wide">
-                NeighbourNet
-              </span>
+              <span className="text-xs font-semibold uppercase tracking-wide">NeighbourNet</span>
             </div>
             <h2 className="mt-2 text-xl font-bold">{t("setup.title")}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{t("setup.subtitle")}</p>
@@ -65,11 +63,7 @@ export function LanguageSetupDialog() {
             )}
 
             <div className="mt-4">
-              <LanguagePicker
-                value={choice}
-                onSelect={setChoice}
-                maxHeight="max-h-64"
-              />
+              <LanguagePicker value={choice} onSelect={setChoice} maxHeight="max-h-64" />
             </div>
 
             <button

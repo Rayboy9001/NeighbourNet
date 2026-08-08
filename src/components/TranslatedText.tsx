@@ -65,8 +65,7 @@ export function useTranslatedContent(text: string, sourceLang?: string | null) {
   }, [text, lang, sourceLang, shouldTranslate]);
 
   const detectedCode = state.detected;
-  const isDifferent =
-    state.translated !== null && state.translated.trim() !== text.trim();
+  const isDifferent = state.translated !== null && state.translated.trim() !== text.trim();
   const isTranslated = isDifferent && !showOriginal;
 
   return {
@@ -136,11 +135,7 @@ export function TranslationBar({
           ? t("tr.originalIn", { language: languageName(detectedLanguage) })
           : t("tr.translatedFrom", { language: languageName(detectedLanguage) })}
       </span>
-      <button
-        type="button"
-        onClick={onToggle}
-        className="font-medium text-primary hover:underline"
-      >
+      <button type="button" onClick={onToggle} className="font-medium text-primary hover:underline">
         {showingOriginal ? t("tr.showTranslation") : t("tr.showOriginal")}
       </button>
       {!compact && (

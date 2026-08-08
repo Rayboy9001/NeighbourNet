@@ -1,13 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import {
-  createPoll,
-  joinSquare,
-  replyAsBot,
-  sendMessage,
-  summariseThread,
-} from "./square.server";
+import { createPoll, joinSquare, replyAsBot, sendMessage, summariseThread } from "./square.server";
 
 export const sendSquareMessage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

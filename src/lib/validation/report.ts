@@ -42,20 +42,22 @@ const ESCAPE_MAP: Record<string, string> = {
  *  - collapses excessive blank lines and trims
  */
 export function sanitizeText(input: string): string {
-  return input
-    .normalize("NFC")
-    // eslint-disable-next-line no-control-regex
-    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
-    // strip script/style blocks including their content
-    .replace(/<\s*(script|style|iframe|object|embed)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, "")
-    // strip any remaining tags
-    .replace(/<\/?[a-z][^>]*>/gi, "")
-    // neutralise javascript: / data: URLs written as plain text
-    .replace(/javascript\s*:/gi, "")
-    .replace(/data\s*:\s*text\/html/gi, "")
-    .replace(/[&<>"']/g, (c) => ESCAPE_MAP[c] ?? c)
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
+  return (
+    input
+      .normalize("NFC")
+      // eslint-disable-next-line no-control-regex
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+      // strip script/style blocks including their content
+      .replace(/<\s*(script|style|iframe|object|embed)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, "")
+      // strip any remaining tags
+      .replace(/<\/?[a-z][^>]*>/gi, "")
+      // neutralise javascript: / data: URLs written as plain text
+      .replace(/javascript\s*:/gi, "")
+      .replace(/data\s*:\s*text\/html/gi, "")
+      .replace(/[&<>"']/g, (c) => ESCAPE_MAP[c] ?? c)
+      .replace(/\n{3,}/g, "\n\n")
+      .trim()
+  );
 }
 
 const sanitizedString = z.string().transform(sanitizeText);
@@ -99,9 +101,7 @@ export const reportInputSchema = z.object({
       return clean.length === 0 ? null : clean;
     })
     .pipe(z.string().max(ADDRESS_MAX, "Address is too long").nullable()),
-  image_url: z
-    .union([z.string().max(500), z.null(), z.undefined()])
-    .transform((v) => v ?? null),
+  image_url: z.union([z.string().max(500), z.null(), z.undefined()]).transform((v) => v ?? null),
   original_language: z
     .union([z.string().max(20), z.null(), z.undefined()])
     .transform((v) => v ?? null),

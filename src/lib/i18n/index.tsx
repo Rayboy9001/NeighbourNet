@@ -9,12 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import {
-  DEFAULT_LANGUAGE,
-  detectDeviceLanguage,
-  getLanguage,
-  isRtl,
-} from "./languages";
+import { DEFAULT_LANGUAGE, detectDeviceLanguage, getLanguage, isRtl } from "./languages";
 import { STRINGS, STRINGS_VERSION, type Dictionary, type StringKey } from "./strings";
 import { translateBatch } from "./translate";
 
