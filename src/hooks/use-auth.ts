@@ -46,7 +46,7 @@ export function useProfile(userId: string | null | undefined) {
     setLoading(true);
     supabase
       .from("profiles")
-      .select("id,name,avatar_url,bio,points")
+      .select("id,name,avatar_url,bio,community_points")
       .eq("id", userId)
       .maybeSingle()
       .then(({ data }) => {
