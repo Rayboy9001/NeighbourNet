@@ -134,13 +134,17 @@ export async function scoreAndSaveAttempt(
     .maybeSingle();
 
   if (existing.data) {
+    // Reward already claimed for this challenge — never award again.
+    const { getPointsBalance } = await import("./points.server");
     return {
       score: existing.data.score,
       correctCount: existing.data.correct_count,
       totalQuestions: questions.length,
       avgTimeMs: existing.data.avg_time_ms,
       pointsEarned: existing.data.points_earned,
+      pointsBalance: await getPointsBalance(userId),
       perfect: existing.data.correct_count === questions.length,
+
       currentStreak: streakRow.data?.current_streak ?? 0,
       longestStreak: streakRow.data?.longest_streak ?? 0,
       streakSavers: streakRow.data?.streak_savers ?? 0,
