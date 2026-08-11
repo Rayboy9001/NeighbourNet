@@ -1,0 +1,1 @@
+DELETE FROM public.user_roles WHERE user_id IN ('d30fe334-1a8b-4c81-a588-0e411cb87975','d9b7ad5b-f476-4a2a-b1bd-7b8fdb07efca') AND role = 'admin';
