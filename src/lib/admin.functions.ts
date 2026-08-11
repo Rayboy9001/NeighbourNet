@@ -8,11 +8,11 @@ export const claimAdmin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => claimSchema.parse(data))
   .handler(async ({ data, context }) => {
-    const expected = process.env.ADMIN_CODE;
-    if (!expected) throw new Error("Admin code not configured");
-    if (data.code !== expected) {
+    const { verifyAdminCode } = await import("@/lib/admin-code.server");
+    if (!verifyAdminCode(data.code)) {
       return { ok: false as const };
     }
+
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin
       .from("user_roles")
