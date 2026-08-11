@@ -35,8 +35,12 @@ export function usePoints(userId: string | null | undefined) {
     setLoading(true);
     void refresh();
 
+    // Unique topic per hook instance — several components use this hook at once
+    // and Supabase reuses a channel by topic, which throws when a second
+    // instance attaches `postgres_changes` after the first `subscribe()`.
+    const topic = `points:${userId}:${Math.random().toString(36).slice(2)}`;
     const channel = supabase
-      .channel(`points:${userId}`)
+      .channel(topic)
       .on(
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "profiles", filter: `id=eq.${userId}` },
