@@ -1282,6 +1282,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      authority_assign_report: {
+        Args: {
+          _assigned_to?: string
+          _department_id?: string
+          _note?: string
+          _organisation_id: string
+          _report_id: string
+        }
+        Returns: string
+      }
+      authority_unassign_report: {
+        Args: { _reason?: string; _report_id: string }
+        Returns: boolean
+      }
+      authority_update_report_status: {
+        Args: {
+          _new_status: Database["public"]["Enums"]["report_status"]
+          _reason?: string
+          _report_id: string
+        }
+        Returns: Database["public"]["Enums"]["report_status"]
+      }
       award_points: {
         Args: {
           _amount: number
@@ -1319,6 +1341,13 @@ export type Database = {
       }
       is_authority_member: {
         Args: { _organisation_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_valid_status_transition: {
+        Args: {
+          _new: Database["public"]["Enums"]["report_status"]
+          _old: Database["public"]["Enums"]["report_status"]
+        }
         Returns: boolean
       }
       report_handling_organisation: {
