@@ -14,6 +14,95 @@ export type Database = {
   }
   public: {
     Tables: {
+      authority_members: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          organisation_id: string
+          role: Database["public"]["Enums"]["authority_role"]
+          updated_at: string
+          user_id: string
+          verified: boolean
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          organisation_id: string
+          role?: Database["public"]["Enums"]["authority_role"]
+          updated_at?: string
+          user_id: string
+          verified?: boolean
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          organisation_id?: string
+          role?: Database["public"]["Enums"]["authority_role"]
+          updated_at?: string
+          user_id?: string
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authority_members_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authority_notes: {
+        Row: {
+          author_id: string
+          created_at: string
+          deleted_at: string | null
+          id: string
+          note: string
+          organisation_id: string
+          report_id: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          note: string
+          organisation_id: string
+          report_id: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          note?: string
+          organisation_id?: string
+          report_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authority_notes_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "authority_notes_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       challenge_achievements: {
         Row: {
           code: string
@@ -239,6 +328,95 @@ export type Database = {
           },
         ]
       }
+      departments: {
+        Row: {
+          active: boolean
+          created_at: string
+          description: string
+          id: string
+          name: string
+          organisation_id: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          description?: string
+          id?: string
+          name: string
+          organisation_id: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+          organisation_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "departments_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organisations: {
+        Row: {
+          active: boolean
+          address: string | null
+          area_label: string
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          description: string
+          id: string
+          logo_url: string | null
+          name: string
+          organisation_type: Database["public"]["Enums"]["organisation_type"]
+          slug: string
+          updated_at: string
+          verified: boolean
+        }
+        Insert: {
+          active?: boolean
+          address?: string | null
+          area_label?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          logo_url?: string | null
+          name: string
+          organisation_type?: Database["public"]["Enums"]["organisation_type"]
+          slug: string
+          updated_at?: string
+          verified?: boolean
+        }
+        Update: {
+          active?: boolean
+          address?: string | null
+          area_label?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          logo_url?: string | null
+          name?: string
+          organisation_type?: Database["public"]["Enums"]["organisation_type"]
+          slug?: string
+          updated_at?: string
+          verified?: boolean
+        }
+        Relationships: []
+      }
       point_transactions: {
         Row: {
           amount: number
@@ -317,19 +495,172 @@ export type Database = {
         }
         Relationships: []
       }
+      report_assignments: {
+        Row: {
+          active: boolean
+          assigned_at: string
+          assigned_by: string
+          assigned_to: string | null
+          assignment_note: string
+          department_id: string | null
+          id: string
+          organisation_id: string
+          report_id: string
+          unassigned_at: string | null
+        }
+        Insert: {
+          active?: boolean
+          assigned_at?: string
+          assigned_by: string
+          assigned_to?: string | null
+          assignment_note?: string
+          department_id?: string | null
+          id?: string
+          organisation_id: string
+          report_id: string
+          unassigned_at?: string | null
+        }
+        Update: {
+          active?: boolean
+          assigned_at?: string
+          assigned_by?: string
+          assigned_to?: string | null
+          assignment_note?: string
+          department_id?: string | null
+          id?: string
+          organisation_id?: string
+          report_id?: string
+          unassigned_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_assignments_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "authority_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_assignments_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_assignments_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_assignments_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      report_incidents: {
+        Row: {
+          canonical_report_id: string | null
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          canonical_report_id?: string | null
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          canonical_report_id?: string | null
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_incidents_canonical_report_id_fkey"
+            columns: ["canonical_report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      report_status_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          id: string
+          new_status: Database["public"]["Enums"]["report_status"]
+          old_status: Database["public"]["Enums"]["report_status"] | null
+          organisation_id: string | null
+          reason: string
+          report_id: string
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          new_status: Database["public"]["Enums"]["report_status"]
+          old_status?: Database["public"]["Enums"]["report_status"] | null
+          organisation_id?: string | null
+          reason?: string
+          report_id: string
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          new_status?: Database["public"]["Enums"]["report_status"]
+          old_status?: Database["public"]["Enums"]["report_status"] | null
+          organisation_id?: string | null
+          reason?: string
+          report_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_status_history_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_status_history_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reports: {
         Row: {
           address: string | null
           category: Database["public"]["Enums"]["report_category"]
+          closed_at: string | null
           created_at: string
           description: string
           description_en: string | null
           id: string
           image_url: string | null
+          incident_id: string | null
           is_emergency: boolean
           latitude: number | null
           longitude: number | null
+          organisation_id: string | null
           original_language: string | null
+          priority: number
+          resolved_at: string | null
           status: Database["public"]["Enums"]["report_status"]
           title: string
           title_en: string | null
@@ -339,15 +670,20 @@ export type Database = {
         Insert: {
           address?: string | null
           category: Database["public"]["Enums"]["report_category"]
+          closed_at?: string | null
           created_at?: string
           description?: string
           description_en?: string | null
           id?: string
           image_url?: string | null
+          incident_id?: string | null
           is_emergency?: boolean
           latitude?: number | null
           longitude?: number | null
+          organisation_id?: string | null
           original_language?: string | null
+          priority?: number
+          resolved_at?: string | null
           status?: Database["public"]["Enums"]["report_status"]
           title: string
           title_en?: string | null
@@ -357,22 +693,93 @@ export type Database = {
         Update: {
           address?: string | null
           category?: Database["public"]["Enums"]["report_category"]
+          closed_at?: string | null
           created_at?: string
           description?: string
           description_en?: string | null
           id?: string
           image_url?: string | null
+          incident_id?: string | null
           is_emergency?: boolean
           latitude?: number | null
           longitude?: number | null
+          organisation_id?: string | null
           original_language?: string | null
+          priority?: number
+          resolved_at?: string | null
           status?: Database["public"]["Enums"]["report_status"]
           title?: string
           title_en?: string | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "reports_incident_id_fkey"
+            columns: ["incident_id"]
+            isOneToOne: false
+            referencedRelation: "report_incidents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      resolution_evidence: {
+        Row: {
+          created_at: string
+          description: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          organisation_id: string
+          report_id: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id?: string
+          organisation_id: string
+          report_id: string
+          uploaded_by: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          organisation_id?: string
+          report_id?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resolution_evidence_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "resolution_evidence_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       square_blocks: {
         Row: {
@@ -887,6 +1294,22 @@ export type Database = {
           balance: number
         }[]
       }
+      can_manage_report: {
+        Args: { _report_id: string; _user_id: string }
+        Returns: boolean
+      }
+      can_view_report_case: {
+        Args: { _report_id: string; _user_id: string }
+        Returns: boolean
+      }
+      has_authority_role: {
+        Args: {
+          _organisation_id: string
+          _role: Database["public"]["Enums"]["authority_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -894,9 +1317,31 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_authority_member: {
+        Args: { _organisation_id: string; _user_id: string }
+        Returns: boolean
+      }
+      report_handling_organisation: {
+        Args: { _report_id: string }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      authority_role:
+        | "organisation_admin"
+        | "case_manager"
+        | "field_officer"
+        | "viewer"
+      organisation_type:
+        | "local_authority"
+        | "police"
+        | "fire"
+        | "medical"
+        | "utilities"
+        | "road_authority"
+        | "waste_management"
+        | "other"
       report_category:
         | "roads"
         | "electricity"
@@ -912,6 +1357,11 @@ export type Database = {
         | "assigned"
         | "in_progress"
         | "resolved"
+        | "rejected"
+        | "duplicate"
+        | "awaiting_information"
+        | "reopened"
+        | "closed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1040,6 +1490,22 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      authority_role: [
+        "organisation_admin",
+        "case_manager",
+        "field_officer",
+        "viewer",
+      ],
+      organisation_type: [
+        "local_authority",
+        "police",
+        "fire",
+        "medical",
+        "utilities",
+        "road_authority",
+        "waste_management",
+        "other",
+      ],
       report_category: [
         "roads",
         "electricity",
@@ -1056,6 +1522,11 @@ export const Constants = {
         "assigned",
         "in_progress",
         "resolved",
+        "rejected",
+        "duplicate",
+        "awaiting_information",
+        "reopened",
+        "closed",
       ],
     },
   },
